@@ -2,6 +2,7 @@ import { useMemo, useState, useEffect } from 'react';
 import { Animated, PanResponder } from 'react-native';
 
 export default ({
+  leaveScreenDuration,
   dragRange,
   friction,
   movement,
@@ -15,6 +16,32 @@ export default ({
 
   // unfreeze swipe once the state change for the top card finishes
   useEffect(() => { setFreezeSwipe(false); }, [topCard]);
+
+  // programmatically trigger a card swipe
+  const triggerSwipeLeft = () => triggerSwipe('left');
+  const triggerSwipeRight = () => triggerSwipe('right');
+  const triggerSwipe = dir => {
+
+    // freeze swipe within the duration
+    // while the animation is running
+    setFreezeSwipe(true);
+
+    // animate card out
+    Animated.timing(movement, {
+      friction,
+      duration: leaveScreenDuration,
+      toValue: {
+        y: offscreen.y,
+        x: offscreen.x[dir],
+      },
+    }).start()
+
+    // dismiss card and reset movement
+    setTimeout(() => {
+      dismiss(topCard.id);
+      movement.setValue({ x: 0, y: 0 });
+    }, leaveScreenDuration);
+  }
 
   // initialize pan responder
   const panResponder = useMemo(() => {
@@ -38,30 +65,11 @@ export default ({
         const clearRight = gestureState.dx > dragRange.x;
         const clear = clearLeft || clearRight;
 
-        const leaveScreenDuration = 400;
-
         // card wasn moved enough to the sides,
         // animate it out and dismiss it
-        if (clear) {
-
-          // freeze swipe within the duration
-          // while the animation is running
-          setFreezeSwipe(true);
-
-          // animate card out
-          Animated.timing(movement, {
-            friction,
-            duration: leaveScreenDuration,
-            toValue: {
-              y: offscreen.y,
-              x: clearLeft ? offscreen.x.left : offscreen.x.right,
-            },
-          }).start()
-
-          setTimeout(() => {
-            dismiss(topCard.id);
-            movement.setValue({ x: 0, y: 0 });
-          }, leaveScreenDuration)
+        if (clear) {  
+          if (clearLeft) triggerSwipeLeft();
+          else triggerSwipeRight();        
         }
 
         // card wasn't moved enough to the sides,
@@ -82,7 +90,9 @@ export default ({
   ]);
 
   return {
-    panResponder,
     freezeSwipe,
+    triggerSwipeLeft,
+    triggerSwipeRight,
+    panResponder,
   }
 }

@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { StyleSheet, View, Animated } from "react-native";
+
 import os from 'src/utils/os';
 
 import useScreenSize from "src/hooks/useScreenSize";
+import useEventListener from "src/hooks/useEventListener";
 import useOffScreen from "src/components/Deck/useOffScreen";
 import useDragRange from "src/components/Deck/useDragRange";
 import useShuffleCards from "src/components/Deck/useShuffleCards";
@@ -15,6 +17,7 @@ const baseZIndex = 1;
 const scaleDecreaseRate = 0.1;
 const opacityDecreaseRate = 0.3;
 const topGapRate = os('desktop') ? -5 : -32;
+const leaveScreenDuration = 400;
 
 const getOpacity = (i) => 1 - opacityDecreaseRate * i;
 const getScale = (i) => 1 - scaleDecreaseRate * i;
@@ -65,7 +68,13 @@ const Deck = ({
   });
 
   // create and configure pan responder
-  const { panResponder, freezeSwipe } = usePanResponder({
+  const {
+    panResponder,
+    freezeSwipe,
+    triggerSwipeLeft,
+    triggerSwipeRight,
+  } = usePanResponder({
+    leaveScreenDuration,
     dragRange,
     friction,
     movement,
@@ -73,6 +82,16 @@ const Deck = ({
     offscreen,
     dismiss,
   });
+
+  // trigger keyboard shortcuts
+  useEventListener({
+    el: os('desktop') ? document : null,
+    event: 'keydown',
+    handler: e => {
+      if (e.key === 'ArrowLeft' || e.code === 'ArrowLeft') triggerSwipeLeft();
+      if (e.key === 'ArrowRight' || e.code === 'ArrowRight') triggerSwipeRight();
+    }
+  }, [offscreen])
 
   return (
     <View
