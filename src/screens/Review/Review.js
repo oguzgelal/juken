@@ -14,7 +14,7 @@ const Review = props => {
     { id: 'card2', text: 'card 2' },
     { id: 'card3', text: 'card 3' },
     { id: 'card4', text: 'card 4' },
-    { id: 'card5', text: 'card 5' }
+    { id: 'card5', text: 'card 5' },
   ])
 
   return (
@@ -26,8 +26,8 @@ const Review = props => {
           }} 
           cards={decks.map(card => ({
             id: card.id,
-            renderCard: () => (
-              <Card>
+            renderCard: props => (
+              <Card {...props}>
                 <Text>{card.text}</Text>
               </Card>
             )
@@ -35,13 +35,6 @@ const Review = props => {
         />
       </View>
       <View style={styles.buttonsWrapper} />
-      
-      {/*
-        <View style={{ height: 200, backgroundColor: 'yellow' }} />
-        <View style={{ height: 200, backgroundColor: 'red' }} />
-        <View style={{ height: 200, backgroundColor: 'green' }} />
-      */}
-
     </Page>
   )
 };

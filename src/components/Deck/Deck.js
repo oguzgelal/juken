@@ -103,6 +103,7 @@ const Deck = ({
     >
       {cardsArr.map((card, i) => {
         const isFirstCard = i === 0;
+        const isSecondCard = i === 1;
         const [topCurrent, topNext] = [getTop(i), getTop(i - 1)];
         const [opCurrent, opNext] = [getOpacity(i), getOpacity(i - 1)];
         const [scCurrent, scNext] = [getScale(i), getScale(i - 1)];
@@ -127,6 +128,8 @@ const Deck = ({
             style={[ styles.card, dynamicStyles ]}
           >
             {card.renderCard({
+              isFirstCard,
+              isSecondCard,
               getClearInterpolation,
               getMovementInterpolation,
             })}

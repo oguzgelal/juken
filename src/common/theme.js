@@ -1,8 +1,15 @@
-const _color = {
-  primary: '#20BCD7',
-  secondary: '#D73B20',
-  black: 'black',
-  white: 'white',
+const _palette = {
+  blue: 'rgb(30, 203, 225)',
+  green: 'rgb(83, 242, 185)',
+  red: 'rgb(255, 149, 143)',
+  black: 'rgb(0, 0, 0)',
+  white: 'rgb(255, 255, 255)',
+}
+
+const color = {
+  primary: _palette.blue,
+  correct: _palette.green,
+  incorrect: _palette.red,
 };
 
 const _space = {
@@ -24,8 +31,8 @@ const _transition = {
 }
 
 const bg = {
-  body: _color.primary,
-  card: _color.white,
+  body: color.primary,
+  card: _palette.white,
 };
 
 const space = {
@@ -38,10 +45,11 @@ const radius = {
 }
 
 export default {
-  _color,
+  _palette,
   _space,
   _radius,
   _transition,
+  color,
   bg,
   space,
   radius,
