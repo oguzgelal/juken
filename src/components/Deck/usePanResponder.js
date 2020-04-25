@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { Animated, PanResponder } from 'react-native';
 
 export default ({
@@ -9,7 +9,16 @@ export default ({
   offscreen,
   dismiss,
 }) => {
-  return useMemo(() => {
+
+  // control swipe freeze
+  const [ freezeSwipe, setFreezeSwipe ] = useState(false);
+
+  // unfreeze swipe once the state change for the top card finishes
+  useEffect(() => { setFreezeSwipe(false); }, [topCard]);
+
+  // initialize pan responder
+  const panResponder = useMemo(() => {
+
     return PanResponder.create({
       onStartShouldSetPanResponder: () => true,
 
@@ -23,25 +32,36 @@ export default ({
 
       // control what happens when card is released
       onPanResponderRelease: (_, gestureState) => {
+
         // was the card dragged enough to the edges
         const clearLeft = gestureState.dx < -dragRange;
         const clearRight = gestureState.dx > dragRange;
         const clear = clearLeft || clearRight;
 
+        const leaveScreenDuration = 400;
+
         // card wasn moved enough to the sides,
         // animate it out and dismiss it
         if (clear) {
+
+          // freeze swipe within the duration
+          // while the animation is running
+          setFreezeSwipe(true);
+
           // animate card out
-          Animated.spring(movement, {
+          Animated.timing(movement, {
             friction,
+            duration: leaveScreenDuration,
             toValue: {
               y: offscreen.y,
               x: clearLeft ? offscreen.x.left : offscreen.x.right,
             },
-          }).start(() => {
-            // dismiss the top card
+          }).start()
+
+          setTimeout(() => {
             dismiss(topCard.id);
-          })
+            movement.setValue({ x: 0, y: 0 });
+          }, leaveScreenDuration)
         }
 
         // card wasn't moved enough to the sides,
@@ -55,9 +75,14 @@ export default ({
       },
     });
   }, [
-    dragRange,
-    movement,
     topCard,
+    movement,
+    dragRange,
     offscreen,
   ]);
+
+  return {
+    panResponder,
+    freezeSwipe,
+  }
 }

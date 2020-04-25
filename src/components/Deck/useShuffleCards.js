@@ -5,7 +5,7 @@ export default cards => {
     const final = Array.isArray(cards) ? cards : [];
     
     return {
-      cardsFinal: final,
+      cardsArr: final,
       topCard: final[0] || null,
     };
   }, [cards]);
