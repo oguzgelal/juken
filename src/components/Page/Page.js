@@ -15,11 +15,8 @@ const Page = ({ children, styleWrapper, style, scroll }) => {
       style={[
         styles.wrapper,
         styleWrapper,
-        (
-          os('desktop') &&
-          scroll &&
-          styles.wrapperScroll
-        ),
+        (os('desktop') && scroll && styles.wrapperScroll),
+        (os('desktop') && !scroll && { height: '100vh' }),
       ]}>
       <Contents style={[ styles.contents, style ]}>
         {children}
@@ -41,8 +38,8 @@ Page.defaultProps = {
 
 const styles = StyleSheet.create({
   wrapper: {
-    width: '100%',
-    height: '100%',
+    flex: 1,
+    position: 'relative',
     backgroundColor: theme.bg.body,
     overflow: 'hidden',
   },
@@ -56,10 +53,11 @@ const styles = StyleSheet.create({
       flex: 1,
       margin: 'auto',
       width: '100%',
+      position: 'relative',
     },
     web: {
-      maxWidth: 520 + theme.paddings.u5,
-      padding: theme.paddings.u5,
+      maxWidth: 520 + theme.space.body,
+      padding: theme.space.body,
     }
   })
 });

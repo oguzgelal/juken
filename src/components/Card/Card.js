@@ -3,8 +3,11 @@ import PropTypes from 'prop-types';
 import { StyleSheet, View, Text } from 'react-native';
 import theme from 'src/common/theme';
 
-const Card = ({ children, style = [] }) => (
-  <View style={[ styles.wrapper, style ]}>
+const Card = ({ children, style = [], onPress }) => (
+  <View
+    style={[ styles.wrapper, style ]}
+    onClick={onPress}
+  >
     {children}
   </View>
 );
@@ -12,16 +15,14 @@ const Card = ({ children, style = [] }) => (
 Card.propTypes = {
   children: PropTypes.any,
   style: PropTypes.object,
+  onPress: PropTypes.func,
 };
 
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    flexGrow: 1,
-    width: '100%',
-    height: '100%',
     backgroundColor: theme.bg.card,
-    padding: theme.paddings.u5,
+    padding: theme.space.card,
   }
 })
 
