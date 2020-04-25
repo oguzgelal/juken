@@ -34,8 +34,8 @@ export default ({
       onPanResponderRelease: (_, gestureState) => {
 
         // was the card dragged enough to the edges
-        const clearLeft = gestureState.dx < -dragRange;
-        const clearRight = gestureState.dx > dragRange;
+        const clearLeft = gestureState.dx < -dragRange.x;
+        const clearRight = gestureState.dx > dragRange.x;
         const clear = clearLeft || clearRight;
 
         const leaveScreenDuration = 400;

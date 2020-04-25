@@ -1,8 +1,11 @@
 import { useMemo } from 'react';
 import os from "src/utils/os";
 
-export default windowWidth => {
+export default ({ windowWidth, windowHeight }) => {
   return useMemo(() => {
-    return os("mobile") ? windowWidth / 3 : 180
+    return {
+      x: os("mobile") ? windowWidth / 3 : 180,
+      y: os("mobile") ? windowHeight / 3 : 120,
+    }
   }, [windowWidth]);
 }

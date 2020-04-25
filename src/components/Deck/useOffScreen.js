@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 
-export default (
+export default ({
   deckWidth,
   deckHeight,
   windowWidth,
   windowHeight,
-) => {
+}) => {
   
   // off screen position of cards
   const [offScreenXLeft, setOffScreenXLeft] = useState(null);
