@@ -6,8 +6,8 @@ export default ({ windowWidth, windowHeight, dragRange }) => {
   // create variable to store movement of the top card
   const movement = useMemo(() => new Animated.ValueXY(), []);
 
-  // create interpolation function that returns values
-  // for deck based on top cards movement within x axis
+  // create interpolation function that returns values for deck
+  // based on top cards movement horizontally or vertically
   const getMovementInterpolation = useCallback((axis = 'x', outputRange) => {
     const valMovement = axis === 'x' ? movement.x : movement.y;
     const valRange = axis === 'x' ? windowWidth : windowHeight;
