@@ -2,10 +2,11 @@ const _palette = {
   blue: 'rgb(30, 203, 225)',
   green: 'rgb(83, 242, 185)',
   red: 'rgb(255, 149, 143)',
-  black: 'rgb(0, 0, 0)',
+  black: 'rgb(81, 81, 81)',
   white: 'rgb(255, 255, 255)',
-
-  gray: '#E0E0E0',
+  yellow: 'rgb(250, 191, 79)',
+  gray: 'rgb(224, 224, 224)',
+  lightGray: 'rgb(245, 245, 245)',
 }
 
 const color = {
@@ -22,7 +23,8 @@ const _space = {
   u2: 8,
   u3: 12,
   u4: 18,
-  u5: 32,
+  u5: 24,
+  u6: 32,
 }
 
 const _radius = {

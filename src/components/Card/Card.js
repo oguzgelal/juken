@@ -11,7 +11,7 @@ import { TERMINOLOGY } from 'src/common/constants';
 import CardCover from 'src/components/Card/CardCover';
 import CardHeader from 'src/components/Card/CardHeader';
 import Question from 'src/components/Card/Question';
-
+import LongPressButton from 'src/components/Button/LongPressButton';
 
 const DirectionLeftIcon = () => (
   <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
@@ -29,6 +29,7 @@ const DirectionRightIcon = () => (
 
 const Card = ({
   card,
+  panHandlers,
   style = [],
   isFirstCard,
   isSecondCard,
@@ -39,7 +40,7 @@ const Card = ({
   const [ revealed, setRevealed ] = useState(false);
 
   return (
-    <View style={[ styles.wrapper, style ]}>
+    <View style={[ styles.wrapper, style ]} {...panHandlers}>
       
       {/* red / green cover */}
       {isFirstCard && (
@@ -52,6 +53,7 @@ const Card = ({
       {(isFirstCard || isSecondCard) && (
         <View style={[ styles.container ]}>
 
+          {/* top header */}
           <CardHeader
             card={card}
             leftIcon={revealed ? <DirectionLeftIcon /> : null}
@@ -62,8 +64,13 @@ const Card = ({
             }
           />
 
+          {/* question and question statement */}
           <Question card={card} />
 
+          {/* reveal button */}
+          <LongPressButton
+            text="Reveal"
+          />
         </View>
       )}
       

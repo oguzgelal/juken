@@ -11,16 +11,29 @@ import {
 
 const Question = ({ card = {} }) => (
   <View style={[ styles.wrapper ]}>
-    <View style={[ styles.question]}>
+    
+    {/* question */}
+    <View style={styles.question}>
       <Text
         style={[
           styles.questionText,
           styles[card.type]
         ]}
       >
-        金
+        虫
       </Text>
     </View>
+
+    {/* separator */}
+    <View style={styles.separator} />
+    
+    {/* statement */}
+    <View style={styles.statement}>
+      <Text style={styles.statementText}>
+        Reading
+      </Text>
+    </View>
+
   </View>
 );
 
@@ -40,9 +53,26 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   questionText: {
-    color: theme.color.kanji,
+    textAlign: 'center',
     fontWeight: 'bold',
     fontSize: 52,
+  },
+  separator: {
+    width: '50%',
+    margin: 'auto',
+    height: 1,
+    backgroundColor: theme._palette.lightGray,
+    marginBottom: 12,
+    marginTop: 0
+  },
+  statement: {
+  },
+  statementText: {
+    color: theme._palette.black,
+    fontSize: 14,
+    textTransform: 'uppercase',
+    fontWeight: '700',
+    
   },
   [TYPE_KANJI]: { color: theme.color.kanji },
   [TYPE_RADICAL]: { color: theme.color.radical },

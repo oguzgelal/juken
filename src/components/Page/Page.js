@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { SafeAreaView, StyleSheet, View, ScrollView } from 'react-native';
+import { SafeAreaView, StyleSheet, View, ScrollView, StatusBar } from 'react-native';
 import os from 'src/utils/os';
 import sheet from 'src/utils/sheet';
 import theme from 'src/common/theme';
@@ -17,7 +17,8 @@ const Page = ({ children, styleWrapper, style, scroll }) => {
         styleWrapper,
         (os('desktop') && scroll && styles.wrapperScroll),
         (os('desktop') && !scroll && { height: '100vh' }),
-      ]}>
+      ]}
+    >
       <Contents style={[ styles.contents, style ]}>
         {children}
       </Contents>

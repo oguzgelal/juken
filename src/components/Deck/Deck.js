@@ -124,7 +124,6 @@ const Deck = ({
 
         return (
           <Animated.View
-            {...panHandlers}
             key={card.id}
             style={[ styles.card, dynamicStyles ]}
           >
@@ -133,6 +132,7 @@ const Deck = ({
               isSecondCard,
               getClearInterpolation,
               getMovementInterpolation,
+              panHandlers,
             })}
           </Animated.View>
         );

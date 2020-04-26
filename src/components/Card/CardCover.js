@@ -20,6 +20,7 @@ const CardCover = ({ getClearInterpolation }) => {
 
   return (
     <Animated.View
+      pointerEvents="none"
       style={[
         styles.wrapper,
         {

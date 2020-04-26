@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, StatusBar, View } from 'react-native';
 import sheet from 'src/utils/sheet';
 import theme from 'src/common/theme';
 import {
@@ -12,6 +12,7 @@ import {
 import Page from 'src/components/Page/Page';
 import Card from 'src/components/Card/Card';
 import Deck from 'src/components/Deck/Deck';
+import LongPressButton from 'src/components/Button/LongPressButton';
 
 const Review = props => {
   const [ decks, setDecks ] = useState([
