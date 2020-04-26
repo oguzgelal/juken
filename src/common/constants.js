@@ -1,3 +1,4 @@
+export const WK_API_KEY = 'wk_api_key';
 export const TYPE_KANJI = 'kanji';
 export const TYPE_RADICAL = 'radical';
 export const TYPE_VOCAB = 'vocab';
