@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
@@ -29,21 +29,23 @@ const DirectionRightIcon = () => (
 
 const Card = ({
   card,
-  panHandlers,
   style = [],
   isFirstCard,
   isSecondCard,
   getClearInterpolation,
-  getMovementInterpolation,
+  // getMovementInterpolation,
+  // swipeLock,
+  setSwipeLock,
 }) => {
 
+  // keep reveal state locally within each card
   const [ revealed, setRevealed ] = useState(false);
 
+  // update swipe lock based local revealed state
+  useEffect(() => { setSwipeLock(!revealed); }, [revealed, isFirstCard])
+
   return (
-    <View
-      style={[ styles.wrapper, style ]}
-      {...(revealed ? panHandlers : {})}
-    >
+    <View style={[ styles.wrapper, style ]}>
       
       {/* red / green cover */}
       {isFirstCard && (
@@ -94,6 +96,8 @@ const Card = ({
 };
 
 Card.propTypes = {
+  swipeLock: PropTypes.bool,
+  setSwipeLock: PropTypes.func,
   getClearInterpolation: PropTypes.func,
   getMovementInterpolation: PropTypes.func,
   isFirstCard: PropTypes.bool,

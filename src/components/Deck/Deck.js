@@ -28,13 +28,13 @@ const Deck = ({
   style = {},
   cards = [],
   dismiss,
-  lockSwipe,
 }) => {
   
   // dynamic window size
   const { windowWidth, windowHeight } = useScreenSize();
 
   // deck size
+  const [swipeLock, setSwipeLock] = useState(false);
   const [deckWidth, setDeckWidth] = useState(null);
   const [deckHeight, setDeckHeight] = useState(null);
 
@@ -89,6 +89,7 @@ const Deck = ({
     el: os('desktop') ? document : null,
     event: 'keydown',
     handler: e => {
+      if (swipeLock) return;
       if (e.key === 'ArrowLeft' || e.code === 'ArrowLeft') triggerSwipeLeft();
       if (e.key === 'ArrowRight' || e.code === 'ArrowRight') triggerSwipeRight();
     }
@@ -108,7 +109,7 @@ const Deck = ({
         const [topCurrent, topNext] = [getTop(i), getTop(i - 1)];
         const [opCurrent, opNext] = [getOpacity(i), getOpacity(i - 1)];
         const [scCurrent, scNext] = [getScale(i), getScale(i - 1)];
-        const panHandlers = (freezeSwipe || lockSwipe) ? {} : panResponder.panHandlers;
+        const panHandlers = (freezeSwipe || swipeLock) ? {} : panResponder.panHandlers;
 
         const dynamicStyles = {
           zIndex: baseZIndex + (cards.length - i),
@@ -126,6 +127,7 @@ const Deck = ({
           <Animated.View
             key={card.id}
             style={[ styles.card, dynamicStyles ]}
+            {...panHandlers}
           >
             {card.renderCard({
               isFirstCard,
@@ -133,6 +135,8 @@ const Deck = ({
               getClearInterpolation,
               getMovementInterpolation,
               panHandlers,
+              swipeLock,
+              setSwipeLock,
             })}
           </Animated.View>
         );
@@ -144,7 +148,6 @@ const Deck = ({
 Deck.propTypes = {
   style: PropTypes.object,
   dismiss: PropTypes.func,
-  lockSwipe: PropTypes.bool,
   cards: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string,
