@@ -10,6 +10,9 @@ const color = {
   primary: _palette.blue,
   correct: _palette.green,
   incorrect: _palette.red,
+  radical: 'rgb(27, 163, 247)',
+  kanji: 'rgb(239, 25, 160)',
+  vocab: 'rgb(160, 35, 238)',
 };
 
 const _space = {
