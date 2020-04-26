@@ -1,50 +1,124 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, Text, View } from 'react-native';
+import isNil from 'lodash/isNil';
 import { cardProps } from 'src/common/props';
 import theme from 'src/common/theme';
-import {
-  TYPE_KANJI,
-  TYPE_RADICAL,
-  TYPE_VOCAB,
-} from 'src/common/constants';
 
-const CardHeader = ({ card = {} }) => (
-  <View
-    style={[
-      styles.wrapper,
-      card.type === TYPE_KANJI && styles.kanji,
-      card.type === TYPE_RADICAL && styles.radical,
-      card.type === TYPE_VOCAB && styles.vocab,
-    ].filter(Boolean)}
-  >
-    <Text style={styles.text}>金</Text>
+const headerHeight = 22;
+
+const CardHeader = ({
+  card = {},
+  centerText,
+  centerIcon,
+  leftText,
+  leftIcon,
+  rightText,
+  rightIcon,
+}) => (
+  <View style={[ styles.wrapper ]}>
+    
+    {/* left label */}
+    <View
+      style={[
+        styles.labelWrapper,
+        styles.labelWrapperSide,
+        styles.labelWrapperLeft,
+      ]}
+    >
+      {!isNil(leftText) && (
+        <Text style={styles.labelText}>
+          {leftText}
+        </Text>
+      )}
+      {!isNil(leftIcon) && (
+        leftIcon
+      )}
+    </View>
+
+    {/* center label */}
+    <View
+      style={[
+        styles.labelWrapper,
+        styles.labelWrapperCenter
+      ]}
+    >
+      {!isNil(centerText) && (
+        <Text style={styles.labelText}>
+          {centerText}
+        </Text>
+      )}
+      {!isNil(centerIcon) && (
+        centerIcon
+      )}
+    </View>
+    
+    {/* right label */}
+    <View
+      style={[
+        styles.labelWrapper,
+        styles.labelWrapperSide,
+        styles.labelWrapperRight,
+      ]}
+    >
+      {!isNil(rightText) && (
+        <Text style={styles.labelText}>
+          {rightText}
+        </Text>
+      )}
+      {!isNil(rightIcon) && (
+        rightIcon
+      )}
+    </View>
   </View>
 );
 
 CardHeader.propTypes = {
-  card: cardProps
+  card: cardProps,
+  centerText: PropTypes.string,
+  centerIcon: PropTypes.any,
+  leftText: PropTypes.string,
+  leftIcon: PropTypes.any,
+  rightText: PropTypes.string,
+  rightIcon: PropTypes.any,
 };
 
 const styles = StyleSheet.create({
   wrapper: {
-    flexShrink: 0,
+    height: headerHeight,
     flex: 1,
-    alignItems: 'center',
+    flexShrink: 0,
+    flexGrow: 0,
+    flexDirection: 'row',
+  },
+  labelWrapper: {
+    height: headerHeight,
+    flex: 1,
     justifyContent: 'center',
-    height: '100%',
-    borderRadius: 6,
   },
-  text: {
-    padding: 8,
-    // color: theme._palette.white,
-    color: theme.color.kanji,
-    fontWeight: 'bold',
-    fontSize: 52,
+  labelWrapperCenter: {
+    flexGrow: 1,
+    alignItems: 'center',
   },
-  kanji: { /* backgroundColor: theme.color.kanji */ },
-  vocab: { /* backgroundColor: theme.color.vocab */ },
-  radical: { /* backgroundColor: theme.color.radical */ },
+  labelWrapperSide: {
+    flexShrink: 0,
+    position: 'absolute',
+    top: 0,
+  },
+  labelWrapperLeft: {
+    left: 0,
+    alignItems: 'flex-start',
+  },
+  labelWrapperRight: {
+    right: 0,
+    alignItems: 'flex-end',
+  },
+  labelText: {
+    textTransform: 'uppercase',
+    fontSize: 13,
+    fontWeight: '700',
+    color: theme._palette.gray,
+  }
 })
 
 export default CardHeader;

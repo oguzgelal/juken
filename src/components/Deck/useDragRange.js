@@ -7,5 +7,8 @@ export default ({ windowWidth, windowHeight }) => {
       x: os("mobile") ? windowWidth / 3 : 180,
       y: os("mobile") ? windowHeight / 3 : 120,
     }
-  }, [windowWidth]);
+  }, [
+    windowWidth,
+    windowHeight
+  ]);
 }

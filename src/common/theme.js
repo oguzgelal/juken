@@ -4,6 +4,8 @@ const _palette = {
   red: 'rgb(255, 149, 143)',
   black: 'rgb(0, 0, 0)',
   white: 'rgb(255, 255, 255)',
+
+  gray: '#E0E0E0',
 }
 
 const color = {
@@ -27,6 +29,7 @@ const _radius = {
   u1: 2,
   u2: 4,
   u3: 8,
+  u4: 10,
 }
 
 const _transition = {
@@ -44,7 +47,7 @@ const space = {
 };
 
 const radius = {
-  card: _radius.u3,
+  card: _radius.u4,
 }
 
 export default {

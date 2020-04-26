@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { StyleSheet, View, Animated } from "react-native";
 
+import theme from 'src/common/theme';
 import os from 'src/utils/os';
 
 import useScreenSize from "src/hooks/useScreenSize";
@@ -161,7 +162,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     flex: 1,
-    borderRadius: 8,
+    borderRadius: theme.radius.card,
     overflow: "hidden",
   },
 });

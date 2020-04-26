@@ -1,17 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View } from 'react-native';
+import { AntDesign } from '@expo/vector-icons';
 import theme from 'src/common/theme';
+import os from 'src/utils/os';
 import sheet from 'src/utils/sheet';
 import { cardProps } from 'src/common/props';
-import {
-  TYPE_KANJI,
-  TYPE_RADICAL,
-  TYPE_VOCAB,
-} from 'src/common/constants';
+import { TERMINOLOGY } from 'src/common/constants';
 
 import CardCover from 'src/components/Card/CardCover';
 import CardHeader from 'src/components/Card/CardHeader';
+import Question from 'src/components/Card/Question';
+
+
+const DirectionLeftIcon = () => (
+  <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
+    <AntDesign name="caretleft" size={12} color={theme.color.incorrect} />
+    <AntDesign name="frowno" size={20} color={theme.color.incorrect} />
+  </View>
+);
+
+const DirectionRightIcon = () => (
+  <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
+    <AntDesign name="smileo" size={20} color={theme.color.correct} />
+    <AntDesign name="caretright" size={12} color={theme.color.correct} />
+  </View>
+);
 
 const Card = ({
   card,
@@ -21,6 +35,8 @@ const Card = ({
   getClearInterpolation,
   getMovementInterpolation,
 }) => {
+
+  const [ revealed, setRevealed ] = useState(false);
 
   return (
     <View style={[ styles.wrapper, style ]}>
@@ -36,13 +52,17 @@ const Card = ({
       {(isFirstCard || isSecondCard) && (
         <View style={[ styles.container ]}>
 
-          <CardHeader card={card} />
+          <CardHeader
+            card={card}
+            leftIcon={revealed ? <DirectionLeftIcon /> : null}
+            rightIcon={revealed ? <DirectionRightIcon /> : null}
+            centerText={revealed
+              ? (os('desktop') ? 'Arrow Keys' : 'Swipe')
+              : (TERMINOLOGY[card.type] || '')
+            }
+          />
 
-          {/**
-            <View style={{ backgroundColor: 'red', width: '100%', height: 300 }} />
-            <View style={{ backgroundColor: 'yellow', width: '100%', height: 300 }} />
-            <View style={{ backgroundColor: 'green', width: '100%', height: 300 }} />
-          */}
+          <Question card={card} />
 
         </View>
       )}
@@ -64,12 +84,13 @@ const styles = StyleSheet.create({
   wrapper: sheet({
     base: {
       flex: 1,
-      backgroundColor: theme.bg.card,
       position: 'relative',
+      backgroundColor: theme.bg.card,
+      borderRadius: theme.radius.card,
     },
     web: {
       userSelect: 'none',
-    }
+    },
   }),
   container: {
     flexGrow: 1,

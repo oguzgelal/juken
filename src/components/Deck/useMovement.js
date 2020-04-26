@@ -18,7 +18,7 @@ export default ({ windowWidth, windowHeight, dragRange }) => {
     })
   }, [windowWidth, windowHeight])
   
-  // percent-wise how far is the card close
+  // interpolations for how far is the card close
   // to be cleared horizontally or vertically
   const getClearInterpolation = useCallback((axis = 'x', outputRange) => (
     movement.x.interpolate({
