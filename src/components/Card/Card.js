@@ -15,15 +15,15 @@ import LongPressButton from 'src/components/Button/LongPressButton';
 
 const DirectionLeftIcon = () => (
   <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
-    <AntDesign name="caretleft" size={12} color={theme.color.incorrect} />
-    <AntDesign name="frowno" size={20} color={theme.color.incorrect} />
+    <AntDesign name="caretleft" size={10} color={theme.color.incorrect} />
+    <AntDesign name="frowno" size={18} color={theme.color.incorrect} />
   </View>
 );
 
 const DirectionRightIcon = () => (
   <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
-    <AntDesign name="smileo" size={20} color={theme.color.correct} />
-    <AntDesign name="caretright" size={12} color={theme.color.correct} />
+    <AntDesign name="smileo" size={18} color={theme.color.correct} />
+    <AntDesign name="caretright" size={10} color={theme.color.correct} />
   </View>
 );
 
@@ -40,7 +40,10 @@ const Card = ({
   const [ revealed, setRevealed ] = useState(false);
 
   return (
-    <View style={[ styles.wrapper, style ]} {...panHandlers}>
+    <View
+      style={[ styles.wrapper, style ]}
+      {...(revealed ? panHandlers : {})}
+    >
       
       {/* red / green cover */}
       {isFirstCard && (
@@ -68,9 +71,20 @@ const Card = ({
           <Question card={card} />
 
           {/* reveal button */}
-          <LongPressButton
-            text="Reveal"
-          />
+          <View
+            style={{
+              height: 52,
+            }}
+          >
+            {!revealed && (
+              <LongPressButton
+                text="Reveal"
+                onComplete={() => {
+                  setRevealed(true)
+                }}
+              />
+            )}
+          </View>
         </View>
       )}
       

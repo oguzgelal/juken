@@ -20,6 +20,9 @@ const LongPressButton = ({
   text,
   flashText = 'Press and Hold',
   duration = longPressDefaultDuration,
+  hapticFeedback = true,
+  multiuse = false,
+  onComplete,
 }) => {
 
   // create ref to hold touch value
@@ -34,9 +37,18 @@ const LongPressButton = ({
   useEffect(() => {
     touchPercent.addListener(e => {
       if (e.value >= 100) {
-        setDone(true);
-        if (os('mobile')) {
+
+        // finish the button
+        if (!multiuse) { setDone(true); }
+
+        // haptic feedback
+        if (os('mobile') && hapticFeedback) {
           Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy)
+        }
+
+        // on complete callback
+        if (typeof onComplete === 'function') {
+          onComplete()
         }
       }
     });
@@ -75,9 +87,11 @@ const LongPressButton = ({
   return (
     <View style={styles.wrapper}>
       <TouchableWithoutFeedback
-        onPressIn={() => setPressing(true)}
-        onPressOut={() => setPressing(false)}
+        onPressIn={() => { if (!done) setPressing(true) }}
+        onPressOut={() => { if (!done) setPressing(false) }}
         onPress={() => {
+
+          if (done) return;
 
           // switch to flashing text
           Animated.timing(textFlash, {
@@ -87,6 +101,7 @@ const LongPressButton = ({
 
           // display flashing text for a while
           setTimeout(() => {
+            
             // switch back to normal text
             Animated.timing(textFlash, {
               duration: textFlashDuration,
@@ -105,7 +120,6 @@ const LongPressButton = ({
           <Animated.View style={[styles.textWrapper, { opacity: textFlashOpacity }]}>
             <Text style={styles.text}>{flashText}</Text>
           </Animated.View>
-          
         </View>
       </TouchableWithoutFeedback>
     </View>
@@ -115,12 +129,23 @@ const LongPressButton = ({
 LongPressButton.propTypes = {
   
   text: PropTypes.string,
+
+  // text to flash after touch release
   textFlash: PropTypes.string,
   
   // hold duration is ms
   duration: PropTypes.number,
 
-  onComplete: PropTypes.number,  
+  // should there be an haptic feedback
+  // once finished on mobile devices ?
+  hapticFeedback: PropTypes.bool,
+
+  // after completing the touch, should
+  // the bar roll back and allow another press ?
+  multiuse: PropTypes.bool,
+
+  // callback once long press finishes
+  onComplete: PropTypes.func,  
 };
 
 const styles = StyleSheet.create({
