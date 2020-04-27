@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import os from 'src/utils/os';
-import sheet from 'src/utils/sheet';
 import theme from 'src/common/theme';
+import * as sharedStyles from 'src/components/Button/sharedStyles';
 import * as Haptics from 'expo-haptics';
 import {
   StyleSheet,
@@ -149,27 +149,9 @@ LongPressButton.propTypes = {
 };
 
 const styles = StyleSheet.create({
-  wrapper: sheet({
-    base: {
-      width: '100%',
-      height: 52,
-      backgroundColor: theme._palette.lightGray,
-      borderRadius: 8,
-      overflow: 'hidden',
-      zIndex: 99999,
-    },
-    web: {
-      userSelect: 'none'
-    }
-  }),
-  container: {
-    position: 'relative',
-    width: '100%',
-    height: '100%',
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  wrapper: sharedStyles.wrapper,
+  container: sharedStyles.container,
+  text: sharedStyles.text,
   bar: {
     position: 'absolute',
     top: 0,
@@ -180,11 +162,6 @@ const styles = StyleSheet.create({
   },
   textWrapper: {
     position: 'absolute',
-  },
-  text: {
-    fontWeight: '700',
-    color: theme._palette.black,
-    zIndex: 1,
   },
 })
 
