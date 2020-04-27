@@ -112,14 +112,16 @@ const LongPressButton = ({
 
         }}
       >
-        <View style={styles.container}>
+        <View style={{ height: '100%' }}>
           <Animated.View style={[ styles.bar, { width: barWidth }]} />
-          <Animated.View style={[styles.textWrapper, { opacity: textOpacity }]}>
-            <Text style={styles.text}>{text}</Text>
-          </Animated.View>
-          <Animated.View style={[styles.textWrapper, { opacity: textFlashOpacity }]}>
-            <Text style={styles.text}>{flashText}</Text>
-          </Animated.View>
+          <View style={styles.container}>
+            <Animated.View style={[styles.textWrapper, { opacity: textOpacity }]}>
+              <Text style={styles.text}>{text}</Text>
+            </Animated.View>
+            <Animated.View style={[styles.textWrapper, { opacity: textFlashOpacity }]}>
+              <Text style={styles.text}>{flashText}</Text>
+            </Animated.View>
+          </View>
         </View>
       </TouchableWithoutFeedback>
     </View>

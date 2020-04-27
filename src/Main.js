@@ -14,8 +14,8 @@ export default function App() {
   return (
     <>
       {fetchApiKey && <Loading />}
-      {!fetchApiKey && apiKey && <Review />}
-      {!fetchApiKey && !apiKey && <Login />}
+      {!fetchApiKey && !apiKey && <Review />}
+      {!fetchApiKey && apiKey && <Login />}
     </>
   )
 }

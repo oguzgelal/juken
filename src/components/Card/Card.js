@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
   }),
   container: {
     flexGrow: 1,
-    padding: theme.space.card,
+    padding: theme.padding.card,
   }
   
 })

@@ -3,10 +3,11 @@ import sheet from 'src/utils/sheet';
 
 export const wrapper = sheet({
   base: {
+    position: 'relative',
     width: '100%',
-    height: 52,
+    minHeight: theme.height.touchable,
     backgroundColor: theme._palette.lightGray,
-    borderRadius: 8,
+    borderRadius: theme.radius.touchable,
     overflow: 'hidden',
     zIndex: 99999,
   },
@@ -16,12 +17,12 @@ export const wrapper = sheet({
 });
 
 export const container = {
-  position: 'relative',
   width: '100%',
   height: '100%',
   flex: 1,
   alignItems: 'center',
   justifyContent: 'center',
+  padding: theme.padding.touchable,
 };
 
 export const text = {

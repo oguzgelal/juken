@@ -18,47 +18,31 @@ const color = {
   vocab: 'rgb(160, 35, 238)',
 };
 
-const _space = {
-  u1: 4,
-  u2: 8,
-  u3: 12,
-  u4: 18,
-  u5: 24,
-  u6: 32,
-}
-
-const _radius = {
-  u1: 2,
-  u2: 4,
-  u3: 8,
-  u4: 10,
-}
-
-const _transition = {
-  mild: 'all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)',
-}
-
 const bg = {
   body: color.primary,
   card: _palette.white,
 };
 
-const space = {
-  body: _space.u5,
-  card: _space.u4,
+const padding = {
+  body: 24,
+  card: 18,
+  touchable: 12,
 };
 
 const radius = {
-  card: _radius.u4,
-}
+  card: 10,
+  touchable: 5,
+};
+
+const height = {
+  touchable: 52,
+};
 
 export default {
   _palette,
-  _space,
-  _radius,
-  _transition,
   color,
   bg,
-  space,
+  padding,
   radius,
+  height,
 };

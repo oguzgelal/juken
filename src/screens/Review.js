@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexGrow: 1,
     width: '100%',
-    padding: theme.space.body,
+    padding: theme.padding.body,
     paddingBottom: 0,
   },
   buttonsWrapper: sheet({

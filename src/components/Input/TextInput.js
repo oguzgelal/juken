@@ -1,18 +1,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TextInput } from 'react-native';
+import theme from 'src/common/theme';
 
-const TextInput = props => (
-  <View style={styles.wrapper}>
-    <Text>Hello</Text>
-  </View>
+const TextInputComponent = ({ style, ...props } = {}) => (
+  <TextInput
+    style={[
+      styles.wrapper,
+      ...(Array.isArray(style) ? style : [style])
+    ]}
+    {...props}
+  />
 );
 
-TextInput.propTypes = {
+TextInputComponent.propTypes = {
+  style: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.array,
+  ]),
 };
 
 const styles = StyleSheet.create({
-  wrapper: {}
+  wrapper: {
+    height: theme.height.touchable,
+    backgroundColor: theme._palette.white,
+    borderRadius: theme.radius.touchable,
+    padding: theme.padding.touchable,
+  }
 })
 
-export default TextInput;
+export default TextInputComponent;
