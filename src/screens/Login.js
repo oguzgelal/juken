@@ -1,12 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   StyleSheet,
   KeyboardAvoidingView,
-  TouchableWithoutFeedback,
   Keyboard,
-  Text,
-  View,
 } from 'react-native';
 import Page from 'src/components/Page/Page';
 import Button from 'src/components/Button/Button';
@@ -14,24 +11,36 @@ import TextInput from 'src/components/Input/TextInput';
 import os from 'src/utils/os';
 import sheet from 'src/utils/sheet';
 import theme from 'src/common/theme';
+import api from 'src/models/api';
 
 const Login = props => {
+
+  const [ key, setKey ] = useState('');
 
   return (
     <Page
       scroll={false}
       style={styles.wrapper}
-      onPress={Keyboard.dismiss}
+      onPress={() => {
+        if (os('mobile')) {
+          Keyboard.dismiss();
+        }
+      }}
     >
       <KeyboardAvoidingView
         style={styles.container}
         behavior={os('ios') ? 'padding' : 'height'}
       >
         <TextInput
-          placeholder="WK Api Key"
+          placeholder="WaniKani Api Key"
           style={{ marginBottom: 8 }}
+          value={key}
+          onChangeText={text => setKey(text)}
         />
-        <Button text="Login" />
+        <Button
+          text="Login"
+          onPress={() => api.login(key)}
+        />
       </KeyboardAvoidingView>
     </Page>
   )

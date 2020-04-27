@@ -5,7 +5,7 @@ export const wrapper = sheet({
   base: {
     position: 'relative',
     width: '100%',
-    minHeight: theme.height.touchable,
+    height: theme.height.touchable,
     backgroundColor: theme._palette.lightGray,
     borderRadius: theme.radius.touchable,
     overflow: 'hidden',

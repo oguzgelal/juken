@@ -12,7 +12,7 @@ import os from 'src/utils/os';
 class Storage {
 
   constructor() {
-    this.debug = true;
+    this.debug = false;
     this.prefix = 'WANIANKI';
     this.listeners = {};
     this.err_serialize = 'Storage Error: Failed to persist data due to possible data corruption';

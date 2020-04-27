@@ -4,7 +4,7 @@ import Review from 'src/screens/Review';
 import Login from 'src/screens/Login';
 import Loading from 'src/screens/Loading';
 
-import storage, { useListener, useStoredValue } from 'src/models/storage';
+import { useStoredValue } from 'src/models/storage';
 import { WK_API_KEY } from 'src/common/constants';
 
 export default function App() {
@@ -14,8 +14,8 @@ export default function App() {
   return (
     <>
       {fetchApiKey && <Loading />}
-      {!fetchApiKey && !apiKey && <Review />}
-      {!fetchApiKey && apiKey && <Login />}
+      {!fetchApiKey && apiKey && <Review />}
+      {!fetchApiKey && !apiKey && <Login />}
     </>
   )
 }

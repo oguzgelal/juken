@@ -17,7 +17,7 @@ const Page = ({ children, styleWrapper, style, scroll, onPress }) => {
   const Contents = (os('mobile') && scroll) ? ScrollView : View;
   
   return (
-    <TouchableWithoutFeedback onPress={onPress}>
+    <TouchableWithoutFeedback onPress={onPress} accessible={false}>
       <View style={styles.cover}>
         <Base
           style={[
