@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import * as sharedStyles from 'src/components/Button/sharedStyles';
 
-const Button = ({ text, onPress }) => (
-  <View style={styles.wrapper}>
+const Button = ({ text, onPress, style }) => (
+  <View style={[styles.wrapper, style ]}>
     <TouchableOpacity onPress={onPress} style={{ height: '100%' }}>
       <View style={styles.container}>
         <Text style={styles.text}>{text}</Text>
@@ -14,6 +14,7 @@ const Button = ({ text, onPress }) => (
 );
 
 Button.propTypes = {
+  style: PropTypes.object,
   text: PropTypes.string,
   onPress: PropTypes.func,
 };

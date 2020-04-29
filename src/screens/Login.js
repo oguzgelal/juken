@@ -1,48 +1,65 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import {
   StyleSheet,
   KeyboardAvoidingView,
   Keyboard,
 } from 'react-native';
+
 import Page from 'src/components/Page/Page';
 import Button from 'src/components/Button/Button';
 import TextInput from 'src/components/Input/TextInput';
+import Toast, { TYPES, DURATION } from 'src/components/Toast/Toast';
 import os from 'src/utils/os';
-import sheet from 'src/utils/sheet';
 import theme from 'src/common/theme';
-import api from 'src/models/api';
+import wk from 'src/models/wk';
 
 const Login = props => {
 
   const [ key, setKey ] = useState('');
+  const loggingIn = wk.isLoading('login');
+  const failed = useRef(null);
 
   return (
-    <Page
-      scroll={false}
-      style={styles.wrapper}
-      onPress={() => {
-        if (os('mobile')) {
-          Keyboard.dismiss();
-        }
-      }}
-    >
-      <KeyboardAvoidingView
-        style={styles.container}
-        behavior={os('ios') ? 'padding' : 'height'}
+    <>
+      {/* failed to login toast */}
+      <Toast ref={failed} type={TYPES.ERROR} />
+      {/* page */}
+      <Page
+        scroll={false}
+        style={styles.wrapper}
+        onPress={() => {
+          if (os('mobile')) {
+            Keyboard.dismiss();
+          }
+        }}
       >
-        <TextInput
-          placeholder="WaniKani Api Key"
-          style={{ marginBottom: 8 }}
-          value={key}
-          onChangeText={text => setKey(text)}
-        />
-        <Button
-          text="Login"
-          onPress={() => api.login(key)}
-        />
-      </KeyboardAvoidingView>
-    </Page>
+        <KeyboardAvoidingView
+          style={styles.container}
+          behavior={os('ios') ? 'padding' : 'height'}
+        >
+          <TextInput
+            placeholder="WaniKani Api Key"
+            value={key}
+            onChangeText={text => setKey(text)}
+          />
+          <Button
+            style={{ marginTop: 8 }}
+            text={loggingIn ? 'Logging in...' : 'Login'}
+            disabled={loggingIn}
+            onPress={() => wk.login(key)}
+          />
+
+          <Button
+            style={{ marginTop: 8 }}
+            text="Test"
+            onPress={() => {
+              failed.current.show('Invalid API Key');
+            }}
+          />
+        </KeyboardAvoidingView>
+      </Page>
+    </>
   )
 };
 

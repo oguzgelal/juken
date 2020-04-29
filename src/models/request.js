@@ -14,22 +14,6 @@ class Request {
     })
   }
 
-  get(...args) {
-    return this.send(GET, ...args);
-  }
-
-  post(...args) {
-    return this.send(POST, ...args);
-  }
-  
-  put(...args) {
-    return this.send(PUT, ...args);
-  }
-  
-  delete(...args) {
-    return this.send(DELETE, ...args);
-  }
-
 }
 
 export default new Request();
