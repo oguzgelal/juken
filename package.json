@@ -8,6 +8,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@expo/react-native-action-sheet": "^3.6.0",
     "expo": "~37.0.3",
     "expo-haptics": "~8.1.0",
     "localforage": "^1.7.3",

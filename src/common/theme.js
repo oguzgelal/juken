@@ -1,3 +1,5 @@
+import sheet from 'src/utils/sheet';
+
 const _palette = {
   blue: 'rgb(30, 203, 225)',
   green: 'rgb(83, 242, 185)',
@@ -23,20 +25,28 @@ const bg = {
   card: _palette.white,
 };
 
-const padding = {
-  body: 24,
-  card: 18,
-  touchable: 12,
-};
+const padding = sheet({
+  base: {
+    body: 24,
+    card: 18,
+    touchable: 12,
+  },
+  web: { pageTop: 14 },
+  mobile: { pageTop: 4 },
+});
 
 const radius = {
   card: 10,
   touchable: 5,
 };
 
-const height = {
-  touchable: 52,
-};
+const height = sheet({
+  base: {
+    touchable: 52,
+  },
+  web: { statusBar: 22 },
+  mobile: { statusBar: 8 }
+});
 
 export default {
   _palette,

@@ -17,7 +17,7 @@ const friction = 5;
 const baseZIndex = 1;
 const scaleDecreaseRate = 0.1;
 const opacityDecreaseRate = 0.3;
-const topGapRate = os('desktop') ? -5 : -32;
+const topGapRate = os('desktop') ? -5 : -36;
 const leaveScreenDuration = 400;
 
 const getOpacity = (i) => 1 - opacityDecreaseRate * i;

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import Main from 'src/Main';
 
 class App extends React.Component {
@@ -20,7 +21,11 @@ class App extends React.Component {
   }
 
   render() {
-    return <Main />;
+    return (
+      <ActionSheetProvider>
+        <Main />
+      </ActionSheetProvider>
+    );
   }
 }
 

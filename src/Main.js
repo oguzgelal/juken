@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { Text } from 'react-native';
+import React from 'react';
 import Review from 'src/screens/Review';
 import Login from 'src/screens/Login';
 import Loading from 'src/screens/Loading';
@@ -9,13 +8,13 @@ import { WK_API_KEY } from 'src/common/constants';
 
 export default function App() {
 
-  const [ apiKey, _, fetchApiKey ] = useStoredValue(WK_API_KEY);
+  const [ apiKey, _, fetchingApiKey ] = useStoredValue(WK_API_KEY);
 
   return (
     <>
-      {fetchApiKey && <Loading />}
-      {!fetchApiKey && apiKey && <Review />}
-      {!fetchApiKey && !apiKey && <Login />}
+      {fetchingApiKey && <Loading />}
+      {!fetchingApiKey && apiKey && <Review />}
+      {!fetchingApiKey && !apiKey && <Login />}
     </>
   )
 }

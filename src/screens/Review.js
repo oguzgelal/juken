@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, StatusBar, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { useActionSheet } from '@expo/react-native-action-sheet';
+
 import sheet from 'src/utils/sheet';
 import theme from 'src/common/theme';
+import wk from 'src/models/wk';
+
 import {
   TYPE_KANJI,
   TYPE_RADICAL,
@@ -10,11 +14,13 @@ import {
 } from 'src/common/constants';
 
 import Page from 'src/components/Page/Page';
+import Button from 'src/components/Button/Button';
 import Card from 'src/components/Card/Card';
 import Deck from 'src/components/Deck/Deck';
 import LongPressButton from 'src/components/Button/LongPressButton';
 
-const Review = props => {
+const Review = () => {
+  const { showActionSheetWithOptions } = useActionSheet();
   const [ decks, setDecks ] = useState([
     { id: 'card1', type: TYPE_KANJI },
     { id: 'card2', type: TYPE_VOCAB },
@@ -38,7 +44,22 @@ const Review = props => {
           }))}
         />
       </View>
-      <View style={styles.buttonsWrapper} />
+      <View style={styles.buttonsWrapper}>
+        <Button
+          text="Options"
+          onPress={() => {
+            showActionSheetWithOptions({
+              options: ['Cancel', 'Logout'],
+              destructiveButtonIndex: 1,
+              cancelButtonIndex: 0,
+            }, buttonIndex => {
+              if (buttonIndex === 1) {
+                wk.logout();
+              }
+            })
+          }}
+        />
+      </View>
     </Page>
   )
 };
@@ -58,15 +79,10 @@ const styles = StyleSheet.create({
     base: {
       flexShrink: 0,
       width: '100%',
+      padding: theme.padding.body,
+      alignItems: 'center',
+      justifyContent: 'flex-end',
     },
-    web: {
-      height: '10%',
-      minHeight: 100,
-    },
-    mobile: {
-      height: '22%',
-      minHeight: 180,
-    } 
   })
 })
 

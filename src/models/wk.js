@@ -2,8 +2,14 @@
 import { useEffect, useState } from 'react';
 import storage from 'src/models/storage';
 import request, { POST, PUT, GET, DELETE } from 'src/models/request';
-import { WK_API_KEY } from 'src/common/constants';
+import get from 'lodash/get';
 import isNil from 'lodash/isNil';
+import {
+  WK_API_KEY,
+  USER_ID,
+  USER_NAME,
+  USER_START_DATE,
+} from 'src/common/constants';
 
 const LOADING_START = 'start';
 const LOADING_END = 'end';
@@ -76,10 +82,12 @@ class WK {
         .then(res => {
           this.loadingEnd(loadingKey);
           this.resolveResponse(res, { resolve, reject });
+          return;
         })
         .catch(err => {
           this.loadingEnd(loadingKey);
           reject(this.resolveError(err, err));
+          return;
         })
     })
   }
@@ -109,19 +117,37 @@ class WK {
 
   // login with wk api key
   login(apiKey) {
-    // use get user request as a way to validate api key
-    // bonus: save the id, username and start date
-    this.get('user', { apiKey, loadingKey: 'login' })
-      .then(res => {
-        console.log('user: ', res)
-      })
-      .catch((err) => {
-        console.log('nope', err);
-      })
+    return new Promise((resolve, reject) => {
+      // use get user request as a way to validate api key
+      // bonus: save the id, username and start date
+      this.get('user', { apiKey, loadingKey: 'login' })
+        .then(res => {
+          const userId = get(res, 'data.id');
+          const userName = get(res, 'data.username');
+          const userStartDate = get(res, 'data.started_at');
+          console.log('>', userId, userName, userStartDate);
+          if (!userId || !userName || !userStartDate) {
+            reject(this.resolveError(this.err_invalidkey))
+            return;
+          } else {
+            storage.set(USER_ID, userId);
+            storage.set(USER_NAME, userName);
+            storage.set(USER_START_DATE, userStartDate);
+            storage.set(WK_API_KEY, apiKey);
+            resolve(res);
+            return;
+          }
+        })
+        .catch(reject)
+    })
   }
 
   // logout, clear api key from storage
   logout() {
+    storage.set(USER_ID, null);
+    storage.set(USER_NAME, null);
+    storage.set(USER_START_DATE, null);
+    storage.set(WK_API_KEY, null);
   }
 
   user() {
