@@ -63,14 +63,11 @@ export default ({
         // was the card dragged enough to the edges
         const clearLeft = gestureState.dx < -dragRange.x;
         const clearRight = gestureState.dx > dragRange.x;
-        const clear = clearLeft || clearRight;
 
         // card wasn moved enough to the sides,
         // animate it out and dismiss it
-        if (clear) {  
-          if (clearLeft) triggerSwipeLeft();
-          else triggerSwipeRight();        
-        }
+        if (clearLeft) triggerSwipeLeft();
+        else if (clearRight) triggerSwipeRight();
 
         // card wasn't moved enough to the sides,
         // send it back to its original position
