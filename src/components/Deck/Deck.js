@@ -134,7 +134,6 @@ const Deck = ({
               isSecondCard,
               getClearInterpolation,
               getMovementInterpolation,
-              panHandlers,
               swipeLock,
               setSwipeLock,
             })}
