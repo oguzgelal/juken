@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     fontSize: 13,
     fontWeight: '700',
-    color: theme._palette.gray,
+    color: theme.palette.gray,
   }
 })
 

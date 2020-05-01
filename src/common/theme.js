@@ -1,6 +1,6 @@
 import sheet from 'src/utils/sheet';
 
-const _palette = {
+const palette = {
   blue: 'rgb(30, 203, 225)',
   green: 'rgb(83, 242, 185)',
   red: 'rgb(255, 149, 143)',
@@ -12,9 +12,9 @@ const _palette = {
 }
 
 const color = {
-  primary: _palette.blue,
-  correct: _palette.green,
-  incorrect: _palette.red,
+  primary: palette.blue,
+  correct: palette.green,
+  incorrect: palette.red,
   radical: 'rgb(27, 163, 247)',
   kanji: 'rgb(239, 25, 160)',
   vocab: 'rgb(160, 35, 238)',
@@ -22,7 +22,7 @@ const color = {
 
 const bg = {
   body: color.primary,
-  card: _palette.white,
+  card: palette.white,
 };
 
 const padding = sheet({
@@ -49,7 +49,7 @@ const height = sheet({
 });
 
 export default {
-  _palette,
+  palette,
   color,
   bg,
   padding,

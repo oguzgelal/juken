@@ -5,6 +5,8 @@
 //import AsyncStorage from '@react-native-community/async-storage';
 import { AsyncStorage } from 'react-native';
 import localForage from 'localforage';
+import MockStorage from 'src/utils/test/MockStorage';
+import isJestRunning from 'src/utils/test/isJestRunning';
 import { useState, useEffect } from 'react';
 import isNil from 'lodash/isNil';
 import os from 'src/utils/os';
@@ -12,13 +14,19 @@ import os from 'src/utils/os';
 class Storage {
 
   constructor() {
-    this.debug = false;
+    this.debug = true;
     this.prefix = 'WANIANKI';
     this.listeners = {};
     this.err_serialize = 'Storage Error: Failed to persist data due to possible data corruption';
     this.err_deserialize = 'Storage Error: Failed due to corruption in persisted data';
     this.err_set = 'Storage Error: Failed to persist data';
     this.err_get = 'Storage Error: Failed to retrieve persisted data';
+  }
+
+  // AsyncStorage doesn't work on jest for mobile
+  // environments, so create a mock for tests
+  getMobileStorage() {
+    return isJestRunning() ? MockStorage : AsyncStorage
   }
 
   // function to attach a listener for a specific key
@@ -78,7 +86,7 @@ class Storage {
 
   serializeValue(value, errCallback) {
     try {
-      return JSON.stringify({ value, date: Date.now() })
+      return JSON.stringify({ value })
     } catch(e) {
       errCallback(
         this.resolveError(this.err_serialize, e)
@@ -111,7 +119,8 @@ class Storage {
 
         // use async storage for mobile
         if (os('mobile')) {
-          AsyncStorage.setItem(key, value, err => {
+          const Storage = this.getMobileStorage();
+          Storage.setItem(key, value, err => {
             this.setResolve(resolve, reject, k, err);
           })
         }
@@ -148,7 +157,8 @@ class Storage {
 
         // use async storage for mobile
         if (os('mobile')) {
-          AsyncStorage.getItem(key, (err, result) => {
+          const Storage = this.getMobileStorage();
+          Storage.getItem(key, (err, result) => {
             return this.getResolve(resolve, reject, err, result)
           })
         }
@@ -205,15 +215,8 @@ export const useStoredValue = k => {
   const [ val, setVal ] = useState(null);
   // register a listener to keep the value updated
   const fetching = useListener(k, newVal => setVal(newVal));
-  // return the value and a function that sets the
-  // value in the same pattern that useState uses
-  // but unlike react, setter function will return
-  // a promise
-  return [
-    val,
-    setValTo => { return storageInstance.set(k, setValTo); },
-    fetching,
-  ]
+  // return the value and its fetching state
+  return [val, fetching]
 }
 
 // default export the storage instance

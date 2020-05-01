@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     base: {
       alignItems: 'center',
       justifyContent: 'flex-end',
-      backgroundColor: theme._palette.blue,
+      backgroundColor: theme.palette.blue,
     },
     mobile: {
       height: Constants.statusBarHeight + theme.height.statusBar,

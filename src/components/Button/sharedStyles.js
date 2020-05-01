@@ -6,7 +6,7 @@ export const wrapper = sheet({
     position: 'relative',
     width: '100%',
     height: theme.height.touchable,
-    backgroundColor: theme._palette.lightGray,
+    backgroundColor: theme.palette.lightGray,
     borderRadius: theme.radius.touchable,
     overflow: 'hidden',
     zIndex: 99999,
@@ -27,6 +27,6 @@ export const container = {
 
 export const text = {
   fontWeight: '700',
-  color: theme._palette.black,
+  color: theme.palette.black,
   zIndex: 1,
 };

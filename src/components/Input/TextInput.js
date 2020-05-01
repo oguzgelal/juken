@@ -23,7 +23,7 @@ TextInputComponent.propTypes = {
 const styles = StyleSheet.create({
   wrapper: {
     height: theme.height.touchable,
-    backgroundColor: theme._palette.white,
+    backgroundColor: theme.palette.white,
     borderRadius: theme.radius.touchable,
     padding: theme.padding.touchable,
   }

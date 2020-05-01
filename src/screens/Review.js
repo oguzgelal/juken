@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View } from 'react-native';
 import { useActionSheet } from '@expo/react-native-action-sheet';
@@ -20,6 +20,10 @@ import Deck from 'src/components/Deck/Deck';
 import LongPressButton from 'src/components/Button/LongPressButton';
 
 const Review = () => {
+
+  useEffect(() => { wk.loadReviews() }, [])
+  const isLoadingReviews = wk.req.isLoading('reviews');
+
   const { showActionSheetWithOptions } = useActionSheet();
   const [ decks, setDecks ] = useState([
     { id: 'card1', type: TYPE_KANJI },

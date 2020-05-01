@@ -7,7 +7,7 @@ const Loading = props => (
   <Page scroll={false} style={styles.wrapper}>
     <ActivityIndicator
       size="large"
-      color={theme._palette.white}
+      color={theme.palette.white}
     />
   </Page>
 );

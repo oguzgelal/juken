@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     left: 0,
-    backgroundColor: theme._palette.yellow,
+    backgroundColor: theme.palette.yellow,
     height: '100%',
     zIndex: 0,
   },

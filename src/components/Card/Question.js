@@ -61,14 +61,14 @@ const styles = StyleSheet.create({
     width: '50%',
     margin: 'auto',
     height: 1,
-    backgroundColor: theme._palette.lightGray,
+    backgroundColor: theme.palette.lightGray,
     marginBottom: 12,
     marginTop: 0
   },
   statement: {
   },
   statementText: {
-    color: theme._palette.black,
+    color: theme.palette.black,
     fontSize: 14,
     textTransform: 'uppercase',
     fontWeight: '700',
