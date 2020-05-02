@@ -1,5 +1,6 @@
 /**
  * name: String - resource name
+ *  - Convention: should be same as the variable name
  * persistOnLogout: Bool - do not clear this on logout
  * persistOnSoftReset: Bool - do not clear this on soft resets
  * cacheUnit: 'seconds', 'minutes', 'hours', 'days' (default: 'seconds')

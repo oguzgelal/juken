@@ -30,7 +30,6 @@
   },
   "private": true,
   "jest": {
-    "setupFiles": ["./jestSetupFile.js"],
     "projects": [
       {
         "preset": "jest-expo/web"

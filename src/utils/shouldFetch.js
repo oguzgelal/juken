@@ -1,4 +1,5 @@
 import moment from 'moment';
+import isNil from 'lodash/isNil';
 
 export default (
   resource,
@@ -7,7 +8,7 @@ export default (
 ) => {
 
   // there is no stored data, should fetch
-  if (!lastFetchedData) return true;
+  if (isNil(lastFetchedData)) return true;
 
   const { cache, cacheUnit } = resource;
 

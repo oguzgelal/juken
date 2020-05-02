@@ -1,9 +1,10 @@
 // wanikani client
 import { useEffect, useState } from 'react';
 import isNil from 'lodash/isNil';
-import { WK_API_KEY } from 'src/common/storageKeys';
+import * as env from 'src/common/env';
+import * as rs from 'src/common/resources';
+import resource from 'src/models/resource';
 import request, { POST, PUT, GET, DELETE } from 'src/models/request';
-import storage from 'src/models/storage';
 
 const LOADING_START = 'start';
 const LOADING_END = 'end';
@@ -11,7 +12,6 @@ const LOADING_END = 'end';
 class RequestWk {
 
   constructor() {
-    this.debug = true;
     this.base = 'https://api.wanikani.com/v2/';
     this.loadings = {};
     this.loadingListeners = {};
@@ -22,7 +22,7 @@ class RequestWk {
 
   resolveError(msg, err) {
     if (!err) return msg;
-    return this.debug ? err : msg;
+    return env.DEBUG ? err : msg;
   }
 
   resolveResponse(res, { resolve, reject }) {
@@ -64,7 +64,7 @@ class RequestWk {
   
   async send(method, endpoint, { body, params, apiKey, loadingKey } = {}) {
     // fetch api key or use provided
-    const useApiKey = apiKey || await storage.get(WK_API_KEY);
+    const useApiKey = apiKey || await resource.get(rs.WK_API_KEY)();
     // return promise
     return new Promise((resolve, reject) => {
       // default headers

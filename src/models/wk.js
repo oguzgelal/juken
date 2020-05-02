@@ -1,8 +1,6 @@
 import RequestWk from 'src/models/requestWk';
-import storage from 'src/models/storage';
+import * as rs from 'src/common/resources';
 import resource from 'src/models/resource';
-import resources from 'src/common/resources';
-import { WK_API_KEY } from 'src/common/storageKeys';
 
 class WK {
 
@@ -10,24 +8,30 @@ class WK {
     this.req = new RequestWk();
   }
   
-  // login with wk api key
   // use get user request as a way to validate api key
   // bonus: save the id, username and start date
   login(apiKey) {
-    return this.req.get('user', { apiKey, loadingKey: 'login' })
-      .then(res => {
-        const userId = get(res, 'data.id');
-        resource.save(resources.USER, userId, res);
-        storage.set(WK_API_KEY, apiKey);
-        resolve(res);
-      });
+    return resource.get(rs.WK_API_KEY)(() => {
+      return new Promise((resolve, reject) => {
+        this.req.get('user', { apiKey, loadingKey: 'login' })
+          .then(res => {
+            // TODO
+            console.log('res', res);
+            // const userId = get(res, 'data.')
+          })
+          .catch(reject);
+      }) 
+    });
   }
 
-  // logout, clear api key from storage
+  // TODO
   logout() {
-    CLEAR_ON_LOGOUT.map(key => {
-      storage.set(key, null);
-    })
+    Object
+      .values(rs)
+      .filter(res => !res.persistOnLogout)
+      .forEach(res => {
+        resource.clearCache(res)
+      })
   }
 
   loadReviews() {
