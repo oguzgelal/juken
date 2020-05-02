@@ -18,8 +18,6 @@ import wk from 'src/models/wk';
 const Login = props => {
 
   const [ key, setKey ] = useState('');
-  // const loggingIn = wk.req.isLoading('login');
-  const loggingIn = false;
   const failed = useRef(null);
   const empty = useRef(null);
 
