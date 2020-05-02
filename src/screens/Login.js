@@ -10,8 +10,8 @@ import Page from 'src/components/Page/Page';
 import Button from 'src/components/Button/Button';
 import TextInput from 'src/components/Input/TextInput';
 import Toast, { TYPES } from 'src/components/Toast/Toast';
+import usePromise from 'src/hooks/usePromise'
 import os from 'src/utils/os';
-
 import theme from 'src/common/theme';
 import wk from 'src/models/wk';
 
@@ -20,6 +20,10 @@ const Login = props => {
   const [ key, setKey ] = useState('');
   const failed = useRef(null);
   const empty = useRef(null);
+
+  const [ loginFn, loginLoading ] = usePromise(() => wk.login(key), {
+    onError: () => failed.current.show('Invalid API Key')
+  });
 
   return (
     <>
@@ -48,16 +52,14 @@ const Login = props => {
           />
           <Button
             style={{ marginTop: 8 }}
-            text={loggingIn ? 'Logging in...' : 'Login'}
-            disabled={loggingIn}
+            text={loginLoading ? 'Logging in...' : 'Login'}
+            disabled={loginLoading}
             onPress={() => {
               if (!key) {
                 empty.current.show('Please enter your API key');
                 return;
               }
-              wk.login(key).catch(() => {
-                failed.current.show('Invalid API Key');
-              })
+              loginFn();
             }}
           />
           

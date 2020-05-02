@@ -137,43 +137,6 @@ class Resource {
         .catch(reject)
     })
   }
-
-  // ---- HOOKS ----
-
-  // this hook retrieves resource and provides a loading state.
-  // this loading indicates the time it takes from a resource
-  // being requested to the time it is produced; whether it was
-  // retrieved from cache, or fetched, or re-fetched and cached
-  useResource(resource, ids) {
-    return fetchFn => {
-      
-      // keep resource and loading in a state
-      const [ loading, setLoading ] = useState(true);
-      const [ error, setError ] = useState(null);
-      const [ result, setResult ] = useState(null);
-
-      // retrieve the resource
-      useEffect(() => {
-        this.get(resource, ids)(fetchFn)
-          .then(res => {
-            setResult(res);
-            setLoading(false);
-          })
-          .catch(err => {
-            setError(err);
-            setLoading(false);
-          })
-      }, [])
-
-      // return result and loading / error states
-      return [
-        result,
-        loading,
-        error,
-      ];
-    }
-  }
-
 }
 
 export default new Resource();
