@@ -15,15 +15,20 @@ export const WK_API_KEY = {
   cache: true,
 }
 
+export const AVAILABLE_REVIEWS = {
+  name: 'AVAILABLE_REVIEWS',
+  cache: false,
+}
+
 export const USER = {
   name: 'USER',
-  cache: 30,
+  cache: 10,
   cacheUnit: 'days',
 };
 
 export const SUBJECT = {
   name: 'SUBJECT',
-  cache: 365,
+  cache: 30,
   cacheUnit: 'days',
   persistOnLogout: true,
   persistOnSoftReset: true,

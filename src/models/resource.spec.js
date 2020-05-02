@@ -82,7 +82,7 @@ describe('resouce', () => {
         cache: true,
         _exVal: 'res1',
         _exNumRead: 1,
-        _exCache: true,
+        _exWrite: true,
       },
       // no cache
       {
@@ -90,7 +90,7 @@ describe('resouce', () => {
         cache: false,
         _exVal: 'res2',
         _exNumRead: 2,
-        _exCache: false,
+        _exWrite: false,
       },
       // 1 second cache period
       {
@@ -98,15 +98,15 @@ describe('resouce', () => {
         cache: 1,
         _exVal: 'res3',
         _exNumRead: 2,
-        _exCache: true,
+        _exWrite: true,
       },
-      // 3 second cache period
+      // 10 second cache period
       {
         name: 'test2_4',
         cache: 10,
         _exVal: 'res4',
         _exNumRead: 1,
-        _exCache: true,
+        _exWrite: true,
       },
       // 1 day cache period
       {
@@ -115,14 +115,14 @@ describe('resouce', () => {
         cacheUnit: 'day',
         _exVal: 'res5',
         _exNumRead: 1,
-        _exCache: true,
+        _exWrite: true,
       },
       // cache omitted
       {
         name: 'test2_6',
         _exVal: 'res6',
         _exNumRead: 2,
-        _exCache: false,
+        _exWrite: false,
       },
     ];
 
@@ -156,7 +156,7 @@ describe('resouce', () => {
     }))
 
     // were anything ever written to the storage for resources above
-    expect(storageCheck.map(v => !!v)).toEqual(sources.map(s => s._exCache))
+    expect(storageCheck.map(v => !!v)).toEqual(sources.map(s => s._exWrite))
     
     // check number of reads from the storage
     expect(mocks.map(m => m.mock.calls.length)).toEqual(sources.map(s => s._exNumRead));

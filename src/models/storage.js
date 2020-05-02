@@ -121,6 +121,8 @@ class Storage {
     })
   }
 
+  // TODO: setMany
+
   // control set response
   _setResolve(resolve, reject, key, err) {
     if (isNil(err)) {
