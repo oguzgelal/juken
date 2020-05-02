@@ -11,13 +11,15 @@ import Button from 'src/components/Button/Button';
 import TextInput from 'src/components/Input/TextInput';
 import Toast, { TYPES } from 'src/components/Toast/Toast';
 import os from 'src/utils/os';
+
 import theme from 'src/common/theme';
 import wk from 'src/models/wk';
 
 const Login = props => {
 
   const [ key, setKey ] = useState('');
-  const loggingIn = wk.req.isLoading('login');
+  // const loggingIn = wk.req.isLoading('login');
+  const loggingIn = false;
   const failed = useRef(null);
   const empty = useRef(null);
 

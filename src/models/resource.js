@@ -3,12 +3,19 @@ import moment from 'moment';
 import get from 'lodash/get';
 import storage from 'src/models/storage';
 import shouldFetch from 'src/utils/shouldFetch';
+import * as rs from 'src/common/resources';
 
 export const DELIM = '_@_';
 const DATA = 'data';
 const LAST_FETCHED = 'last_fetched';
 const LOADING_START = 'start';
 const LOADING_END = 'end';
+
+// it's bad practice but for convenience i will
+// just export this here, so i can import resource
+// instance and resources like this:
+// import resource, { r } from 'src/models/resource'
+export const r = rs;
 
 class Resource {
 
@@ -142,7 +149,6 @@ class Resource {
     })
   }
 
-
   // trigger listeners for loading start
   _triggerLoadingListeners(resource, ids) {
     const key = this.key(resource, ids);
@@ -151,8 +157,11 @@ class Resource {
       if (type === LOADING_START) this.loadings[key] = true;
       if (type === LOADING_END) this.loadings[key] = false;
       // trigger listener callbacks
-      const listeners = this.loadingListeners[key] || {};
-      if (typeof listeners[type] === 'function') listeners[type]();
+      Object.values(this.loadingListeners[key] || {}).forEach(listeners => {
+        if (listeners && typeof listeners[type] === 'function') {
+          listeners[type]();
+        }
+      })
     }
   }
 
@@ -164,17 +173,39 @@ class Resource {
     this._triggerLoadingListeners(resource, ids)(LOADING_END);
   }
 
+  // registers a loading listener to a resource
   _registerLoadingListeners(resource, ids) {
     const key = this.key(resource, ids);
+    const signature = Math.round(Math.random() * 100000);
     return (start, end) => {
-      this.loadingListeners[key] = {
+      // initiate listeners
+      if (!this.loadingListeners[key]) {
+        this.loadingListeners[key] = {};
+      }
+      // register listener with the signature
+      this.loadingListeners[key][signature] = {
         [LOADING_START]: start,
         [LOADING_END]: end,
       };
+      // return function that will remove the
+      // listener that was just registered
+      return () => {
+        _this._removeLoadingListeners(resource, ids)(signature);
+      }
     }
   }
 
+  // remove a specific loading listeners of a resource
   _removeLoadingListeners(resource, ids) {
+    const key = this.key(resource, ids);
+    return signature => {
+      this.loadingListeners[key][signature] = null;
+      delete this.loadingListeners[key][signature];
+    }
+  }
+
+  // remove all loading listeners of a resource
+  _removeAllLoadingListeners(resource, ids) {
     const key = this.key(resource, ids);
     return () => {
       this.loadingListeners[key] = null;
@@ -189,10 +220,8 @@ class Resource {
   _useLoadings(resource, ids) {
     return (start, end) => {
       useEffect(() => {
-        this._registerLoadingListeners(resource, ids)(start, end);
-        return () => {
-          this._removeLoadingListeners(resource, ids)();
-        }
+        const removeListener = this._registerLoadingListeners(resource, ids)(start, end);
+        return () => { removeListener(); }
       }, []);
     }
   }
@@ -205,24 +234,22 @@ class Resource {
     return fetchFn => {
       
       // keep resource and loading in a state
-      const key = useMemo(() => this.key(resource, ids), [resource, ids]);
       const [ result, setResult ] = useState(null);
-      const [ loading, setLoading ] = useState(this.loadings[key]);
+      const [ loading, setLoading ] = useState(true);
       const [ error, setError ] = useState(null);
 
-      useEffect(() => {
-        
-        // register listener
-        this._useLoadings(resource, ids)(
-          () => setLoading(true),
-          () => setLoading(false)
-        );
+      // register listener
+      this._useLoadings(resource, ids)(
+        () => setLoading(true),
+        () => setLoading(false),
+      );
 
-        // retrieve the resout
+      // retrieve the resource
+      useEffect(() => {
         this.get(resource, ids)(fetchFn)
           .then(res => { setResult(res); })
           .catch(err => { setError(err); })
-      }, [resource, ids])
+      }, [])
 
       // return result and loading / error states
       return [

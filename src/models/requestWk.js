@@ -1,9 +1,5 @@
-// wanikani client
-import { useEffect, useState } from 'react';
-import isNil from 'lodash/isNil';
 import * as env from 'src/common/env';
-import * as rs from 'src/common/resources';
-import resource from 'src/models/resource';
+import resource, { r } from 'src/models/resource';
 import request, { POST, PUT, GET, DELETE } from 'src/models/request';
 
 class RequestWk {
@@ -42,7 +38,7 @@ class RequestWk {
   
   async send(method, endpoint, { body, params, apiKey } = {}) {
     // fetch api key or use provided
-    const useApiKey = apiKey || await resource.get(rs.WK_API_KEY)();
+    const useApiKey = apiKey || await resource.get(r.WK_API_KEY)();
     // return promise
     return new Promise((resolve, reject) => {
       // default headers

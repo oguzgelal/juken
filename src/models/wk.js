@@ -1,6 +1,5 @@
 import RequestWk from 'src/models/requestWk';
-import * as rs from 'src/common/resources';
-import resource from 'src/models/resource';
+import resource, { r } from 'src/models/resource';
 
 class WK {
 

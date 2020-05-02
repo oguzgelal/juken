@@ -17,12 +17,10 @@ import Page from 'src/components/Page/Page';
 import Button from 'src/components/Button/Button';
 import Card from 'src/components/Card/Card';
 import Deck from 'src/components/Deck/Deck';
-import LongPressButton from 'src/components/Button/LongPressButton';
 
 const Review = () => {
 
-  useEffect(() => { wk.loadReviews() }, [])
-  const isLoadingReviews = wk.req.isLoading('reviews');
+  const isLoadingReviews = false;
 
   const { showActionSheetWithOptions } = useActionSheet();
   const [ decks, setDecks ] = useState([
