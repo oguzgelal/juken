@@ -306,7 +306,7 @@ class Storage {
     // register a listener to keep the value updated	
     const fetching = this.useListener(key, newVal => setVal(newVal));	
     // return the value and its fetching state	
-    return [val, fetching];
+    return [ val, fetching ];
   }
 }
 

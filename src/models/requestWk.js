@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import * as env from 'src/common/env';
 import resource, { r } from 'src/models/resource';
 import request, { POST, PUT, GET, DELETE } from 'src/models/request';
@@ -35,8 +36,28 @@ class RequestWk {
   post(...args) { return this.send(POST, ...args) }
   put(...args) { return this.send(PUT, ...args) }
   delete(...args) { return this.send(DELETE, ...args) }
+
+  // get an entire collection
+  _collection(endpoint, options = {}, resolve, reject, col = []) {
+    this.get(endpoint, options).then(res => {
+      const data = col.concat(_.get(res, 'data') || []);
+      const next = _.get(res, 'pages.next_url');
+      if (next) {
+        options.nextUrl = next;
+        this._collection(endpoint, options, resolve, reject, data);
+      } else {
+        resolve(data);
+      }
+    }).catch(reject);
+  }
+  collection(...args) {
+    return new Promise(async (resolve, reject) => {
+      const [ endpoint, options ] = args;
+      this._collection(endpoint, options, resolve, reject);
+    });
+  }
   
-  async send(method, endpoint, { body, params, apiKey } = {}) {
+  async send(method, endpoint, { nextUrl, body, params, apiKey } = {}) {
     // fetch api key or use provided
     const useApiKey = apiKey || await resource.get(r.WK_API_KEY)();
     // return promise
@@ -45,9 +66,9 @@ class RequestWk {
       const headers = { Authorization: `Bearer ${useApiKey}` }
       // make request
       request
-        .send(method, `${this.base}${endpoint}`, {
+        .send(method, (nextUrl || `${this.base}${endpoint}`), {
+          params: nextUrl ? null : params,
           body,
-          params,
           headers,
         })
         .then(res => {

@@ -56,10 +56,10 @@ export default (fn, { immediate, onSuccess, onError } = {}) => {
     }
   }, [])
 
-  return [
-    trigger,
-    loading,
-    response,
-    error,
-  ];
+  return {
+    fn: trigger,
+    loading: loading,
+    res: response,
+    err: error,
+  };
 }

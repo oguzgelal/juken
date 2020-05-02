@@ -21,7 +21,10 @@ const Login = props => {
   const failed = useRef(null);
   const empty = useRef(null);
 
-  const [ loginFn, loginLoading ] = usePromise(() => wk.login(key), {
+  const {
+    fn: loginFn,
+    loading: loginLoading
+  } = usePromise(() => wk.login(key), {
     onError: () => failed.current.show('Invalid API Key')
   });
 

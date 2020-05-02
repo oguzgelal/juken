@@ -7,8 +7,8 @@ import usePromise from 'src/hooks/usePromise'
 
 export default () => {
 
-  const apiKey = resource.useCache(r.WK_API_KEY);
-  const [ _, apiKeyLoading ] = usePromise(() => resource.get(r.WK_API_KEY)(), {
+  const [ apiKey ] = resource.useCache(r.WK_API_KEY);
+  const { loading: apiKeyLoading } = usePromise(() => resource.get(r.WK_API_KEY)(), {
       immediate: true
     });
 

@@ -2,13 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, Text, View } from 'react-native';
 import isNil from 'lodash/isNil';
-import { cardProps } from 'src/common/props';
 import theme from 'src/common/theme';
 
 const headerHeight = 22;
 
 const CardHeader = ({
-  card = {},
   centerText,
   centerIcon,
   leftText,
@@ -74,7 +72,6 @@ const CardHeader = ({
 );
 
 CardHeader.propTypes = {
-  card: cardProps,
   centerText: PropTypes.string,
   centerIcon: PropTypes.any,
   leftText: PropTypes.string,

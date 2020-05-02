@@ -149,7 +149,7 @@ Deck.propTypes = {
   dismiss: PropTypes.func,
   cards: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.string,
+      id: PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
       renderCard: PropTypes.func,
     })
   ),

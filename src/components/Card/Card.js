@@ -60,7 +60,6 @@ const Card = ({
 
           {/* top header */}
           <CardHeader
-            card={card}
             leftIcon={revealed ? <DirectionLeftIcon /> : null}
             rightIcon={revealed ? <DirectionRightIcon /> : null}
             centerText={revealed

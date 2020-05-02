@@ -20,7 +20,7 @@ const Question = ({ card = {} }) => (
           styles[card.type]
         ]}
       >
-        虫
+        {card.questionText}
       </Text>
     </View>
 

@@ -15,21 +15,26 @@ export const WK_API_KEY = {
   cache: true,
 }
 
-export const AVAILABLE_REVIEWS = {
-  name: 'AVAILABLE_REVIEWS',
-  cache: false,
-}
-
 export const USER = {
   name: 'USER',
   cache: 10,
   cacheUnit: 'days',
 };
 
-export const SUBJECT = {
-  name: 'SUBJECT',
-  cache: 30,
-  cacheUnit: 'days',
+export const AVAILABLE_REVIEWS = {
+  name: 'AVAILABLE_REVIEWS',
+  cache: false,
+};
+
+// Note: subjects are cached individually
+// this resource only holds a boolean value 
+// that indicates the subjects were ever
+// cached before or not
+const s = {
+  cache: true,
   persistOnLogout: true,
   persistOnSoftReset: true,
 };
+export const SUBJECT = { name: 'SUBJECT', ...s };
+export const SUBJECTS_LOADED = { name: 'SUBJECTS_LOADED', ...s };
+export const SUBJECTS_LAST_FETCHED = { name: 'SUBJECTS_LAST_FETCHED', ...s };

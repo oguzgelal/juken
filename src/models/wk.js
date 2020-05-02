@@ -1,3 +1,4 @@
+import get from 'lodash/get';
 import RequestWk from 'src/models/requestWk';
 import resource, { r } from 'src/models/resource';
 
@@ -36,13 +37,33 @@ class WK {
     })
   }
 
-  loadReviews() {
-    const params = { immediately_available_for_review: true };
-    return this.req.get('assignments', { params, loadingKey: 'reviews' })
-      .then(res => {
-        console.log('reviews', res);
-      })
+  loadReviewMaterial() {
+    const rParams = { immediately_available_for_review: true };
+    return resource.get(r.AVAILABLE_REVIEWS)(() => new Promise((resolve, reject) => {
+      this.req.collection('assignments', { params: rParams }).then(reviews => {
+        const sParams = { ids: reviews.map(r => get(r, 'data.subject_id')).filter(Boolean).join(',') };
+        this.req.collection('subjects', { params: sParams })
+          .then(subjects => resolve({ reviews, subjects }))
+          .catch(reject)
+        })
+        .catch(reject)
+    }));
   }
+
+  /*
+  loadSubjects() {
+    return resource.get(r.SUBJECTS_LOADED)(() => {
+      return new Promise((resolve, reject) => {
+        this.req.collection('subjects').then(subjects => {
+          Promise.all(subjects.map(s => (
+            resource.cache(r.SUBJECT, s.id)(s)
+          ))).then(() => resolve(true)).catch(reject)
+        }).catch(reject)
+      })
+    })
+  }
+  */
+
 }
 
 export default new WK();

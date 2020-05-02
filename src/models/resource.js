@@ -24,7 +24,7 @@ class Resource {
     return [resource.name, arr]
       .flat()
       .filter(Boolean)
-      .map(k => k.replace(delimRegex, '___'))
+      .map(k => String(k).replace(delimRegex, '___'))
       .join(DELIM);
   }
 
@@ -136,8 +136,8 @@ class Resource {
 
   useCache(resource, ids) {
     const key = this.key(resource, ids);
-    const [ stored ] = storage.useStoredValue(key);
-    return get(stored, DATA);
+    const [ stored, fetching ] = storage.useStoredValue(key);
+    return [ get(stored, DATA), fetching ];
   }
 }
 
