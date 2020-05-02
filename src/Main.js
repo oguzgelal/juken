@@ -9,7 +9,7 @@ import resource from 'src/models/resource';
 export default function App() {
 
   // TODO
-  const [ apiKey, fetchingApiKey ] = resource.useCache(rs.WK_API_KEY);
+  // const [ apiKey, fetchingApiKey ] = resource.useCache(rs.WK_API_KEY);
 
   return (
     <>

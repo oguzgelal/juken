@@ -25,7 +25,7 @@ describe('resouce', () => {
   test('should cache', async () => {
     await storage.clear();
     const source = { name: 'test1', cache: true };
-    await resource.cache(source, '123', 'data');
+    await resource.cache(source, '123')('data');
     expect(await resource.get(source, '123')()).toBe('data');
     expect(await resource.get(source, '124')()).toBe(null);
   })
@@ -47,10 +47,10 @@ describe('resouce', () => {
     const source1 = { name: 'test1', cache: true };
     const source2 = { name: 'test2', cache: true };
     // manually cache resources
-    await resource.cache(source1, sourceId, 'data');
-    await resource.cache(source2, sourceId, 'data');
+    await resource.cache(source1, sourceId)('data');
+    await resource.cache(source2, sourceId)('data');
     // clear first one
-    await resource.clearResource(source1, sourceId);
+    await resource.clearResource(source1, sourceId)();
     // get and evaluate both
     expect(await resource.get(source1, sourceId)()).toBe(null);
     expect(await resource.get(source2, sourceId)()).toBe('data');
@@ -64,8 +64,8 @@ describe('resouce', () => {
       test2: { name: 'test2', cache: true, _shouldRemove: false },
     };
     // first manually cache all resources
-    await resource.cache(sources['test1'], sourceIds, 'data')
-    await resource.cache(sources['test2'], sourceIds, 'data')
+    await resource.cache(sources['test1'], sourceIds)('data')
+    await resource.cache(sources['test2'], sourceIds)('data')
     // attempt bulk removal
     await resource.clearResources(name => sources[name]._shouldRemove);
     // now get and evaluate remaining

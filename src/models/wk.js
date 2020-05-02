@@ -27,8 +27,8 @@ class WK {
 
   logout() {
     return resource.clearResources((name, _) => {
-      const resource = rs[name];
-      return !resource.persistOnLogout;
+      const resRemove = rs[name];
+      return !resRemove.persistOnLogout;
     })
   }
 
