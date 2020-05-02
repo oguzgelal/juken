@@ -7,9 +7,10 @@ import usePromise from 'src/hooks/usePromise'
 
 export default () => {
 
-  const [ _, apiKeyLoading, apiKey ] = usePromise(() => (
-    resource.get(r.WK_API_KEY)()
-  ), { immediate: true });
+  const apiKey = resource.useCache(r.WK_API_KEY);
+  const [ _, apiKeyLoading ] = usePromise(() => resource.get(r.WK_API_KEY)(), {
+      immediate: true
+    });
 
   return (
     <>

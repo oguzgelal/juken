@@ -8,12 +8,14 @@ import localForage from 'localforage';
 import isNil from 'lodash/isNil';
 import MockStorage from 'src/utils/test/MockStorage';
 import isJestRunning from 'src/utils/test/isJestRunning';
+import { useState, useEffect } from 'react';
 import os from 'src/utils/os';
 import * as env from 'src/common/env';
 
 class Storage {
 
   constructor() {
+    this.listeners = {};
     this.err_serialize = 'Storage Error: Failed to persist data due to possible data corruption';
     this.err_deserialize = 'Storage Error: Failed due to corruption in persisted data';
     this.err_set = 'Storage Error: Failed to persist data';
@@ -25,6 +27,49 @@ class Storage {
   // environments, so create a mock for tests
   _getMobileStorage() {
     return isJestRunning() ? MockStorage : AsyncStorage
+  }
+
+  // function to attach a listener for a specific key	
+  addListener(key, callback) {	
+    // create a signature to identify the function	
+    // while removing the listener 	
+    const signature = Math.round(Math.random() * 100000000);	
+    // initiate and push the callback	
+    if (!this.listeners[key]) this.listeners[key] = {};	
+    this.listeners[key][signature] = callback;	
+    // return a function that removes the registered listener	
+    return () => {	
+      this._removeListener(key, signature)	
+    };	
+  }	
+
+  // function to remove a single listener with key and signature	
+  _removeListener(key, signature) {	
+    if (this.listeners[key] && this.listeners[key][signature]) {	
+      this.listeners[key][signature] = null;	
+      delete this.listeners[key][signature];	
+    }	
+  }	
+
+  // remove all listeners under a key	
+  removeAllListeners(key) {	
+    this.listeners[key] = null;	
+    delete this.listeners[key];	
+  }	
+
+  // trigger listeners on a key with a value	
+  triggerListeners(key) {	
+    if (this.listeners[key] && typeof this.listeners[key] === 'object') {	
+      // fetch the value from storage just	
+      // to make sure it was stored properly	
+      this.get(key).then(value => {	
+        // loop through all listeners attached to a key	
+        Object.values(this.listeners[key]).forEach(fn => {	
+          // invoke the listener with the value	
+          if (typeof fn === 'function') fn(value)	
+        })	
+      })	
+    }	
   }
 
   _resolveError(msg, err) {
@@ -81,6 +126,9 @@ class Storage {
   // control set response
   _setResolve(resolve, reject, key, err) {
     if (isNil(err)) {
+      // if there are listeners for a particular key,	
+      // trigger them with the saved value	
+      this.triggerListeners(key);
       // resolve
       this.get(key).then(resolve).catch(reject)
     } else {
@@ -151,7 +199,10 @@ class Storage {
       if (os('desktop')) {
         localForage
           .removeItem(key)
-          .then(resolve)
+          .then(res => {
+            this._removeItemsResolve(key);
+            resolve(res);
+          })
           .catch(err => {
             reject(this._resolveError(this.err_delete, err));
           })
@@ -160,7 +211,10 @@ class Storage {
         const Storage = this._getMobileStorage();
         Storage.removeItem(key, (err => {
           if (err) reject(this._resolveError(this.err_delete, err));
-          else resolve();
+          else {
+            this._removeItemsResolve(key);
+            resolve();
+          }
         }))
       }
     })
@@ -171,8 +225,11 @@ class Storage {
     return new Promise(async (resolve, reject) => {
       if (os('desktop')) {
         Promise
-          .all(keys.map(this.removeItem))
-          .then(resolve)
+          .all(keys.map(this.removeItem, this))
+          .then(res => {
+            this._removeItemsResolve(keys);
+            resolve(res);
+          })
           .catch(err => {
             reject(this._resolveError(this.err_delete, err));
           }) 
@@ -181,10 +238,18 @@ class Storage {
         const Storage = this._getMobileStorage();
         Storage.multiRemove(keys, (err => {
           if (err) reject(this._resolveError(this.err_delete, err[0]));
-          else resolve();
+          else {
+            this._removeItemsResolve(keys);
+            resolve();
+          }
         }))
       }
     })
+  }
+
+  _removeItemsResolve(k) {
+    const keys = Array.isArray(k) ? k : [k];
+    keys.forEach(this.triggerListeners, this);
   }
 
   // clear everything
@@ -206,6 +271,42 @@ class Storage {
         })
       }
     })
+  }
+
+  // hook that to register / deregister a listener for	
+  // changes in storage with a particular key	
+  useListener(key, callback) {	
+    // keep a loading state	
+    const [ fetching, setFetching ] = useState(true);	
+    useEffect(() => {	
+      // attach listener	
+      const removeListener = this.addListener(key, callback);	
+      // receive the value and trigger 	
+      // the callback manually on mount	
+      this.get(key).then(val => {	
+        setFetching(false);	
+        if (typeof callback === 'function') {	
+          callback(val);	
+        }	
+      })	
+      // detach listener on unmount	
+      return () => {	
+        removeListener();	
+      }	
+    }, []);	
+    
+    return fetching;	
+  }	
+
+  // hook that fetch a value with a key from the store	
+  // on mount or with triggers 	
+  useStoredValue(key) {	
+    // create a state variable to store the value	
+    const [ val, setVal ] = useState(null);	
+    // register a listener to keep the value updated	
+    const fetching = this.useListener(key, newVal => setVal(newVal));	
+    // return the value and its fetching state	
+    return [val, fetching];
   }
 }
 

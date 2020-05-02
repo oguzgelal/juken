@@ -14,10 +14,14 @@ class WK {
       return new Promise((resolve, reject) => {
         this.req.get('user', { apiKey, loadingKey: 'login' })
           .then(res => {
-            // TODO
-            console.log('res', res);
-            resolve(res);
-            // const userId = get(res, 'data.')
+            // this is technically supposed to be a "wk_api_key"
+            // request, so here we need to resolve with the given
+            // api key so the caching mechanism thinks it made a
+            // request for wk_api_key and got it, so it can cache
+            // it correctly. however we should cache user resource
+            // manually
+            resource.cache(r.USER)(res);
+            resolve(apiKey);
           })
           .catch(reject);
       }) 
@@ -27,6 +31,7 @@ class WK {
   logout() {
     return resource.clearResources((name, _) => {
       const resRemove = r[name];
+      if (!resRemove) return true;
       return !resRemove.persistOnLogout;
     })
   }

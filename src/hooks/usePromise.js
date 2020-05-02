@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 
 export default (fn, { immediate, onSuccess, onError } = {}) => {
 
-  const [ loading, setLoading ] = useState(true);
+  const [ loading, setLoading ] = useState(immediate ? true : false);
   const [ error, setError ] = useState(null);
   const [ response, setResponse ] = useState(null);
 
@@ -27,6 +27,9 @@ export default (fn, { immediate, onSuccess, onError } = {}) => {
       setError('Provided function does not return a Promise');
       return;
     }
+
+    // start loading
+    setLoading(true);
     
     // set loading err and response
     fnReturn

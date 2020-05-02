@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import moment from 'moment';
 import get from 'lodash/get';
 import storage from 'src/models/storage';
@@ -16,9 +15,6 @@ const LAST_FETCHED = 'last_fetched';
 export const r = rs;
 
 class Resource {
-
-  constructor() {
-  }
   
   key(resource, ids) {
     const err = 'Resources must have a name';
@@ -126,7 +122,7 @@ class Resource {
           storage.removeItems(
             keys.filter(key => {
               const keyParts = key.split(DELIM);
-              const resName = keyParts.slice(0, 1);
+              const resName = keyParts.slice(0, 1)[0];
               const resIds = keyParts.slice(1);
               return shouldRemove(resName, resIds);
             })
@@ -136,6 +132,12 @@ class Resource {
         })
         .catch(reject)
     })
+  }
+
+  useCache(resource, ids) {
+    const key = this.key(resource, ids);
+    const [ stored ] = storage.useStoredValue(key);
+    return get(stored, DATA);
   }
 }
 
