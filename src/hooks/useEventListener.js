@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import run from 'src/utils/run';
 
 export default ({ el, event, handler }, triggers) => {
   useEffect(() => {
@@ -14,9 +15,7 @@ export default ({ el, event, handler }, triggers) => {
 
     // create named function
     const handlerFunction = (...args) => {
-      if (typeof handler === 'function') {
-        handler(...args);
-      }
+      run(handler, ...args);
     }
     
     // attach event listener

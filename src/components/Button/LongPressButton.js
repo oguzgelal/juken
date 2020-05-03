@@ -2,8 +2,10 @@ import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import os from 'src/utils/os';
 import theme from 'src/common/theme';
+import run from 'src/utils/run';
 import * as sharedStyles from 'src/components/Button/sharedStyles';
 import * as Haptics from 'expo-haptics';
+
 import {
   StyleSheet,
   Text,
@@ -47,9 +49,7 @@ const LongPressButton = ({
         }
 
         // on complete callback
-        if (typeof onComplete === 'function') {
-          onComplete()
-        }
+        run(onComplete);
       }
     });
     return () => {

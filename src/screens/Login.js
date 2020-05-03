@@ -1,31 +1,27 @@
 import React, { useState, useRef } from 'react';
+import { StyleSheet, KeyboardAvoidingView, Keyboard } from 'react-native';
 import PropTypes from 'prop-types';
-import {
-  StyleSheet,
-  KeyboardAvoidingView,
-  Keyboard,
-} from 'react-native';
 
 import Page from 'src/components/Page/Page';
 import Button from 'src/components/Button/Button';
 import TextInput from 'src/components/Input/TextInput';
 import Toast, { TYPES } from 'src/components/Toast/Toast';
-import usePromise from 'src/hooks/usePromise'
 import os from 'src/utils/os';
 import theme from 'src/common/theme';
-import wk from 'src/models/wk';
+import { login } from 'src/redux/wk/api';
+import { useWk } from 'src/redux/wk/hooks';
+
 
 const Login = props => {
-
   const [ key, setKey ] = useState('');
   const failed = useRef(null);
   const empty = useRef(null);
 
-  const {
-    fn: loginFn,
-    loading: loginLoading
-  } = usePromise(() => wk.login(key), {
-    onError: () => failed.current.show('Invalid API Key')
+  const [ loginFn, loginLoading ] = useWk(login, {
+    apiKey: key,
+    onError: () => {
+      failed.current.show('Invalid API Key')
+    }
   });
 
   return (
@@ -49,7 +45,7 @@ const Login = props => {
           behavior={os('ios') ? 'padding' : 'height'}
         >
           <TextInput
-            placeholder="WaniKani Api Key"
+            placeholder="WaniKani Api Key v2"
             value={key}
             onChangeText={text => setKey(text)}
           />
@@ -65,16 +61,6 @@ const Login = props => {
               loginFn();
             }}
           />
-          
-          {/*
-            <Button
-              style={{ marginTop: 8 }}
-              text="Test"
-              onPress={() => {
-                failed.current.show('Invalid API Key');
-              }}
-            />
-          */}
           
         </KeyboardAvoidingView>
       </Page>
