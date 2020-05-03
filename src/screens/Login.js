@@ -8,8 +8,8 @@ import TextInput from 'src/components/Input/TextInput';
 import Toast, { TYPES } from 'src/components/Toast/Toast';
 import os from 'src/utils/os';
 import theme from 'src/common/theme';
-import { login } from 'src/redux/wk/api';
-import { useWk } from 'src/redux/wk/hooks';
+import { login } from 'src/features/wk/api';
+import { useWk } from 'src/features/wk/hooks';
 
 
 const Login = props => {

@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import resource, { r } from 'src/utils/resource';
-import requestBase from 'src/redux/request/request';
-import { store } from 'src/redux/store';
+import requestBase from 'src/features/request/request';
+import { store } from 'src/features/store';
 
 const BASE = 'https://api.wanikani.com/v2/';
 
@@ -32,22 +32,18 @@ export const request = async opts => {
 // get an entire collection
 
 export const collection = async (opts = {}, col = []) => {
-  try {
+  
+  // initiate request
+  const response = await request(opts)
 
-    // initiate request
-    const response = await request(opts)
+  // get cursor from response
+  const data = col.concat(_.get(response, 'data') || []);
+  const next = _.get(response, 'pages.next_url');
 
-    // get cursor from response
-    const data = col.concat(_.get(response, 'data') || []);
-    const next = _.get(response, 'pages.next_url');
+  // if there is a next page, recurse and pass the collection on to
+  // the next call, otherwise return with the current state of data
+  return next
+    ? await collection({ ...opts, nextUrl: next, }, data)
+    : data;
 
-    // if there is a next page, recurse and pass the collection on to
-    // the next call, otherwise return with the current state of data
-    return next
-      ? await collection({ ...opts, nextUrl: next, }, data)
-      : data;
-
-  } catch(err) {
-    throw err;
-  }
 }

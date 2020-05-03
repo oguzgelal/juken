@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import { StyleSheet, View } from 'react-native';
 import { useActionSheet } from '@expo/react-native-action-sheet';
-import { useDispatch } from 'react-redux';
 import sheet from 'src/utils/sheet';
 import theme from 'src/common/theme';
 import Page from 'src/components/Page/Page';
@@ -12,18 +11,17 @@ import Card from 'src/components/Card/Card';
 import Deck from 'src/components/Deck/Deck';
 import Loading from 'src/screens/Loading';
 import listToDict from 'src/utils/listToDict';
-import { logout, getReviewMaterial } from 'src/redux/wk/api';
-import { useWkFn, useWkImmediate } from 'src/redux/wk/hooks';
+import { logout, getReviewMaterial } from 'src/features/wk/api';
+import { useWkFn, useWkLoading } from 'src/features/wk/hooks';
 
 const Review = () => {
 
-  const dispatch = useDispatch();
   const { showActionSheetWithOptions } = useActionSheet();
   const [ reviews, setReviews ] = useState([]);
   const [ subjectsDict, setSubjectsDict ] = useState({});
 
   const logoutFn = useWkFn(logout);
-  const materialLoading = useWkImmediate(getReviewMaterial, {
+  const materialLoading = useWkLoading(getReviewMaterial, {
     onSuccess: ({ reviews, subjects }) => {
       setReviews(reviews);
       setSubjectsDict(listToDict(subjects))

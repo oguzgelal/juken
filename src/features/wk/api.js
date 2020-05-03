@@ -1,7 +1,7 @@
 import _ from 'lodash';
-import { request, collection } from 'src/redux/wk/request';
+import { request, collection } from 'src/features/wk/request';
 import { GET, POST } from 'src/common/constants';
-import { setUser, removeUser, setApiKey, removeApiKey } from 'src/redux/wk/slice';
+import { setUser, removeUser, setApiKey, removeApiKey } from 'src/features/wk/state';
 import run from 'src/utils/run';
 
 /**

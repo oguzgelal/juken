@@ -1,11 +1,11 @@
 import React from 'react';
-import { wk } from 'src/redux/wk/slice';
+import { select } from 'src/features/wk/state';
 import Review from 'src/screens/Review';
 import Login from 'src/screens/Login';
 
 export default () => {
 
-  const apiKey = wk(r => r.API_KEY);
+  const apiKey = select(r => r.API_KEY);
 
   if (!apiKey) return <Login />;
 

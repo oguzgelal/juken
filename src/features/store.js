@@ -5,7 +5,7 @@ import localForage from 'localforage';
 import * as r from 'src/common/resources';
 import os from 'src/utils/os';
 
-import wk from 'src/redux/wk/slice';
+import wk from 'src/features/wk/state';
 
 const wkPersist = {
   key: 'wk',

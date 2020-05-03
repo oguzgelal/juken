@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import Main from 'src/Main';
 import Loading from 'src/screens/Loading'
-import { store, persistor } from 'src/redux/store';
+import { store, persistor } from 'src/features/store';
 
 class App extends React.Component {
 

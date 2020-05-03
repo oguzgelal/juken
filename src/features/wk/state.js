@@ -3,7 +3,7 @@ import resource, { r } from 'src/utils/resource';
 
 const NAME = 'wk';
 
-const wkSlice = createSlice({
+const wk = createSlice({
   name: NAME,
   initialState: {},
   reducers: {
@@ -14,13 +14,11 @@ const wkSlice = createSlice({
   }
 })
 
-const { actions, reducer } = wkSlice;
+export const select = resource.selectNamespace(NAME);
 
-export const { setApiKey } = actions;
-export const { removeApiKey } = actions;
-export const { setUser } = actions;
-export const { removeUser } = actions;
+export const { setApiKey } = wk.actions;
+export const { removeApiKey } = wk.actions;
+export const { setUser } = wk.actions;
+export const { removeUser } = wk.actions;
 
-export const wk = resource.selectNamespace(NAME);
-
-export default reducer;
+export default wk.reducer;
