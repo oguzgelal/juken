@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { request, collection } from 'src/features/wk/request';
-import { GET, POST } from 'src/common/constants';
+import { GET } from 'src/common/constants';
 import { setUser, removeUser, setApiKey, removeApiKey } from 'src/features/wk/state';
 import run from 'src/utils/run';
 

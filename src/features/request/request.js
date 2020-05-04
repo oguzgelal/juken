@@ -32,10 +32,8 @@ export default async (method, url, opts = {}) => {
     // accept a custom function to evaluate the response
     // and see if the request actually failed despite
     // the success response of status 200 OK
-    if (typeof hasError === 'function') {
-      const e = hasError(data);
-      if (e) throw (e);
-    }
+    const e = run(hasError, data);
+    if (e) throw (e);
     
     // log request
     if (env.DEBUG) console.log(`🌕 [${method}]: `, finalUrl, data);
