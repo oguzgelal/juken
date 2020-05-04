@@ -56,8 +56,14 @@ export const getReviewMaterial = (opts = {}) => async () => {
       params: {
         immediately_available_for_review: true
       },
-    })
+    }) || [];
 
+    if (reviews.length === 0) {
+      run(_stop);
+      run(onSuccess, { reviews, subjects: [] })
+      return;
+    }
+    
     // get subjects for these
     const subjects = await collection({
       endpoint: 'subjects',
