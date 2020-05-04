@@ -58,6 +58,7 @@ export const getReviewMaterial = (opts = {}) => async () => {
       },
     }) || [];
 
+    // stop here if there are no immediate reviews
     if (reviews.length === 0) {
       run(_stop);
       run(onSuccess, { reviews, subjects: [] })
