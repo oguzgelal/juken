@@ -8,13 +8,12 @@ import run from 'src/utils/run';
  * use GET user as a way to validate api key
  */
 export const login = (opts = {}) => async dispatch => {
-  const { apiKey, onSuccess, onError, _start, _stop } = opts;
-
-  try {    
+  const { apiKey, onSuccess, onError, _start, _stop } = opts;  
+  
+  try {
     run(_start);
-
+    
     const user = await request({
-      key: 'login',
       endpoint: 'user',
       method: GET,
       apiKey,
@@ -47,13 +46,11 @@ export const logout = ({ _stop }) => async dispatch => {
 export const getReviewMaterial = (opts = {}) => async () => {
   const { onSuccess, onError, _start, _stop } = opts;
 
-  run(_start);
-
   try {
+    run(_start);
 
     // get immediately available reviews
     const reviews = await collection({
-      key: 'getReviewMaterial',
       endpoint: 'assignments',
       method: GET,
       params: {
@@ -63,7 +60,6 @@ export const getReviewMaterial = (opts = {}) => async () => {
 
     // get subjects for these
     const subjects = await collection({
-      key: 'getReviewMaterial',
       endpoint: 'subjects',
       method: GET,
       params: {
@@ -74,8 +70,8 @@ export const getReviewMaterial = (opts = {}) => async () => {
       },
     })
 
-    run(onSuccess, { reviews, subjects })
     run(_stop);
+    run(onSuccess, { reviews, subjects })
 
   } catch(e) {
     run(_stop);

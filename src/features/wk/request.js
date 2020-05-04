@@ -8,7 +8,6 @@ const BASE = 'https://api.wanikani.com/v2/';
 export const request = async opts => {
 
   const {
-    key,
     apiKey,
     endpoint,
     params,
@@ -22,7 +21,6 @@ export const request = async opts => {
 
   // make the request
   return await requestBase(method, finalUrl, {
-    key,
     params: !nextUrl ? params : null,
     headers: { Authorization: `Bearer ${useApiKey}` },
     hasError: res => res.error ? res : null,
