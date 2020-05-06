@@ -34,8 +34,9 @@ export default () => {
       setReviewCount(lr ? lr.length : 0);
       
       // fill up the render queue
-      // we should keep two items in the render queue
-      // and render empty cards for the 
+      // TODO: keeping two staged items seems a bit funky and
+      // inefficient. Maybe it's best to queue everything once
+      // in the beginning, then requeue some items if necessary 
       const [ picks, newReviews ] = pickRandomNReviews(2, lr, halfFinished);
       setRenderQueue(picks);
       
