@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import { StyleSheet, View } from 'react-native';
 import { useActionSheet } from '@expo/react-native-action-sheet';
+import useReview from 'src/hooks/useReview';
 import sheet from 'src/utils/sheet';
 import theme from 'src/common/theme';
 import Page from 'src/components/Page/Page';
@@ -10,24 +11,25 @@ import Button from 'src/components/Button/Button';
 import Card from 'src/components/Card/Card';
 import Deck from 'src/components/Deck/Deck';
 import Loading from 'src/screens/Loading';
-import listToDict from 'src/utils/listToDict';
-import { logout, getReviewMaterial } from 'src/features/wk/api';
-import { useWkFn, useWkLoading } from 'src/features/wk/hooks';
+
+import { logout } from 'src/features/wk/api';
+import { useWkFn } from 'src/features/wk/hooks';
 
 const Review = () => {
 
   const { showActionSheetWithOptions } = useActionSheet();
-  const [ reviews, setReviews ] = useState([]);
-  const [ subjectsDict, setSubjectsDict ] = useState({});
-
   const logoutFn = useWkFn(logout);
-  const materialLoading = useWkLoading(getReviewMaterial, {
-    onSuccess: ({ reviews, subjects }) => {
-      setReviews(reviews);
-      setSubjectsDict(listToDict(subjects))
-      console.log('materials: ', materials);
-    }
-  })  
+
+  /*
+  const {
+    reviews,
+    reviewLoading,
+    subjects,
+    submit,
+  } = useReview();
+  */
+
+  const reviews = [];
 
   if (materialLoading) {
     return <Loading />;
@@ -37,9 +39,8 @@ const Review = () => {
     <Page scroll={false}>
       <View style={styles.deckWrapper}>
         <Deck
-          dismiss={id => {
-            setReviews(reviews.filter(c => c.id !== id))
-          }} 
+          // dismiss={id => { setReviews(reviews.filter(c => c.id !== id)) }} 
+          dismiss={() => {}}
           cards={reviews.map(review => ({
             id: review.id,
             renderCard: props => {

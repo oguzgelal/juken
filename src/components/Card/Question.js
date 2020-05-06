@@ -4,9 +4,9 @@ import { StyleSheet, Text, View } from 'react-native';
 import { cardProps } from 'src/common/props';
 import theme from 'src/common/theme';
 import {
-  TYPE_KANJI,
-  TYPE_RADICAL,
-  TYPE_VOCAB,
+  KANJI,
+  RADICAL,
+  VOCAB,
 } from 'src/common/constants';
 
 const Question = ({ card = {} }) => (
@@ -74,9 +74,9 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     
   },
-  [TYPE_KANJI]: { color: theme.color.kanji },
-  [TYPE_RADICAL]: { color: theme.color.radical },
-  [TYPE_VOCAB]: { color: theme.color.vocab },
+  [KANJI]: { color: theme.color.kanji },
+  [RADICAL]: { color: theme.color.radical },
+  [VOCAB]: { color: theme.color.vocab },
 })
 
 export default Question;
