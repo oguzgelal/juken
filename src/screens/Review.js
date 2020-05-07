@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import { StyleSheet, View } from 'react-native';
 import { useActionSheet } from '@expo/react-native-action-sheet';
-import useReview from 'src/hooks/useReview';
 import sheet from 'src/utils/sheet';
 import theme from 'src/common/theme';
 import Page from 'src/components/Page/Page';
@@ -11,6 +10,7 @@ import Button from 'src/components/Button/Button';
 import Card from 'src/components/Card/Card';
 import Deck from 'src/components/Deck/Deck';
 import Loading from 'src/screens/Loading';
+// import useReview from 'src/hooks/useReview';
 
 import { logout } from 'src/features/wk/api';
 import { useWkFn } from 'src/features/wk/hooks';
@@ -30,6 +30,7 @@ const Review = () => {
   */
 
   const reviews = [];
+  const materialLoading = true;
 
   if (materialLoading) {
     return <Loading />;

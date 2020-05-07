@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "wanianki",
+    "name": "WaniAnki",
     "slug": "wanianki",
+    "privacy": "public",
     "platforms": [
       "ios",
       "android",
@@ -9,11 +10,11 @@
     ],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/wk.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/wksplash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#1ecbe1"
     },
     "updates": {
       "fallbackToCacheTimeout": 0

@@ -3,7 +3,7 @@ import randomIndex from 'src/utils/randomIndex';
 import { RADICAL } from 'src/common/constants';
 
 // pick a review from the review list at random
-export default (reviews, halfFinished) => {
+export default (reviews, pickedOnce) => {
 
   // pick a random review from review list
   const randRwIndex = randomIndex(reviews);
@@ -19,7 +19,7 @@ export default (reviews, halfFinished) => {
   // we should keep unfinished reviews in the list so they
   // could be picked up again
   const shouldKeep = (randRwSubType !== RADICAL)
-    ? !!halfFinished[randRwId]
+    ? !!pickedOnce[randRwId]
     : false;
 
   // if we are going to remove review from the list, we should

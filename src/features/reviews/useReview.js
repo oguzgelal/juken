@@ -8,9 +8,7 @@ import listToDict from 'src/utils/listToDict';
 import { useWkLoading } from 'src/features/wk/hooks';
 import { getReviewMaterial } from 'src/features/wk/api';
 
-import randomReviewType from 'src/features/reviews/randomReviewType';
-import pickRandomReview from 'src/features/reviews/pickRandomReview';
-import pickRandomNReviews from 'src/features/reviews/pickRandomNReviews';
+import queueReviews from 'src/features/reviews/queueReviews';
 
 export default () => {
 
@@ -19,7 +17,6 @@ export default () => {
   const [ renderQueue, setRenderQueue ] = useState([]);
   
   const [ reviewCount, setReviewCount ] = useState(0);
-  const [ halfFinished, setHalfFinished ] = useState({});
   const [ correct, setCorrect ] = useState({});
   const [ correctCount, setCorrectCount ] = useState(0);
   const [ incorrect, setIncorrect ] = useState({});
@@ -37,8 +34,8 @@ export default () => {
       // TODO: keeping two staged items seems a bit funky and
       // inefficient. Maybe it's best to queue everything once
       // in the beginning, then requeue some items if necessary 
-      const [ picks, newReviews ] = pickRandomNReviews(2, lr, halfFinished);
-      setRenderQueue(picks);
+      // const [ picks, newReviews ] = pickRandomNReviews(2, lr, halfFinished);
+      // setRenderQueue(picks);
       
       // set reviews
       setReviews(newReviews);

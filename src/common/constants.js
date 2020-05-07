@@ -15,5 +15,5 @@ export const TERMINOLOGY = {
   [RADICAL]: 'Radical',
   [VOCAB]: 'Vocabulary',
   [MEANING]: 'Meaning',
-  [Reading]: 'Reading',
+  [READING]: 'Reading',
 };
