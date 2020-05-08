@@ -11,6 +11,7 @@ web-build/
 web-report/
 
 src/lib/*
+src/mock/*
 
 # macOS
 .DS_Store

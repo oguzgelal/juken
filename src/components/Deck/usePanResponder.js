@@ -38,7 +38,7 @@ export default ({
 
     // dismiss card and reset movement
     setTimeout(() => {
-      dismiss(topCard.id);
+      if (topCard && topCard.id) dismiss(topCard.id);
       movement.setValue({ x: 0, y: 0 });
     }, leaveScreenDuration);
   }

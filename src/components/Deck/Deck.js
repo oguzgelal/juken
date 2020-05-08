@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useMemo } from "react";
 import PropTypes from "prop-types";
 import { StyleSheet, View, Animated } from "react-native";
+import _ from 'lodash';
 
 import theme from 'src/common/theme';
 import os from 'src/utils/os';
@@ -9,7 +10,6 @@ import useScreenSize from "src/hooks/useScreenSize";
 import useEventListener from "src/hooks/useEventListener";
 import useOffScreen from "src/components/Deck/useOffScreen";
 import useDragRange from "src/components/Deck/useDragRange";
-import useShuffleCards from "src/components/Deck/useShuffleCards";
 import useMovement from "src/components/Deck/useMovement";
 import usePanResponder from "src/components/Deck/usePanResponder";
 
@@ -27,6 +27,7 @@ const getTop = (i) => os('desktop') ? `${topGapRate * i}vh` : topGapRate * i;
 const Deck = ({
   style = {},
   cards = [],
+  renderCard,
   dismiss,
 }) => {
   
@@ -37,9 +38,6 @@ const Deck = ({
   const [swipeLock, setSwipeLock] = useState(false);
   const [deckWidth, setDeckWidth] = useState(null);
   const [deckHeight, setDeckHeight] = useState(null);
-
-  // arrange cards
-  const { cardsArr, topCard } = useShuffleCards(cards);
 
   // calculate coordinates which cards
   // will end up when they go off screen
@@ -67,6 +65,9 @@ const Deck = ({
     windowWidth,
     windowHeight,
   });
+
+  // set the top card
+  const topCard = useMemo(() => cards[0] || {}, [cards]);
 
   // create and configure pan responder
   const {
@@ -103,7 +104,7 @@ const Deck = ({
         setDeckHeight(e.nativeEvent.layout.height);
       }}
     >
-      {cardsArr.map((card, i) => {
+      {cards.map((card, i) => {
         const isFirstCard = i === 0;
         const isSecondCard = i === 1;
         const [topCurrent, topNext] = [getTop(i), getTop(i - 1)];
@@ -125,11 +126,12 @@ const Deck = ({
 
         return (
           <Animated.View
-            key={card.id}
+            key={_.get(card, 'id') || `deck-card-${i}`}
             style={[ styles.card, dynamicStyles ]}
             {...panHandlers}
           >
-            {card.renderCard({
+            {renderCard(card, {
+              index: i,
               isFirstCard,
               isSecondCard,
               getClearInterpolation,
@@ -147,12 +149,8 @@ const Deck = ({
 Deck.propTypes = {
   style: PropTypes.object,
   dismiss: PropTypes.func,
-  cards: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
-      renderCard: PropTypes.func,
-    })
-  ),
+  cards: PropTypes.array,
+  renderCard: PropTypes.func,
 };
 
 const styles = StyleSheet.create({

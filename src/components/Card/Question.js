@@ -1,15 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, Text, View } from 'react-native';
-import { cardProps } from 'src/common/props';
 import theme from 'src/common/theme';
 import {
   KANJI,
   RADICAL,
   VOCAB,
+  TERMINOLOGY,
 } from 'src/common/constants';
 
-const Question = ({ card = {} }) => (
+const Question = ({
+  subjectType,
+  reviewType,
+  question,
+  answer,
+  revealed,
+}) => (
   <View style={[ styles.wrapper ]}>
     
     {/* question */}
@@ -17,20 +23,21 @@ const Question = ({ card = {} }) => (
       <Text
         style={[
           styles.questionText,
-          styles[card.type]
+          styles[subjectType]
         ]}
       >
-        {card.questionText}
+        {question}
       </Text>
     </View>
 
     {/* separator */}
     <View style={styles.separator} />
     
-    {/* statement */}
-    <View style={styles.statement}>
-      <Text style={styles.statementText}>
-        Reading
+    {/* answer */}
+    <View style={styles.answer}>
+      <Text style={styles.answerText}>
+        {revealed && answer}
+        {!revealed && TERMINOLOGY[reviewType]}
       </Text>
     </View>
 
@@ -38,7 +45,10 @@ const Question = ({ card = {} }) => (
 );
 
 Question.propTypes = {
-  card: cardProps,
+  reviewType: PropTypes.string,
+  question: PropTypes.string,
+  answer: PropTypes.string,
+  revealed: PropTypes.bool,
 };
 
 const styles = StyleSheet.create({
@@ -65,14 +75,13 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     marginTop: 0
   },
-  statement: {
+  answer: {
   },
-  statementText: {
+  answerText: {
+    textAlign: 'center',
     color: theme.palette.black,
-    fontSize: 14,
-    textTransform: 'uppercase',
+    fontSize: 16,
     fontWeight: '700',
-    
   },
   [KANJI]: { color: theme.color.kanji },
   [RADICAL]: { color: theme.color.radical },

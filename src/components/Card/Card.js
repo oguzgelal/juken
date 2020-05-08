@@ -5,7 +5,6 @@ import { AntDesign } from '@expo/vector-icons';
 import theme from 'src/common/theme';
 import os from 'src/utils/os';
 import sheet from 'src/utils/sheet';
-import { cardProps } from 'src/common/props';
 import { TERMINOLOGY } from 'src/common/constants';
 
 import CardCover from 'src/components/Card/CardCover';
@@ -28,24 +27,41 @@ const DirectionRightIcon = () => (
 );
 
 const Card = ({
-  card,
-  style = [],
-  isFirstCard,
-  isSecondCard,
-  getClearInterpolation,
-  // getMovementInterpolation,
-  // swipeLock,
-  setSwipeLock,
+  empty,
+  deckProps = {},
+  reviewType,
+  subjectType,
+  reviewQuestion,
+  reviewAnswer,
 }) => {
+
+  const {
+    isFirstCard,
+    isSecondCard,
+    getClearInterpolation,
+    // getMovementInterpolation,
+    // swipeLock,
+    setSwipeLock,
+  } = deckProps;
 
   // keep reveal state locally within each card
   const [ revealed, setRevealed ] = useState(false);
 
   // update swipe lock based local revealed state
-  useEffect(() => { setSwipeLock(!revealed); }, [revealed, isFirstCard])
+  useEffect(() => {
+    setSwipeLock(!revealed);
+  }, [
+    revealed,
+    isFirstCard
+  ])
+
+  // empty card
+  if (empty) {
+    return <View style={styles.wrapper} />;
+  }
 
   return (
-    <View style={[ styles.wrapper, style ]}>
+    <View style={styles.wrapper}>
       
       {/* red / green cover */}
       {isFirstCard && (
@@ -56,7 +72,7 @@ const Card = ({
 
       {/* card contents */}
       {(isFirstCard || isSecondCard) && (
-        <View style={[ styles.container ]}>
+        <View style={styles.container}>
 
           {/* top header */}
           <CardHeader
@@ -64,19 +80,21 @@ const Card = ({
             rightIcon={revealed ? <DirectionRightIcon /> : null}
             centerText={revealed
               ? (os('desktop') ? 'Arrow Keys' : 'Swipe')
-              : (TERMINOLOGY[card.type] || '')
+              : (TERMINOLOGY[subjectType] || '')
             }
           />
 
           {/* question and question statement */}
-          <Question card={card} />
+          <Question 
+            revealed={revealed}
+            answer={reviewAnswer}
+            question={reviewQuestion}
+            reviewType={reviewType}
+            subjectType={subjectType}
+          />
 
           {/* reveal button */}
-          <View
-            style={{
-              height: 52,
-            }}
-          >
+          <View style={{ height: 52 }}>
             {!revealed && (
               <LongPressButton
                 text="Reveal"
@@ -89,19 +107,17 @@ const Card = ({
         </View>
       )}
       
-
     </View>
   );
 };
 
 Card.propTypes = {
-  swipeLock: PropTypes.bool,
-  setSwipeLock: PropTypes.func,
-  getClearInterpolation: PropTypes.func,
-  getMovementInterpolation: PropTypes.func,
-  isFirstCard: PropTypes.bool,
-  isSecondCard: PropTypes.bool,
-  card: cardProps,
+  empty: PropTypes.bool,
+  deckProps: PropTypes.object,
+  subjectType: PropTypes.string,
+  reviewType: PropTypes.string,
+  reviewQuestion: PropTypes.string,
+  reviewAnswer: PropTypes.string,
 };
 
 const styles = StyleSheet.create({

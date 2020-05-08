@@ -19,13 +19,8 @@ export default () => {
   const [ correctCount, setCorrectCount ] = useState(0);
   const [ incorrect, setIncorrect ] = useState({});
   const [ incorrectCount, setIncorrectCount ] = useState(0);
-  
-  useEffect(() => {
-    console.log('AAAAAAAAAAAAAA');
-  }, [])
 
   // load reviews
-  console.log('rendering !!!');
   const reviewLoading = useWkLoading(getReviewMaterial, {
     onSuccess: ({ reviews, subjects }) => {
       setSubjectsDict(listToDict(subjects));

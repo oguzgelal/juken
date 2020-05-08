@@ -4,6 +4,9 @@ import { GET } from 'src/common/constants';
 import { setUser, removeUser, setApiKey, removeApiKey } from 'src/features/wk/state';
 import run from 'src/utils/run';
 
+import _reviews from 'src/mock/reviews.mock.json';
+import _subjects from 'src/mock/subjects.mock.json';
+
 /**
  * use GET user as a way to validate api key
  */
@@ -45,9 +48,10 @@ export const logout = ({ _stop }) => async dispatch => {
  */
 export const getReviewMaterial = (opts = {}) => async () => {
   const { onSuccess, onError, _start, _stop } = opts;
-  console.log('> get review material');
+
   try {
     run(_start);
+    
     /*
     // get immediately available reviews
     const reviews = await collection({
@@ -77,8 +81,10 @@ export const getReviewMaterial = (opts = {}) => async () => {
       },
     })
     */
+
     run(_stop);
-    run(onSuccess, { reviews: [], subjects: [] })
+    // run(onSuccess, { reviews, subjects })
+    run(onSuccess, { reviews: _reviews, subjects: _subjects })
 
   } catch(e) {
     run(_stop);

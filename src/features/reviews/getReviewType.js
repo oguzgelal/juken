@@ -6,7 +6,7 @@ import {
 
 // return meaning or reading of a review randomly
 export default (subjectType, prevReviewType) => {
-  let shouldKeep = true;
+  let shouldKeep = null;
   let reviewType = null;
 
   // if a subject is radical, it can only

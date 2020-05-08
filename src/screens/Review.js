@@ -13,6 +13,7 @@ import Message from 'src/screens/Message';
 import useReview from 'src/features/reviews/useReview';
 import { logout } from 'src/features/wk/api';
 import { useWkFn } from 'src/features/wk/hooks';
+import extractSubject from 'src/utils/extractSubject';
 
 const STAGE_SIZE = 5;
 const RENDER_SIZE = 2;
@@ -30,46 +31,48 @@ const Review = () => {
   } = useReview();
 
   useEffect(() => {
-    console.log('queue changed', queue);
     const queueSize = queue.length;
-    const fillSize = queueSize > STAGE_SIZE
-      ? queueSize - RENDER_SIZE
-      : STAGE_SIZE - RENDER_SIZE;
+    const fillSize = queueSize > RENDER_SIZE
+    ? STAGE_SIZE - RENDER_SIZE
+    : STAGE_SIZE - queueSize;
 
-    console.log('queueSize', queueSize);
-    console.log('fillSize', fillSize);
-    const newStaged = queue.slice(0, RENDER_SIZE).concat(
-      new Array(fillSize).fill(null)
-    );
+    setStaged(queue
+      .slice(0, RENDER_SIZE)
+      .concat(new Array(fillSize)
+        .fill(null)
+        .map(() => ({ id: Math.random() }))));
 
-    console.log('newStaged', newStaged);
-    setStaged(newStaged);
   }, [queue]);
 
-  useEffect(() => {
-    console.log('yo')
-  }, [staged]);
+  console.log('staged', staged);
 
   const deck = useMemo(() => (
     <Deck
       // dismiss={id => { setReviews(reviews.filter(c => c.id !== id)) }} 
       dismiss={() => {}}
-      cards={staged.map(({ review, reviewType } = {}) => ({
-        id: review.id,
-        renderCard: props => {
-          const subjectId = get(review, 'data.subject_id');
-          const subject = get(subjectsDict, subjectId);
-          console.log('subject', subject);
-          const card = {
-            type: get(review, 'data.subject_type'),
-            questionText: get(subject, 'data.characters'),
-            // answerText: get(subject, 'data.')
-          };
-          return (
-            <Card {...props} card={card} />
-          )
-        }
-      }))}
+      cards={staged}
+      renderCard={(data, props) => {
+        
+        // empty cards
+        if (!data) return <Card empty key={`empty-card-${props.index}`} />
+
+        const { review, reviewType } = data;
+        const subjectId = get(review, 'data.subject_id');
+        const subject = get(subjectsDict, subjectId);
+        const subjectType = get(subject, 'object');
+        const { question, answer } = extractSubject(subject, reviewType);
+
+        return (
+          <Card
+            deckProps={props}
+            subjectType={subjectType}
+            reviewType={reviewType}
+            reviewQuestion={question}
+            reviewAnswer={answer}
+          />
+        )
+      }}
+      
     />
   ), [staged]);
 
