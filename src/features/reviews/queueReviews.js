@@ -1,29 +1,32 @@
-import pickRandomReview from 'src/features/reviews/pickRandomReview';
+import _ from 'lodash';
+import pickReviewAndType from 'src/features/reviews/pickReviewAndType';
 
 // pick multiple reviews from the list, respecting the
 // removed items from the list from the previous loop
-const queueReviews = (reviews, queue, pickedOnce) => {
+const queueReviews = (reviews, reviewTypesHistory, queue) => {
 
   // base case: no (more) reviews to pick
   if (reviews.length === 0) return queue;
 
   // pick a review at random
-  const [ picked, newReviews ] = pickRandomReview(reviews, pickedOnce);
-  
-  // TODO: pick random review type
-  // TODO: add current pick to pickedOnce dict with its review type
-  // TODO: queue review along with it's type
+  const [
+    review,
+    reviewType,
+    newReviews,
+    newReviewTypeHistory,
+  ] = pickReviewAndType(reviews, reviewTypesHistory);
 
   // add current pick to the queue
-  const newQueue = queue.concat({
-    reviewType: 'PICK RANDOM REVIEW TYPE HERE',
-    review: picked
-  });
+  const newQueue = queue.concat({ review, reviewType });
 
   // keep on picking more
-  return queueReviews(newReviews, newQueue, pickedOnce)
+  return queueReviews(
+    newReviews,
+    newReviewTypeHistory,
+    newQueue,
+  )
 }
 
 export default reviews => {
-  return queueReviews(reviews, [], {});
+  return queueReviews(reviews, {}, []);
 };

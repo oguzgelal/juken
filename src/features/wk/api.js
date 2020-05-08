@@ -45,10 +45,10 @@ export const logout = ({ _stop }) => async dispatch => {
  */
 export const getReviewMaterial = (opts = {}) => async () => {
   const { onSuccess, onError, _start, _stop } = opts;
-
+  console.log('> get review material');
   try {
     run(_start);
-
+    /*
     // get immediately available reviews
     const reviews = await collection({
       endpoint: 'assignments',
@@ -76,9 +76,9 @@ export const getReviewMaterial = (opts = {}) => async () => {
           .join(',')
       },
     })
-
+    */
     run(_stop);
-    run(onSuccess, { reviews, subjects })
+    run(onSuccess, { reviews: [], subjects: [] })
 
   } catch(e) {
     run(_stop);

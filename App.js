@@ -1,10 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
+import { View, Text } from 'react-native';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import Main from 'src/Main';
-import Loading from 'src/screens/Loading'
+import Message from 'src/screens/Message'
+import theme from 'src/common/theme';
+import os from 'src/utils/os';
 import { store, persistor } from 'src/features/store';
 
 class App extends React.Component {
@@ -13,23 +16,39 @@ class App extends React.Component {
     super(props, context);
 
     this.state = {
+      hasError: false,
     };
   }
 
-  static getDerivedStateFromError() {
-    return { hasError: true };
-  }
-
-  componentDidCatch() {
-    return this.setState({ hasError: true });
+  componentDidCatch(e) {
+    return this.setState({
+      hasError: true,
+      errorMessage: os('web')
+        ? e.stack
+        : `${e.toString()}\n${e.stack}`,
+    });
   }
 
   render() {
     return (
       <Provider store={store}>
-        <PersistGate loading={<Loading />} persistor={persistor}>
+        <PersistGate loading={<Message loading />} persistor={persistor}>
           <ActionSheetProvider>
-            <Main />
+            <>
+              {!this.state.hasError && <Main />}
+              {this.state.hasError && (
+                <Message
+                  error
+                  title="ごめんなさい！"
+                  errorMessage={this.state.errorMessage}
+                  description={
+                    "Something went wrong and WaniAnki has crashed. Reporting " +
+                    "this error along with the message below and steps of reproduction " +
+                    "would be very much appreciated!"
+                  }
+                />
+              )}
+            </>
           </ActionSheetProvider>
         </PersistGate>
       </Provider>

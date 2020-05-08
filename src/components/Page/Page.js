@@ -15,6 +15,7 @@ import theme from 'src/common/theme';
 
 const Page = ({
   children,
+  styleCover,
   styleWrapper,
   style,
   scroll = true,
@@ -31,28 +32,35 @@ const Page = ({
 
   return (
     <>
-    {statusBar && (
-      <View style={styles.statusBar} />
-    )}
-    <TouchableWithoutFeedback
-      onPress={onPress}
-      accessible={false}
-    >
-      <View style={styles.cover}>
-        <Base
+      <TouchableWithoutFeedback
+        onPress={onPress}
+        accessible={false}
+      >
+        <View
           style={[
-            styles.wrapper,
-            styleWrapper,
-            (os('desktop') && scroll && styles.wrapperScroll),
-            (os('desktop') && !scroll && { height: pageDesktopScrollHeight }),
+            styles.cover,
+            styleCover,
           ]}
         >
-          <Contents style={[ styles.contents, style ]}>
-            {children}
-          </Contents>
-        </Base>
-      </View>
-    </TouchableWithoutFeedback>
+          {statusBar && (
+            <View
+              style={styles.statusBar}
+            />
+          )}
+          <Base
+            style={[
+              styles.wrapper,
+              styleWrapper,
+              (os('desktop') && scroll && styles.wrapperScroll),
+              (os('desktop') && !scroll && { height: pageDesktopScrollHeight }),
+            ]}
+          >
+            <Contents style={[ styles.contents, style ]}>
+              {children}
+            </Contents>
+          </Base>
+        </View>
+      </TouchableWithoutFeedback>
     </>
   )
 };
@@ -60,6 +68,7 @@ const Page = ({
 Page.propTypes = {
   children: PropTypes.any,
   style: PropTypes.object,
+  styleCover: PropTypes.object,
   styleWrapper: PropTypes.object,
   scroll: PropTypes.bool,
   onPress: PropTypes.func,
@@ -71,7 +80,6 @@ const styles = StyleSheet.create({
     base: {
       alignItems: 'center',
       justifyContent: 'flex-end',
-      backgroundColor: theme.palette.blue,
     },
     mobile: {
       height: Constants.statusBarHeight + theme.height.statusBar,
@@ -85,6 +93,7 @@ const styles = StyleSheet.create({
       flex: 1,
       width: '100%',
       height: '100%',
+      backgroundColor: theme.bg.body,
     },
     web: {
       cursor: 'default',
@@ -93,7 +102,6 @@ const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
     position: 'relative',
-    backgroundColor: theme.bg.body,
     overflow: 'hidden',
   },
   wrapperScroll: {
