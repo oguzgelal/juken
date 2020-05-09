@@ -5,11 +5,11 @@ import { StyleSheet, View, Image } from 'react-native';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import sheet from 'src/utils/sheet';
 import theme from 'src/common/theme';
-import Page from 'src/components/Page/PageNew';
+import Page from 'src/components/Page/Page';
 import Button from 'src/components/Button/Button';
 import Card from 'src/components/Card/Card';
 import Deck from 'src/components/Deck/Deck';
-import Message from 'src/screens/Message';
+import Message from 'src/screens/Message/Message';
 import useReview from 'src/features/reviews/useReview';
 import { logout } from 'src/features/wk/api';
 import { useWkFn } from 'src/features/wk/hooks';
@@ -35,9 +35,6 @@ const Review = () => {
     const fillSize = (stageSize - RENDER_SIZE) > 0
       ? stageSize - RENDER_SIZE
       : 0;
-    
-    console.log('queueSize', queueSize);
-    console.log('fillSize', fillSize);
 
     setStaged(queue
       .slice(0, RENDER_SIZE)
@@ -46,8 +43,6 @@ const Review = () => {
         .map(() => ({ id: Math.random() }))));
 
   }, [queue]);
-
-  console.log('staged', staged);
 
   const deck = useMemo(() => (
     <Deck

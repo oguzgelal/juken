@@ -1,7 +1,7 @@
 import React from 'react';
 import { select } from 'src/features/wk/state';
-import Review from 'src/screens/Review';
-import Login from 'src/screens/Login';
+import Review from 'src/screens/Review/Review';
+import Login from 'src/screens/Login/Login';
 
 export default () => {
 

@@ -1,127 +1,62 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  SafeAreaView,
-  StyleSheet,
-  View,
-  Text,
-  ScrollView,
-  TouchableWithoutFeedback,
-} from 'react-native';
-import Constants from 'expo-constants';
-import os from 'src/utils/os';
+import { StyleSheet, Text, View } from 'react-native';
+import { useSafeArea } from 'react-native-safe-area-context';
 import sheet from 'src/utils/sheet';
 import theme from 'src/common/theme';
 
 const Page = ({
   children,
-  styleCover,
-  styleWrapper,
   style,
-  scroll = true,
-  statusBar = true,
-  onPress,
+  padding,
+  paddingTop = 0,
+  paddingBottom = 0,
+  paddingLeft = 0,
+  paddingRight = 0,
 }) => {
-  
-  const Base = os('mobile') ? SafeAreaView : View;
-  const Contents = (os('mobile') && scroll) ? ScrollView : View;
-  
-  const pageDesktopScrollHeight = statusBar
-    ? `calc(100vh - ${theme.height.statusBar + theme.padding.pageTop})`
-    : '100vh';
+  const insets = useSafeArea();
+
+  const pTop = padding ? theme.padding.body : paddingTop;
+  const pBottom = padding ? theme.padding.body : paddingBottom;
+  const pLeft = padding ? theme.padding.body : paddingLeft;
+  const pRight = padding ? theme.padding.body : paddingRight;
 
   return (
-    <>
-      <TouchableWithoutFeedback
-        onPress={onPress}
-        accessible={false}
-      >
-        <View
-          style={[
-            styles.cover,
-            styleCover,
-          ]}
-        >
-          {statusBar && (
-            <View
-              style={styles.statusBar}
-            />
-          )}
-          <Base
-            style={[
-              styles.wrapper,
-              styleWrapper,
-              (os('desktop') && scroll && styles.wrapperScroll),
-              (os('desktop') && !scroll && { height: pageDesktopScrollHeight }),
-            ]}
-          >
-            <Contents style={[ styles.contents, style ]}>
-              {children}
-            </Contents>
-          </Base>
-        </View>
-      </TouchableWithoutFeedback>
-    </>
+    <View
+      style={[
+        {
+          paddingTop: pTop + insets.top,
+          paddingLeft: pLeft + insets.left,
+          paddingBottom: pBottom + insets.bottom,
+          paddingRight: pRight + insets.right,
+        },
+        styles.wrapper,
+        style,
+      ]}
+    >
+      {children}
+    </View>
   )
 };
 
 Page.propTypes = {
   children: PropTypes.any,
   style: PropTypes.object,
-  styleCover: PropTypes.object,
-  styleWrapper: PropTypes.object,
-  scroll: PropTypes.bool,
-  onPress: PropTypes.func,
-  statusBar: PropTypes.bool,
+  padding: PropTypes.bool,
+  paddingTop: PropTypes.number,
+  paddingBottom: PropTypes.number,
+  paddingLeft: PropTypes.number,
+  paddingRight: PropTypes.number,
 };
 
 const styles = StyleSheet.create({
-  statusBar: sheet({
-    base: {
-      alignItems: 'center',
-      justifyContent: 'flex-end',
-    },
-    mobile: {
-      height: Constants.statusBarHeight + theme.height.statusBar,
-    },
+  wrapper: sheet({
     web: {
-      height: theme.height.statusBar,
-    }
-  }),
-  cover: sheet({
-    base: {
-      flex: 1,
-      width: '100%',
-      height: '100%',
-      backgroundColor: theme.bg.body,
-    },
-    web: {
-      cursor: 'default',
-    }
-  }),
-  wrapper: {
-    flex: 1,
-    position: 'relative',
-    overflow: 'hidden',
-  },
-  wrapperScroll: {
-    height: 'auto',
-    overflow: 'scroll',
-    minHeight: '100%',
-  },
-  contents: sheet({
-    base: {
-      flex: 1,
-      margin: 'auto',
-      width: '100%',
-      position: 'relative',
-      paddingTop: theme.padding.pageTop,
-    },
-    web: {
-      maxWidth: 520 + theme.padding.body,
-      padding: theme.padding.body,
+      paddingLeft: '32vw',
+      paddingRight: '32vw',
+      paddingTop: 32
     }
   })
-});
+})
 
 export default Page;

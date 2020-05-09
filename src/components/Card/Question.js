@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     marginTop: 0
   },
   answer: {
-    minHeight: 32,
+    minHeight: 28,
     flex: 1,
     flexGrow: 0,
     alignItems: 'center',

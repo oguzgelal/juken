@@ -16,9 +16,10 @@ const Message = ({
   center,
 }) => (
   <Page
-    scroll={false}
-    styleCover={error ? styles.coverError : null}
-    style={styles.wrapper}
+    style={[
+      styles.page,
+      error && styles.coverError
+    ]}
   >
     
     {/** loading indicator */}
@@ -92,10 +93,13 @@ Message.propTypes = {
 };
 
 const styles = StyleSheet.create({
-  wrapper: {
+  page: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    width: '100%',
+    height: '100%',
+    backgroundColor: theme.bg.body,
   },
   coverError: {
     backgroundColor: theme.palette.red,

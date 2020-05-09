@@ -4,7 +4,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import Main from 'src/Main';
-import Message from 'src/screens/Message'
+import Message from 'src/screens/Message/Message'
 import os from 'src/utils/os';
 import { store, persistor } from 'src/features/store';
 
@@ -29,10 +29,10 @@ class App extends React.Component {
 
   render() {
     return (
-      <Provider store={store}>
-        <PersistGate loading={<Message loading />} persistor={persistor}>
-          <ActionSheetProvider>
-            <SafeAreaProvider>
+      <SafeAreaProvider>
+        <Provider store={store}>
+          <PersistGate loading={<Message loading />} persistor={persistor}>
+            <ActionSheetProvider>
               <>
                 {!this.state.hasError && <Main />}
                 {this.state.hasError && (
@@ -48,10 +48,10 @@ class App extends React.Component {
                   />
                 )}
               </>
-            </SafeAreaProvider>
-          </ActionSheetProvider>
-        </PersistGate>
-      </Provider>
+            </ActionSheetProvider>
+          </PersistGate>
+        </Provider>
+      </SafeAreaProvider>
     );
   }
 }
