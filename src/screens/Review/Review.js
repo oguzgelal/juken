@@ -15,12 +15,8 @@ import { logout } from 'src/features/wk/api';
 import { useWkFn } from 'src/features/wk/hooks';
 import extractSubject from 'src/utils/extractSubject';
 
-const STAGE_SIZE = 5;
-const RENDER_SIZE = 2;
-
 const Review = () => {
   const { showActionSheetWithOptions } = useActionSheet();
-  const [ topReviewId, setTopReviewId ] = useState(null);
   const [ staged, setStaged ] = useState([]);
   const logoutFn = useWkFn(logout);
 
@@ -31,22 +27,6 @@ const Review = () => {
     subjectsDict,
   } = useReview();
 
-  useEffect(() => {
-    setTopReviewId(_.get(queue, '[0].review.id'));
-    const queueSize = queue.length;
-    const stageSize = (queueSize > STAGE_SIZE) ? STAGE_SIZE : queueSize;
-    const fillSize = (stageSize - RENDER_SIZE) > 0
-      ? stageSize - RENDER_SIZE
-      : 0;
-
-    setStaged(queue
-      .slice(0, RENDER_SIZE)
-      .concat(new Array(fillSize)
-        .fill(null)
-        .map(() => ({ id: Math.random() }))));
-
-  }, [queue]);
-
 
   if (reviewLoading) {
     return <Message loading />;
@@ -56,18 +36,14 @@ const Review = () => {
     <Page style={styles.page}>
       <View style={styles.deckWrapper}>
       <Deck
-        dismiss={direction => {
-          console.log('direction', direction);
-          const correct = direction === 'right';
-          submitAnswer(correct);
+        cards={queue}
+        dismissCard={direction => {
+          submitAnswer(direction === 'right');
         }}
-        cards={queue.slice(0, 2)}
         renderCard={(item, props) => {
           
           // empty cards
-          if (!item) {
-            return <Card empty key={`empty-card-${props.index}`} />
-          }
+          if (!item) return <Card empty />
 
           const { review, reviewType } = item;
           const reviewId = _.get(review, 'id');
@@ -83,7 +59,6 @@ const Review = () => {
           return (
             <Card
               deckProps={props}
-              topCard={topReviewId === reviewId}
               subjectType={subjectType}
               reviewType={reviewType}
               reviewQuestion={question}

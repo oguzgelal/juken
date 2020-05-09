@@ -6,6 +6,7 @@ import run from 'src/utils/run';
 
 import _reviews from 'src/mock/reviews.mock.json';
 import _subjects from 'src/mock/subjects.mock.json';
+// const _reviews = __reviews.slice(0, 2);
 
 /**
  * use GET user as a way to validate api key

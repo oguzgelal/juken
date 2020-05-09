@@ -24,11 +24,14 @@ const getOpacity = (i) => 1 - opacityDecreaseRate * i;
 const getScale = (i) => 1 - scaleDecreaseRate * i;
 const getTop = (i) => os('desktop') ? `${topGapRate * i}vh` : topGapRate * i;
 
+const STAGE_SIZE = 5;
+const RENDER_SIZE = 2;
+
 const Deck = ({
   style = {},
   cards = [],
   renderCard,
-  dismiss,
+  dismissCard,
 }) => {
   
   // dynamic window size
@@ -36,7 +39,7 @@ const Deck = ({
 
   // deck size
   const [revealed, setRevealed] = useState(false);
-  const [swipeLock, setSwipeLock] = useState(false);
+  const [swipeLock, setSwipeLock] = useState(true);
   const [deckWidth, setDeckWidth] = useState(null);
   const [deckHeight, setDeckHeight] = useState(null);
 
@@ -44,7 +47,7 @@ const Deck = ({
   const useDismiss = direction => {
     setRevealed(false);
     setSwipeLock(true);
-    dismiss(direction);
+    dismissCard(direction);
   }
 
   // control reveal of the top card
@@ -90,7 +93,7 @@ const Deck = ({
     triggerSwipeLeft,
     triggerSwipeRight,
   } = usePanResponder({
-    dismiss: useDismiss,
+    dismissCard: useDismiss,
     leaveScreenDuration,
     dragRange,
     friction,
@@ -118,7 +121,8 @@ const Deck = ({
         setDeckHeight(e.nativeEvent.layout.height);
       }}
     >
-      {cards.map((card, i) => {
+      {cards.slice(0, STAGE_SIZE).map((card, i) => {
+        const isEmpty = i >= RENDER_SIZE;
         const isFirstCard = i === 0;
         const [topCurrent, topNext] = [getTop(i), getTop(i - 1)];
         const [opCurrent, opNext] = [getOpacity(i), getOpacity(i - 1)];
@@ -143,15 +147,15 @@ const Deck = ({
             style={[ styles.card, dynamicStyles ]}
             {...panHandlers}
           >
-            {renderCard(card, {
-              getClearInterpolation,
-              getMovementInterpolation,
-              swipeLock,
-              setSwipeLock,
-              isFirstCard,
-              reveal: useReveal,
-              revealed: isFirstCard && revealed,
-            })}
+            {isEmpty
+              ? renderCard(null)
+              : renderCard(card, {
+                isFirstCard,
+                getClearInterpolation,
+                getMovementInterpolation,
+                reveal: useReveal,
+                revealed: isFirstCard && revealed,
+              })}
           </Animated.View>
         );
       })}
@@ -161,7 +165,7 @@ const Deck = ({
 
 Deck.propTypes = {
   style: PropTypes.object,
-  dismiss: PropTypes.func,
+  dismissCard: PropTypes.func,
   cards: PropTypes.array,
   renderCard: PropTypes.func,
 };

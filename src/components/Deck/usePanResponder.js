@@ -8,7 +8,7 @@ export default ({
   movement,
   topCard,
   offscreen,
-  dismiss,
+  dismissCard,
 }) => {
 
   // control swipe freeze
@@ -38,7 +38,7 @@ export default ({
 
     // dismiss card and reset movement
     setTimeout(() => {
-      dismiss(dir);
+      dismissCard(dir);
       movement.setValue({ x: 0, y: 0 });
     }, leaveScreenDuration);
   }
