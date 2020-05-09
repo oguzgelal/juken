@@ -10,7 +10,7 @@
     ],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/wk.png",
+    "icon": "./assets/wk3.png",
     "splash": {
       "image": "./assets/wksplash2.png",
       "resizeMode": "contain",
