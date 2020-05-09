@@ -41,7 +41,11 @@ const LongPressButton = ({
       if (e.value >= 100) {
 
         // finish the button
-        if (!multiuse) { setDone(true); }
+        if (!multiuse) {
+          setDone(true);
+          touchPercent.setValue(0);
+          textFlash.setValue(0);
+        }
 
         // haptic feedback
         if (os('mobile') && hapticFeedback) {
@@ -90,7 +94,6 @@ const LongPressButton = ({
         onPressIn={() => { if (!done) setPressing(true) }}
         onPressOut={() => { if (!done) setPressing(false) }}
         onPress={() => {
-
           if (done) return;
 
           // switch to flashing text

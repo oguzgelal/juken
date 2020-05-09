@@ -7,6 +7,7 @@ export default ({
   friction,
   movement,
   topCard,
+  swipeLock,
   offscreen,
   dismissCard,
 }) => {
@@ -15,7 +16,12 @@ export default ({
   const [ freezeSwipe, setFreezeSwipe ] = useState(false);
 
   // unfreeze swipe once the state change for the top card finishes
-  useEffect(() => { setFreezeSwipe(false); }, [topCard]);
+  useEffect(() => {
+    setFreezeSwipe(false);
+  }, [
+    topCard,
+    swipeLock,
+  ]);
 
   // programmatically trigger a card swipe
   const triggerSwipeLeft = () => triggerSwipe('left');

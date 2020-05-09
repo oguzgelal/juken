@@ -86,6 +86,7 @@ const Card = ({
           {!revealed && (
             <LongPressButton
               text="Reveal"
+              flashText={`Press and Hold${os('desktop') ? ' / Spacebar' : ''}`}
               onComplete={reveal}
             />
           )}

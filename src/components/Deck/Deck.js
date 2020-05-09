@@ -99,6 +99,7 @@ const Deck = ({
     friction,
     movement,
     topCard,
+    swipeLock,
     offscreen,
   });
 
@@ -107,11 +108,17 @@ const Deck = ({
     el: os('desktop') ? document : null,
     event: 'keydown',
     handler: e => {
+      if (e.code === 'Space' && !revealed) useReveal();
       if (swipeLock) return;
       if (e.key === 'ArrowLeft' || e.code === 'ArrowLeft') triggerSwipeLeft();
       if (e.key === 'ArrowRight' || e.code === 'ArrowRight') triggerSwipeRight();
+      if (e.key === 'ArrowRight' || e.code === 'ArrowRight') triggerSwipeRight();
     }
-  }, [offscreen])
+  }, [
+    revealed,
+    swipeLock,
+    offscreen
+  ])
 
   return (
     <View
