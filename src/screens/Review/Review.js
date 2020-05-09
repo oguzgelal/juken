@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import get from 'lodash/get';
+import _ from 'lodash';
 import { StyleSheet, View, Image } from 'react-native';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import sheet from 'src/utils/sheet';
@@ -20,16 +20,19 @@ const RENDER_SIZE = 2;
 
 const Review = () => {
   const { showActionSheetWithOptions } = useActionSheet();
+  const [ topReviewId, setTopReviewId ] = useState(null);
   const [ staged, setStaged ] = useState([]);
   const logoutFn = useWkFn(logout);
 
   const {
     queue,
+    submitAnswer,
     reviewLoading,
     subjectsDict,
   } = useReview();
 
   useEffect(() => {
+    setTopReviewId(_.get(queue, '[0].review.id'));
     const queueSize = queue.length;
     const stageSize = (queueSize > STAGE_SIZE) ? STAGE_SIZE : queueSize;
     const fillSize = (stageSize - RENDER_SIZE) > 0
@@ -44,63 +47,53 @@ const Review = () => {
 
   }, [queue]);
 
-  const deck = useMemo(() => (
-    <Deck
-      // dismiss={id => { setReviews(reviews.filter(c => c.id !== id)) }} 
-      dismiss={() => {}}
-      cards={staged}
-      renderCard={(data, props) => {
-        
-        // empty cards
-        if (!data) return <Card empty key={`empty-card-${props.index}`} />
-
-        const { review, reviewType } = data;
-        const subjectId = get(review, 'data.subject_id');
-        const subject = get(subjectsDict, subjectId);
-        const subjectType = get(subject, 'object');
-        const {
-          question,
-          questionComponent,
-          answer,
-        } = extractSubject(subject, reviewType);
-
-        return (
-          <Card
-            deckProps={props}
-            subjectType={subjectType}
-            reviewType={reviewType}
-            reviewQuestion={question}
-            reviewQuestionComponent={questionComponent}
-            reviewAnswer={answer}
-          />
-        )
-      }}
-      
-    />
-  ), [staged]);
-
 
   if (reviewLoading) {
     return <Message loading />;
   }
 
-
-  // 156348784
   return (
     <Page style={styles.page}>
-      
-      {/**
-      <Radical
-        src="https://cdn.wanikani.com/images/1191-subject-177-normal-weight-black-128px.png?1520987957"
-        style={{
-          width: 50,
-          height: 50
-        }}
-      />
-      */}
-
       <View style={styles.deckWrapper}>
-        {deck}
+      <Deck
+        dismiss={direction => {
+          console.log('direction', direction);
+          const correct = direction === 'right';
+          submitAnswer(correct);
+        }}
+        cards={queue.slice(0, 2)}
+        renderCard={(item, props) => {
+          
+          // empty cards
+          if (!item) {
+            return <Card empty key={`empty-card-${props.index}`} />
+          }
+
+          const { review, reviewType } = item;
+          const reviewId = _.get(review, 'id');
+          const subjectId = _.get(review, 'data.subject_id');
+          const subject = _.get(subjectsDict, subjectId);
+          const subjectType = _.get(subject, 'object');
+          const {
+            question,
+            questionComponent,
+            answer,
+          } = extractSubject(subject, reviewType);
+
+          return (
+            <Card
+              deckProps={props}
+              topCard={topReviewId === reviewId}
+              subjectType={subjectType}
+              reviewType={reviewType}
+              reviewQuestion={question}
+              reviewQuestionComponent={questionComponent}
+              reviewAnswer={answer}
+            />
+          )
+        }}
+        
+      />
       </View>
       <View style={styles.buttonsWrapper}>
         <Button

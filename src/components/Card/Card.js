@@ -37,24 +37,11 @@ const Card = ({
 }) => {
 
   const {
-    isFirstCard,
-    isSecondCard,
-    getClearInterpolation,
-    // getMovementInterpolation,
-    // swipeLock,
-    setSwipeLock,
-  } = deckProps;
-
-  // keep reveal state locally within each card
-  const [ revealed, setRevealed ] = useState(false);
-
-  // update swipe lock based local revealed state
-  useEffect(() => {
-    setSwipeLock(!revealed);
-  }, [
+    reveal,
     revealed,
-    isFirstCard
-  ])
+    isFirstCard,
+    getClearInterpolation,
+  } = deckProps;
 
   // empty card
   if (empty) {
@@ -72,42 +59,38 @@ const Card = ({
       )}
 
       {/* card contents */}
-      {(isFirstCard || isSecondCard) && (
-        <View style={styles.container}>
+      <View style={styles.container}>
 
-          {/* top header */}
-          <CardHeader
-            leftIcon={revealed ? <DirectionLeftIcon /> : null}
-            rightIcon={revealed ? <DirectionRightIcon /> : null}
-            centerText={revealed
-              ? (os('desktop') ? 'Arrow Keys' : 'Swipe')
-              : (TERMINOLOGY[subjectType] || '')
-            }
-          />
+        {/* top header */}
+        <CardHeader
+          leftIcon={revealed ? <DirectionLeftIcon /> : null}
+          rightIcon={revealed ? <DirectionRightIcon /> : null}
+          centerText={revealed
+            ? (os('desktop') ? 'Arrow Keys' : 'Swipe')
+            : (TERMINOLOGY[subjectType] || '')
+          }
+        />
 
-          {/* question and question statement */}
-          <Question 
-            revealed={revealed}
-            answer={reviewAnswer}
-            question={reviewQuestion}
-            questionComponent={reviewQuestionComponent}
-            reviewType={reviewType}
-            subjectType={subjectType}
-          />
+        {/* question and question statement */}
+        <Question 
+          revealed={revealed}
+          answer={reviewAnswer}
+          question={reviewQuestion}
+          questionComponent={reviewQuestionComponent}
+          reviewType={reviewType}
+          subjectType={subjectType}
+        />
 
-          {/* reveal button */}
-          <View style={{ height: 52 }}>
-            {!revealed && (
-              <LongPressButton
-                text="Reveal"
-                onComplete={() => {
-                  setRevealed(true)
-                }}
-              />
-            )}
-          </View>
+        {/* reveal button */}
+        <View style={{ height: 52 }}>
+          {!revealed && (
+            <LongPressButton
+              text="Reveal"
+              onComplete={reveal}
+            />
+          )}
         </View>
-      )}
+      </View>
       
     </View>
   );

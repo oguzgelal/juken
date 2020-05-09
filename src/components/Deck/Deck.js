@@ -35,9 +35,23 @@ const Deck = ({
   const { windowWidth, windowHeight } = useScreenSize();
 
   // deck size
+  const [revealed, setRevealed] = useState(false);
   const [swipeLock, setSwipeLock] = useState(false);
   const [deckWidth, setDeckWidth] = useState(null);
   const [deckHeight, setDeckHeight] = useState(null);
+
+  // control dismiss of the top card
+  const useDismiss = direction => {
+    setRevealed(false);
+    setSwipeLock(true);
+    dismiss(direction);
+  }
+
+  // control reveal of the top card
+  const useReveal = () => {
+    setRevealed(true);
+    setSwipeLock(false);
+  }
 
   // calculate coordinates which cards
   // will end up when they go off screen
@@ -76,13 +90,13 @@ const Deck = ({
     triggerSwipeLeft,
     triggerSwipeRight,
   } = usePanResponder({
+    dismiss: useDismiss,
     leaveScreenDuration,
     dragRange,
     friction,
     movement,
     topCard,
     offscreen,
-    dismiss,
   });
 
   // trigger keyboard shortcuts
@@ -106,7 +120,6 @@ const Deck = ({
     >
       {cards.map((card, i) => {
         const isFirstCard = i === 0;
-        const isSecondCard = i === 1;
         const [topCurrent, topNext] = [getTop(i), getTop(i - 1)];
         const [opCurrent, opNext] = [getOpacity(i), getOpacity(i - 1)];
         const [scCurrent, scNext] = [getScale(i), getScale(i - 1)];
@@ -131,13 +144,13 @@ const Deck = ({
             {...panHandlers}
           >
             {renderCard(card, {
-              index: i,
-              isFirstCard,
-              isSecondCard,
               getClearInterpolation,
               getMovementInterpolation,
               swipeLock,
               setSwipeLock,
+              isFirstCard,
+              reveal: useReveal,
+              revealed: isFirstCard && revealed,
             })}
           </Animated.View>
         );
