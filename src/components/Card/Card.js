@@ -32,6 +32,7 @@ const Card = ({
   reviewType,
   subjectType,
   reviewQuestion,
+  reviewQuestionComponent,
   reviewAnswer,
 }) => {
 
@@ -89,6 +90,7 @@ const Card = ({
             revealed={revealed}
             answer={reviewAnswer}
             question={reviewQuestion}
+            questionComponent={reviewQuestionComponent}
             reviewType={reviewType}
             subjectType={subjectType}
           />
@@ -117,6 +119,7 @@ Card.propTypes = {
   subjectType: PropTypes.string,
   reviewType: PropTypes.string,
   reviewQuestion: PropTypes.string,
+  reviewQuestionComponent: PropTypes.any,
   reviewAnswer: PropTypes.string,
 };
 

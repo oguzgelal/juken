@@ -6,6 +6,7 @@ import {
   KANJI,
   RADICAL,
   VOCAB,
+  READING,
   TERMINOLOGY,
 } from 'src/common/constants';
 
@@ -13,6 +14,7 @@ const Question = ({
   subjectType,
   reviewType,
   question,
+  questionComponent,
   answer,
   revealed,
 }) => (
@@ -26,7 +28,7 @@ const Question = ({
           styles[subjectType]
         ]}
       >
-        {question}
+        {question || questionComponent}
       </Text>
     </View>
 
@@ -35,7 +37,16 @@ const Question = ({
     
     {/* answer */}
     <View style={styles.answer}>
-      <Text style={styles.answerText}>
+      <Text
+        style={[
+          styles.answerText,
+          (
+            revealed &&
+            reviewType === READING &&
+            styles.answerTextLarge
+          ),
+        ]}
+      >
         {revealed && answer}
         {!revealed && TERMINOLOGY[reviewType]}
       </Text>
@@ -76,12 +87,20 @@ const styles = StyleSheet.create({
     marginTop: 0
   },
   answer: {
+    minHeight: 32,
+    flex: 1,
+    flexGrow: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   answerText: {
     textAlign: 'center',
     color: theme.palette.black,
     fontSize: 16,
     fontWeight: '700',
+  },
+  answerTextLarge: {
+    fontSize: 20
   },
   [KANJI]: { color: theme.color.kanji },
   [RADICAL]: { color: theme.color.radical },

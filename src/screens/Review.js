@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Image } from 'react-native';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import sheet from 'src/utils/sheet';
 import theme from 'src/common/theme';
-import Page from 'src/components/Page/Page';
+import Page from 'src/components/Page/PageNew';
 import Button from 'src/components/Button/Button';
 import Card from 'src/components/Card/Card';
 import Deck from 'src/components/Deck/Deck';
@@ -19,7 +19,6 @@ const STAGE_SIZE = 5;
 const RENDER_SIZE = 2;
 
 const Review = () => {
-
   const { showActionSheetWithOptions } = useActionSheet();
   const [ staged, setStaged ] = useState([]);
   const logoutFn = useWkFn(logout);
@@ -32,9 +31,13 @@ const Review = () => {
 
   useEffect(() => {
     const queueSize = queue.length;
-    const fillSize = queueSize > RENDER_SIZE
-    ? STAGE_SIZE - RENDER_SIZE
-    : STAGE_SIZE - queueSize;
+    const stageSize = (queueSize > STAGE_SIZE) ? STAGE_SIZE : queueSize;
+    const fillSize = (stageSize - RENDER_SIZE) > 0
+      ? stageSize - RENDER_SIZE
+      : 0;
+    
+    console.log('queueSize', queueSize);
+    console.log('fillSize', fillSize);
 
     setStaged(queue
       .slice(0, RENDER_SIZE)
@@ -60,7 +63,11 @@ const Review = () => {
         const subjectId = get(review, 'data.subject_id');
         const subject = get(subjectsDict, subjectId);
         const subjectType = get(subject, 'object');
-        const { question, answer } = extractSubject(subject, reviewType);
+        const {
+          question,
+          questionComponent,
+          answer,
+        } = extractSubject(subject, reviewType);
 
         return (
           <Card
@@ -68,6 +75,7 @@ const Review = () => {
             subjectType={subjectType}
             reviewType={reviewType}
             reviewQuestion={question}
+            reviewQuestionComponent={questionComponent}
             reviewAnswer={answer}
           />
         )
@@ -81,8 +89,21 @@ const Review = () => {
     return <Message loading />;
   }
 
+
+  // 156348784
   return (
-    <Page scroll={false}>
+    <Page style={styles.page}>
+      
+      {/**
+      <Radical
+        src="https://cdn.wanikani.com/images/1191-subject-177-normal-weight-black-128px.png?1520987957"
+        style={{
+          width: 50,
+          height: 50
+        }}
+      />
+      */}
+
       <View style={styles.deckWrapper}>
         {deck}
       </View>
@@ -109,6 +130,11 @@ Review.propTypes = {
 };
 
 const styles = StyleSheet.create({
+  page: {
+    width: '100%',
+    height: '100%',
+    backgroundColor: theme.bg.body,
+  },
   deckWrapper: {
     flex: 1,
     flexGrow: 1,

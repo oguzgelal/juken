@@ -1,7 +1,10 @@
+import React from 'react';
 import _ from 'lodash';
-import { MEANING, READING } from 'src/common/constants';
+import { MEANING, RADICAL } from 'src/common/constants';
+import Radical from 'src/components/Radical/Radical';
 
 export default (subject, reviewType) => {
+  const subjectType = _.get(subject, 'object');
   const characters = _.get(subject, 'data.characters');
   const meanings = _.get(subject, 'data.meanings') || [];
   const readings = _.get(subject, 'data.readings') || [];
@@ -14,9 +17,13 @@ export default (subject, reviewType) => {
   const question = characters;
   const answer = !reviewType ? null : (
     reviewType === MEANING
-      ? meaningAccepted
-      : readingAccepted
-  );
+    ? meaningAccepted
+    : readingAccepted
+    );
+  
+  let questionComponent = subjectType === RADICAL
+    ? <Radical subject={subject} />
+    : null;
 
   return {
     characters,
@@ -25,6 +32,7 @@ export default (subject, reviewType) => {
     readingAccepted,
     readingOther,
     question,
+    questionComponent,
     answer,
   }
 }

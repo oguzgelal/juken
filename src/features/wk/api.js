@@ -4,7 +4,7 @@ import { GET } from 'src/common/constants';
 import { setUser, removeUser, setApiKey, removeApiKey } from 'src/features/wk/state';
 import run from 'src/utils/run';
 
-import _reviews from 'src/mock/reviews.mock.json';
+import _reviews from 'src/mock/reviews2.mock.json';
 import _subjects from 'src/mock/subjects.mock.json';
 
 /**
