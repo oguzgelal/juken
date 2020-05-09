@@ -105,10 +105,10 @@ const styles = StyleSheet.create({
   },
   imageWrapper: {
     flex: 1,
-    flexGrow: 0,
+    flexGrow: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 42,
+    marginBottom: 22,
   },
   image: {
     width: 200,
