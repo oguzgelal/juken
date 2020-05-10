@@ -115,6 +115,7 @@ const styles = StyleSheet.create({
   deck: {
     width: '100%',
     height: '100%',
+    maxWidth: 420,
     maxHeight: 620,
   },
   buttonsWrapper: device({
