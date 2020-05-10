@@ -26,19 +26,19 @@ const Page = ({
   
   if (desktop) {
     pTop = '4%';
-    pBottom = '4%';
+    pBottom = '2%';
     pLeft = '32%';
     pRight = '32%';
   }
   if (tablet) {
     pTop = '6%';
-    pBottom = '6%';
+    pBottom = '3%';
     pLeft = '22%';
     pRight = '22%';
   }
   if (mobile) {
     pTop = '8%';
-    pBottom = '8%';
+    pBottom = '4%';
     pLeft = '8%';
     pRight = '8%';
   }
@@ -68,11 +68,6 @@ Page.propTypes = {
 
 const styles = StyleSheet.create({
   wrapper: {},
-  gap: {
-    width: '100%',
-    flexGrow: 0,
-    flexShrink: 0,
-  }
 })
 
 export default Page;

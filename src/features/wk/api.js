@@ -4,8 +4,8 @@ import { GET } from 'src/common/constants';
 import { setUser, removeUser, setApiKey, removeApiKey } from 'src/features/wk/state';
 import run from 'src/utils/run';
 
-// import _reviews from 'src/mock/reviews.mock.json';
-// import _subjects from 'src/mock/subjects.mock.json';
+import _reviews from 'src/mock/reviews.mock.json';
+import _subjects from 'src/mock/subjects.mock.json';
 // const _reviews = __reviews.slice(0, 2);
 
 /**
@@ -53,6 +53,8 @@ export const getReviewMaterial = (opts = {}) => async () => {
   try {
     run(_start);
     
+    /*
+
     // get immediately available reviews
     const reviews = await collection({
       endpoint: 'assignments',
@@ -80,10 +82,12 @@ export const getReviewMaterial = (opts = {}) => async () => {
           .join(',')
       },
     })
+    
+    */
 
     run(_stop);
-    run(onSuccess, { reviews, subjects })
-    // run(onSuccess, { reviews: _reviews, subjects: _subjects })
+    // run(onSuccess, { reviews, subjects })
+    run(onSuccess, { reviews: _reviews, subjects: _subjects })
 
   } catch(e) {
     run(_stop);

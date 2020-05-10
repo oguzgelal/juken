@@ -17,12 +17,12 @@ const friction = 5;
 const baseZIndex = 1;
 const scaleDecreaseRate = 0.1;
 const opacityDecreaseRate = 0.3;
-const topGapRate = device('web') ? -5 : -36;
+const topGapRate = -6;
 const leaveScreenDuration = 400;
 
 const getOpacity = (i) => 1 - opacityDecreaseRate * i;
 const getScale = (i) => 1 - scaleDecreaseRate * i;
-const getTop = (i) => device('web') ? `${topGapRate * i}vh` : topGapRate * i;
+const getTop = (i) => `${topGapRate * i}%`;
 
 const STAGE_SIZE = 5;
 const RENDER_SIZE = 2;

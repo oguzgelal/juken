@@ -7,6 +7,7 @@ import device from 'src/utils/device';
 import theme from 'src/common/theme';
 import Page from 'src/components/Page/Page';
 import Button from 'src/components/Button/Button';
+import Bar from 'src/components/Bar/Bar';
 import Card from 'src/components/Card/Card';
 import Deck from 'src/components/Deck/Deck';
 import Message from 'src/screens/Message/Message';
@@ -68,27 +69,20 @@ const Review = () => {
               />
             )
           }}
-          
         />
-      </View>
-      {/*
-        <View style={styles.buttonsWrapper}>
-          <Button
-            text="Options"
-            onPress={() => {
-              showActionSheetWithOptions({
-                options: ['Cancel', 'Logout'],
-                destructiveButtonIndex: 1,
-              }, buttonIndex => {
-                if (buttonIndex === 1) {
-                  logoutFn();
-                }
-              })
-            }}
+        <View style={styles.bars}>
+          <Bar
+            style={styles.bar}
+            values={[ 20, 80 ]}
+            colors={[ theme.palette.red, theme.palette.green ]}
+          />
+          <Bar
+            style={[ styles.bar, { marginTop: 4 } ]}
+            values={[ 30, 70 ]}
+            colors={[ theme.palette.red, theme.palette.green ]}
           />
         </View>
-      */}
-      
+      </View>
     </Page>
   )
 };
@@ -102,31 +96,35 @@ const styles = StyleSheet.create({
     height: '100%',
     backgroundColor: theme.bg.body,
     overflow: 'hidden',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   deckWrapper: {
-    flex: 1,
+    flex: 8,
     flexGrow: 1,
+    maxWidth: 420,
     width: '100%',
     height: '100%',
     paddingBottom: 0,
     alignItems: 'center',
     justifyContent: 'center',
-    
   },
   deck: {
     width: '100%',
     height: '100%',
-    maxWidth: 420,
     maxHeight: 620,
   },
-  buttonsWrapper: device({
-    base: {
-      flexShrink: 0,
-      width: '100%',
-      alignItems: 'center',
-      justifyContent: 'flex-end',
-    },
-  })
+  bars: {
+    flexShrink: 0,
+    marginTop: 18,
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+  },
+  bar: {
+
+  }
 })
 
 export default Review;
