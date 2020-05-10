@@ -101,6 +101,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     backgroundColor: theme.bg.body,
+    overflow: 'hidden',
   },
   deckWrapper: {
     flex: 1,
