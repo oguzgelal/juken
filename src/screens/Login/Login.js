@@ -45,16 +45,14 @@ const Login = props => {
         <Toast ref={empty} type={TYPES.WARNING} />
 
         {/* page */}
-        <Page padding style={styles.page}>
+        <Page style={styles.page}>
           <KeyboardAvoidingView
             style={styles.container}
             behavior={device('ios') ? 'padding' : 'height'}
           >
             <View style={styles.imageWrapper}>
-              <Image
-                source={require('./wa.png')}
-                style={styles.image}
-              />
+              <Image source={require('./logo.png')} style={styles.imageIcon} />
+              <Image source={require('./wa.png')} style={styles.imageText} /> 
             </View>
 
             <TextInput
@@ -103,16 +101,23 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   imageWrapper: {
-    flex: 1,
-    flexGrow: 1,
+    width: '100%',
+    textAlign: 'center',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 22,
+    marginBottom: 28,
   },
-  image: {
-    width: 200,
-    height: 40,
-  }
+  imageIcon: {
+    width: 80,
+    height: 80,
+    margin: 'auto',
+    marginBottom: 18,
+  },
+  imageText: {
+    width: 180,
+    height: 36,
+    margin: 'auto',
+  },
 })
 
 export default Login;

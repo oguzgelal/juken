@@ -35,56 +35,60 @@ const Review = () => {
   return (
     <Page style={styles.page}>
       <View style={styles.deckWrapper}>
-      <Deck
-        cards={queue}
-        dismissCard={direction => {
-          submitAnswer(direction === 'right');
-        }}
-        renderCard={(item, props) => {
-          
-          // empty cards
-          if (!item) return <Card empty />
-
-          const { review, reviewType } = item;
-          const reviewId = _.get(review, 'id');
-          const subjectId = _.get(review, 'data.subject_id');
-          const subject = _.get(subjectsDict, subjectId);
-          const subjectType = _.get(subject, 'object');
-          const {
-            question,
-            questionComponent,
-            answer,
-          } = extractSubject(subject, reviewType);
-
-          return (
-            <Card
-              deckProps={props}
-              subjectType={subjectType}
-              reviewType={reviewType}
-              reviewQuestion={question}
-              reviewQuestionComponent={questionComponent}
-              reviewAnswer={answer}
-            />
-          )
-        }}
-        
-      />
-      </View>
-      <View style={styles.buttonsWrapper}>
-        <Button
-          text="Options"
-          onPress={() => {
-            showActionSheetWithOptions({
-              options: ['Cancel', 'Logout'],
-              destructiveButtonIndex: 1,
-            }, buttonIndex => {
-              if (buttonIndex === 1) {
-                logoutFn();
-              }
-            })
+        <Deck
+          style={styles.deck}
+          cards={queue}
+          dismissCard={direction => {
+            submitAnswer(direction === 'right');
           }}
+          renderCard={(item, props) => {
+            
+            // empty cards
+            if (!item) return <Card empty />
+
+            const { review, reviewType } = item;
+            const reviewId = _.get(review, 'id');
+            const subjectId = _.get(review, 'data.subject_id');
+            const subject = _.get(subjectsDict, subjectId);
+            const subjectType = _.get(subject, 'object');
+            const {
+              question,
+              questionComponent,
+              answer,
+            } = extractSubject(subject, reviewType);
+
+            return (
+              <Card
+                deckProps={props}
+                subjectType={subjectType}
+                reviewType={reviewType}
+                reviewQuestion={question}
+                reviewQuestionComponent={questionComponent}
+                reviewAnswer={answer}
+              />
+            )
+          }}
+          
         />
       </View>
+      {/*
+        <View style={styles.buttonsWrapper}>
+          <Button
+            text="Options"
+            onPress={() => {
+              showActionSheetWithOptions({
+                options: ['Cancel', 'Logout'],
+                destructiveButtonIndex: 1,
+              }, buttonIndex => {
+                if (buttonIndex === 1) {
+                  logoutFn();
+                }
+              })
+            }}
+          />
+        </View>
+      */}
+      
     </Page>
   )
 };
@@ -102,14 +106,21 @@ const styles = StyleSheet.create({
     flex: 1,
     flexGrow: 1,
     width: '100%',
-    padding: theme.padding.body,
+    height: '100%',
     paddingBottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+    
+  },
+  deck: {
+    width: '100%',
+    height: '100%',
+    maxHeight: 620,
   },
   buttonsWrapper: device({
     base: {
       flexShrink: 0,
       width: '100%',
-      padding: theme.padding.body,
       alignItems: 'center',
       justifyContent: 'flex-end',
     },

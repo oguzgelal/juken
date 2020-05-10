@@ -24,6 +24,12 @@ const isPlatform = query => {
   return Platform.OS === query;
 }
 
+export const media = () => ({
+  desktop: useMediaQuery({ minWidth: 1100 }),
+  tablet: useMediaQuery({ maxWidth: 1100 }),
+  mobile: useMediaQuery({ maxWidth: 600 }),
+})
+
 export default query => {
   
   // query is an object, indicating stylesheet usage

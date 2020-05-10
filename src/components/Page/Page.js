@@ -2,33 +2,55 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, Text, View } from 'react-native';
 import { useSafeArea } from 'react-native-safe-area-context';
-import device from 'src/utils/device';
+import { media } from 'src/utils/device';
 import theme from 'src/common/theme';
 
 const Page = ({
   children,
   style,
-  padding,
-  paddingTop = 0,
-  paddingBottom = 0,
-  paddingLeft = 0,
-  paddingRight = 0,
 }) => {
   const insets = useSafeArea();
 
-  const pTop = padding ? theme.padding.body : paddingTop;
-  const pBottom = padding ? theme.padding.body : paddingBottom;
-  const pLeft = padding ? theme.padding.body : paddingLeft;
-  const pRight = padding ? theme.padding.body : paddingRight;
+  // general padding around container
+  let pTop = theme.padding.body + insets.top;
+  let pBottom = theme.padding.body + insets.bottom;
+  let pLeft = theme.padding.body + insets.left;
+  let pRight = theme.padding.body + insets.right;
+
+  // responsive paddings
+  const {
+    desktop,
+    tablet,
+    mobile,
+  } = media();
+  
+  if (desktop) {
+    pTop = '4%';
+    pBottom = '4%';
+    pLeft = '32%';
+    pRight = '32%';
+  }
+  if (tablet) {
+    pTop = '6%';
+    pBottom = '6%';
+    pLeft = '22%';
+    pRight = '22%';
+  }
+  if (mobile) {
+    pTop = '8%';
+    pBottom = '8%';
+    pLeft = '8%';
+    pRight = '8%';
+  }
 
   return (
     <View
       style={[
         {
-          paddingTop: pTop + insets.top,
-          paddingLeft: pLeft + insets.left,
-          paddingBottom: pBottom + insets.bottom,
-          paddingRight: pRight + insets.right,
+          paddingTop: pTop,
+          paddingLeft: pLeft,
+          paddingBottom: pBottom,
+          paddingRight: pRight,
         },
         styles.wrapper,
         style,
@@ -42,21 +64,15 @@ const Page = ({
 Page.propTypes = {
   children: PropTypes.any,
   style: PropTypes.object,
-  padding: PropTypes.bool,
-  paddingTop: PropTypes.number,
-  paddingBottom: PropTypes.number,
-  paddingLeft: PropTypes.number,
-  paddingRight: PropTypes.number,
 };
 
 const styles = StyleSheet.create({
-  wrapper: device({
-    web: {
-      paddingLeft: '32vw',
-      paddingRight: '32vw',
-      paddingTop: 32
-    }
-  })
+  wrapper: {},
+  gap: {
+    width: '100%',
+    flexGrow: 0,
+    flexShrink: 0,
+  }
 })
 
 export default Page;

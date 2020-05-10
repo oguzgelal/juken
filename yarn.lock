@@ -1338,6 +1338,13 @@
     util.promisify "^1.0.0"
     write-file-atomic "^2.3.0"
 
+"@expo/match-media@^0.0.0-alpha.5":
+  version "0.0.0-alpha.5"
+  resolved "https://registry.yarnpkg.com/@expo/match-media/-/match-media-0.0.0-alpha.5.tgz#6232ae807f225e35ea09c8a460c539a7465c153b"
+  integrity sha512-b909reqRQZMPs83X+vvrkLQrRj7NeAA9+xBKGtBG7tjpUXoEvccBUpL5AMgoehERA/900INlEPUg9Cz+PjRQfQ==
+  dependencies:
+    css-mediaquery "^0.1.2"
+
 "@expo/metro-config@0.1.2":
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/@expo/metro-config/-/metro-config-0.1.2.tgz#8ad306fe882307f9495fef4c091efb594561428b"
