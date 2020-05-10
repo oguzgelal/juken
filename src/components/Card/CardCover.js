@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, Text, View, Animated } from 'react-native';
 import theme from 'src/common/theme';
-import sheet from 'src/utils/sheet';
+import device from 'src/utils/device';
 import { AntDesign } from '@expo/vector-icons';
 
 const iconSize = 38;
@@ -68,7 +68,7 @@ CardCover.propTypes = {
 };
 
 const styles = StyleSheet.create({
-  wrapper: sheet({
+  wrapper: device({
     base: {
       position: 'absolute',
       top: 0,
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
       pointerEvents: 'none'
     }
   }),
-  icon: sheet({
+  icon: device({
     base: { position: 'absolute' },
     mobile: { top: 20 },
     web: {
@@ -91,8 +91,8 @@ const styles = StyleSheet.create({
       marginLeft: -iconSize / 2,
     }
   }),
-  iconSmile: sheet({ mobile: { left: 20 } }),
-  iconFrown: sheet({ mobile: { right: 20 } }),
+  iconSmile: device({ mobile: { left: 20 } }),
+  iconFrown: device({ mobile: { right: 20 } }),
 })
 
 export default CardCover;

@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { StyleSheet, View } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import theme from 'src/common/theme';
-import os from 'src/utils/os';
-import sheet from 'src/utils/sheet';
+import device from 'src/utils/device';
 import { TERMINOLOGY } from 'src/common/constants';
 
 import CardCover from 'src/components/Card/CardCover';
@@ -66,7 +65,7 @@ const Card = ({
           leftIcon={revealed ? <DirectionLeftIcon /> : null}
           rightIcon={revealed ? <DirectionRightIcon /> : null}
           centerText={revealed
-            ? (os('web') ? 'Arrow Keys' : 'Swipe')
+            ? (device('web') ? 'Arrow Keys' : 'Swipe')
             : (TERMINOLOGY[subjectType] || '')
           }
         />
@@ -86,7 +85,7 @@ const Card = ({
           {!revealed && (
             <LongPressButton
               text="Reveal"
-              flashText={`Press and Hold${os('web') ? ' / Spacebar' : ''}`}
+              flashText={`Press and Hold${device('web') ? ' / Spacebar' : ''}`}
               onComplete={reveal}
             />
           )}
@@ -108,7 +107,7 @@ Card.propTypes = {
 };
 
 const styles = StyleSheet.create({
-  wrapper: sheet({
+  wrapper: device({
     base: {
       flex: 1,
       position: 'relative',

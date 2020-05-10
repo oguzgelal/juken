@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import Main from 'src/Main';
 import Message from 'src/screens/Message/Message'
-import os from 'src/utils/os';
+import device from 'src/utils/device';
 import { store, persistor } from 'src/features/store';
 
 class App extends React.Component {
@@ -21,7 +21,7 @@ class App extends React.Component {
   componentDidCatch(e) {
     return this.setState({
       hasError: true,
-      errorMessage: os('web')
+      errorMessage: device('web')
         ? e.stack
         : `${e.toString()}\n${e.stack}`,
     });

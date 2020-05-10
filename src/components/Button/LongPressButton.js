@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import os from 'src/utils/os';
+import device from 'src/utils/device';
 import theme from 'src/common/theme';
 import run from 'src/utils/run';
 import * as sharedStyles from 'src/components/Button/sharedStyles';
@@ -48,7 +48,7 @@ const LongPressButton = ({
         }
 
         // haptic feedback
-        if (os('mobile') && hapticFeedback) {
+        if (device('mobile') && hapticFeedback) {
           Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy)
         }
 

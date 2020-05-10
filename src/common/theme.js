@@ -1,4 +1,4 @@
-import sheet from 'src/utils/sheet';
+import device from 'src/utils/device';
 
 const palette = {
   blue: 'rgb(30, 203, 225)',
@@ -25,7 +25,7 @@ const bg = {
   card: palette.white,
 };
 
-const padding = sheet({
+const padding = device({
   base: {
     body: 24,
     card: 18,
@@ -40,7 +40,7 @@ const radius = {
   touchable: 5,
 };
 
-const height = sheet({
+const height = device({
   base: {
     touchable: 52,
   },

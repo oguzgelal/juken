@@ -13,8 +13,7 @@ import Page from 'src/components/Page/Page';
 import Button from 'src/components/Button/Button';
 import TextInput from 'src/components/Input/TextInput';
 import Toast, { TYPES } from 'src/components/Toast/Toast';
-import os from 'src/utils/os';
-import sheet from 'src/utils/sheet';
+import device from 'src/utils/device';
 import theme from 'src/common/theme';
 import { login } from 'src/features/wk/api';
 import { useWk } from 'src/features/wk/hooks';
@@ -34,7 +33,7 @@ const Login = props => {
   return (
     <TouchableWithoutFeedback
       onPress={() => {
-        if (os('mobile')) {
+        if (device('mobile')) {
           Keyboard.dismiss();
         }
       }}
@@ -49,7 +48,7 @@ const Login = props => {
         <Page padding style={styles.page}>
           <KeyboardAvoidingView
             style={styles.container}
-            behavior={os('ios') ? 'padding' : 'height'}
+            behavior={device('ios') ? 'padding' : 'height'}
           >
             <View style={styles.imageWrapper}>
               <Image
@@ -87,7 +86,7 @@ Login.propTypes = {
 };
 
 const styles = StyleSheet.create({
-  page: sheet({
+  page: device({
     base: {
       flex: 1,
       alignItems: 'center',

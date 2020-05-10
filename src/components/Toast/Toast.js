@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet } from 'react-native';
 import Toast, { DURATION as _DURATION } from 'react-native-easy-toast';
-import sheet from 'src/utils/sheet';
+import device from 'src/utils/device';
 import theme from 'src/common/theme';
 
 export const DURATION = _DURATION;
@@ -47,7 +47,7 @@ ToastComponent.propTypes = {
 };
 
 const styles = StyleSheet.create({
-  wrapper: sheet({
+  wrapper: device({
     base: {
       borderRadius: 8,
     },

@@ -1,7 +1,7 @@
 import theme from 'src/common/theme';
-import sheet from 'src/utils/sheet';
+import device from 'src/utils/device';
 
-export const wrapper = sheet({
+export const wrapper = device({
   base: {
     position: 'relative',
     width: '100%',

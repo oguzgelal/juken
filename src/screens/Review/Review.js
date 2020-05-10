@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { StyleSheet, View, Image } from 'react-native';
 import { useActionSheet } from '@expo/react-native-action-sheet';
-import sheet from 'src/utils/sheet';
+import device from 'src/utils/device';
 import theme from 'src/common/theme';
 import Page from 'src/components/Page/Page';
 import Button from 'src/components/Button/Button';
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     padding: theme.padding.body,
     paddingBottom: 0,
   },
-  buttonsWrapper: sheet({
+  buttonsWrapper: device({
     base: {
       flexShrink: 0,
       width: '100%',

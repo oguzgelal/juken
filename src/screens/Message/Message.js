@@ -4,7 +4,7 @@ import { StyleSheet, ActivityIndicator, Text, ScrollView, View } from 'react-nat
 import { AntDesign } from '@expo/vector-icons';
 import Page from 'src/components/Page/Page';
 import theme from 'src/common/theme';
-import sheet from 'src/utils/sheet';
+import device from 'src/utils/device';
 
 const Message = ({
   title,
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
   center: {
     textAlign: 'center',
   },
-  width: sheet({
+  width: device({
     web: { width: '60%' },
     mobile: { width: '80%' }
   }),
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
     flexGrow: 0,
     overflow: 'hidden',
   },
-  errorText: sheet({
+  errorText: device({
     base: {
       textAlign: 'left',
       fontFamily: 'monospace',

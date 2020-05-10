@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, Text, View } from 'react-native';
 import { useSafeArea } from 'react-native-safe-area-context';
-import sheet from 'src/utils/sheet';
+import device from 'src/utils/device';
 import theme from 'src/common/theme';
 
 const Page = ({
@@ -50,7 +50,7 @@ Page.propTypes = {
 };
 
 const styles = StyleSheet.create({
-  wrapper: sheet({
+  wrapper: device({
     web: {
       paddingLeft: '32vw',
       paddingRight: '32vw',

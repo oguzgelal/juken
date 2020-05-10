@@ -4,7 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Image, StyleSheet } from 'react-native';
 import _ from 'lodash';
-import sheet from 'src/utils/sheet';
+import device from 'src/utils/device';
 
 const IMGS = {
   8761: require('./imgs/8761.png'),
@@ -65,7 +65,7 @@ Radical.propTypes = {
 };
 
 const styles = StyleSheet.create({
-  image: sheet({
+  image: device({
     base: {
       width: 52,
       height: 52,
