@@ -1,42 +1,25 @@
 import { Platform } from 'react-native';
 
-// native desktop OS apps
-const isDesktopNative = () => {
-  return (
-    Platform.OS === 'macos' ||
-    Platform.OS === 'windows'
-  )
-}
-
 // desktop environments
 const isDesktop = () => {
   return (
     Platform.OS === 'web' ||
-    isDesktopNative()
+    Platform.OS === 'macos' ||
+    Platform.OS === 'windows'
   );
 }
 
 // native mobile environments
-const isMobileNative = () => {
+const isMobile = () => {
   return (
     Platform.OS === 'ios' ||
     Platform.OS === 'android'
   );
 }
 
-// all mobile environments including mobile web
-// TODO: detect mobile web browser
-const isMobile = () => {
-  return (
-    isMobileNative()
-  );
-}
-
 export default query => {
   switch (query) {
-    case 'desktopNative': return isDesktopNative();
-    case 'desktop': return isDesktop();
-    case 'mobileNative': return isMobileNative();
+    case 'web': return isDesktop();
     case 'mobile': return isMobile();
     
     // fall back to Platform.OS variables

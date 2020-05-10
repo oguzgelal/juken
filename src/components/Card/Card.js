@@ -66,7 +66,7 @@ const Card = ({
           leftIcon={revealed ? <DirectionLeftIcon /> : null}
           rightIcon={revealed ? <DirectionRightIcon /> : null}
           centerText={revealed
-            ? (os('desktop') ? 'Arrow Keys' : 'Swipe')
+            ? (os('web') ? 'Arrow Keys' : 'Swipe')
             : (TERMINOLOGY[subjectType] || '')
           }
         />
@@ -86,7 +86,7 @@ const Card = ({
           {!revealed && (
             <LongPressButton
               text="Reveal"
-              flashText={`Press and Hold${os('desktop') ? ' / Spacebar' : ''}`}
+              flashText={`Press and Hold${os('web') ? ' / Spacebar' : ''}`}
               onComplete={reveal}
             />
           )}

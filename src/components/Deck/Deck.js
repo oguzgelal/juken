@@ -17,12 +17,12 @@ const friction = 5;
 const baseZIndex = 1;
 const scaleDecreaseRate = 0.1;
 const opacityDecreaseRate = 0.3;
-const topGapRate = os('desktop') ? -5 : -36;
+const topGapRate = os('web') ? -5 : -36;
 const leaveScreenDuration = 400;
 
 const getOpacity = (i) => 1 - opacityDecreaseRate * i;
 const getScale = (i) => 1 - scaleDecreaseRate * i;
-const getTop = (i) => os('desktop') ? `${topGapRate * i}vh` : topGapRate * i;
+const getTop = (i) => os('web') ? `${topGapRate * i}vh` : topGapRate * i;
 
 const STAGE_SIZE = 5;
 const RENDER_SIZE = 2;
@@ -105,7 +105,7 @@ const Deck = ({
 
   // trigger keyboard shortcuts
   useEventListener({
-    el: os('desktop') ? document : null,
+    el: os('web') ? document : null,
     event: 'keydown',
     handler: e => {
       if (e.code === 'Space' && !revealed) useReveal();

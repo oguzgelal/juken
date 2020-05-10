@@ -8,7 +8,7 @@ export default ({
   ios = {},
   android = {},
 }) => {
-  if (os('desktop')) return merge({}, base, web);
+  if (os('web')) return merge({}, base, web);
   if (os('ios')) return merge({}, base, mobile, ios);
   if (os('android')) return merge({}, base, mobile, android);
 }
