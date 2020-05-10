@@ -26,19 +26,19 @@ const Page = ({
   
   if (desktop) {
     pTop = '4%';
-    pBottom = '2%';
+    pBottom = '2.5%';
     pLeft = '32%';
     pRight = '32%';
   }
   if (tablet) {
     pTop = '6%';
-    pBottom = '3%';
+    pBottom = '4%';
     pLeft = '22%';
     pRight = '22%';
   }
   if (mobile) {
     pTop = '8%';
-    pBottom = '4%';
+    pBottom = '6%';
     pLeft = '8%';
     pRight = '8%';
   }

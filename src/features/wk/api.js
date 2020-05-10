@@ -93,7 +93,7 @@ export const getReviewMaterial = (opts = {}) => async () => {
 export const getReviewMaterialDemo = (opts = {}) => async () => {
   const { onSuccess, onError, _start, _stop } = opts;
   run(_start);
-  await sleep(1000);
+  await sleep(500);
   run(_stop);
   run(onSuccess, { reviews: freeReviews, subjects: freeSubjects })
 }

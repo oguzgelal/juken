@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   wrapper: sharedStyles.wrapper,
   container: sharedStyles.container,
   text: sharedStyles.text,
-  icon: { position: 'absolute', paddingTop: 4 }
+  icon: { position: 'absolute' }
 })
 
 export default Button;

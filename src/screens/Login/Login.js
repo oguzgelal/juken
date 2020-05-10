@@ -13,8 +13,12 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 
-import { AntDesign } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons'; 
+import {
+  AntDesign,
+  MaterialCommunityIcons,
+  MaterialIcons
+} from '@expo/vector-icons';
+
 
 import PropTypes from 'prop-types';
 
@@ -70,13 +74,13 @@ const Login = ({ startDemo }) => {
 
             {/* login button */}
             <Button
-              style={{ marginTop: 8, backgroundColor: theme.palette.green }}
-              textStyle={{ color: theme.palette.black, opacity: 0.8 }}
+              style={{ marginTop: 8 }}
+              textStyle={{ color: theme.palette.black }}
               text={loginLoading ? 'Logging in...' : 'Login'}
               iconRight={
                 loginLoading
                   ? <ActivityIndicator size={24} color={theme.palette.black} />
-                  : <AntDesign name="arrowright" size={24} style={{ opacity: 0.8 }} color={theme.palette.black} />
+                  : <AntDesign name="arrowright" size={24} color={theme.palette.black} />
               }
               disabled={loginLoading}
               onPress={() => {
@@ -95,7 +99,7 @@ const Login = ({ startDemo }) => {
             
             {/* demo button */}
             <Button
-              text="View Demo"
+              text="Demo"
               iconLeft={<MaterialCommunityIcons name="test-tube" size={24} color={theme.palette.black} />}
               onPress={() => startDemo()}
             />
@@ -103,8 +107,8 @@ const Login = ({ startDemo }) => {
             {/* feedback button */}
             <Button
               style={{ marginTop: 8 }}
-              text="Feedback / Bug Report"
-              iconLeft={<AntDesign name="mail" size={24} color={theme.palette.black} />}
+              text="Feedback & Bug Report"
+              iconLeft={<MaterialIcons name="email" size={24} color={theme.palette.black} />}
               onPress={() => {
                 Linking.openURL('mailto: o.gelal77@gmail.com?subject=WaniAnki - Feedback / Bug Report')
               }}
@@ -119,7 +123,7 @@ const Login = ({ startDemo }) => {
               textStyle={{
                 color: theme.color.githubWhite
               }}
-              text="View Source Code"
+              text="Source Code"
               iconLeft={<AntDesign name="github" size={24} color={theme.color.githubWhite} />}
               onPress={async () => {
                 await WebBrowser.openBrowserAsync('https://github.com/oguzgelal/wanianki')
@@ -182,7 +186,6 @@ const styles = StyleSheet.create({
   orText: {
     color: theme.palette.white,
     fontWeight: '700',
-    opacity: 0.8,
     fontSize: 12,
   }
 })

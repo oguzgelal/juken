@@ -1,10 +1,11 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import { StyleSheet, View, Text, TouchableWithoutFeedback } from 'react-native';
+import { Alert, StyleSheet, View, Text, TouchableWithoutFeedback } from 'react-native';
+import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { useActionSheet } from '@expo/react-native-action-sheet';
-import { useWkLoading } from 'src/features/wk/hooks';
 import { getReviewMaterial, getReviewMaterialDemo } from 'src/features/wk/api';
+import device from 'src/utils/device';
 import theme from 'src/common/theme';
 import Page from 'src/components/Page/Page';
 import Bar from 'src/components/Bar/Bar';
@@ -13,24 +14,26 @@ import Deck from 'src/components/Deck/Deck';
 import Message from 'src/screens/Message/Message';
 import useReview from 'src/features/reviews/useReview';
 import { logout } from 'src/features/wk/api';
-import { useWkFn } from 'src/features/wk/hooks';
+import { useWkFn, useWk } from 'src/features/wk/hooks';
+import Button from 'src/components/Button/Button';
 import extractSubject from 'src/utils/extractSubject';
 
 const Review = ({ demo = false, stopDemo } = {}) => {
   const { showActionSheetWithOptions } = useActionSheet();
   const [ reviews, setReviews ] = useState(null);
   const [ subjects, setSubjects ] = useState(null);
+  const [ displayResults, setDisplayResults ] = useState(false);
 
   const logoutFn = useWkFn(logout);
 
   // load reviews
   const getReviewMaterialFn = demo ? getReviewMaterialDemo : getReviewMaterial;
-  const reviewsLoading = useWkLoading(getReviewMaterialFn, {
+  const [ loadReviews, reviewsLoading ] = useWk(getReviewMaterialFn, {
     onSuccess: ({ reviews: _reviews, subjects: _subjects }) => {
-      setReviews(_reviews);
-      setSubjects(_subjects);
+      setReviews(_reviews.slice());
+      setSubjects(_subjects.slice());
     }
-  });
+  }, { immediate: true });
 
   const {
     queue,
@@ -43,94 +46,182 @@ const Review = ({ demo = false, stopDemo } = {}) => {
     reviews,
     subjects,
   );
+  
+  // once results are loaded and reviews are queued
+  // set display to true
+  useEffect(() => {
+    if (!reviewsLoading) setDisplayResults(true);
+  }, [queue]);
 
+  const isQueueClear = queue.length === 0 && displayResults;
+  const refreshFn = () => {
+    setDisplayResults(false);
+    loadReviews();
+  };
 
   if (reviewsLoading) {
     return <Message loading />;
   }
 
   return (
-    <Page style={styles.page}>
+    <Page
+      style={[
+        styles.page,
+        isQueueClear && styles.pageNoReviews
+      ]}
+    >
       <View style={styles.deckWrapper}>
-        <Deck
-          style={styles.deck}
-          cards={queue}
-          dismissCard={direction => { submitAnswer(direction === 'right'); }}
-          renderCard={(item, props) => {
-            
-            // empty cards
-            if (!item) return <Card empty />
 
-            const { id, review, reviewType } = item;
-            const subjectId = _.get(review, 'data.subject_id');
-            const subject = _.get(subjectsDict, subjectId);
-            const subjectType = _.get(subject, 'object');
-            const {
-              question,
-              questionComponent,
-              answer,
-            } = extractSubject(subject, reviewType);
+        {/* render deck */}
+        {queue.length > 0 && (
+          <Deck
+            style={styles.deck}
+            cards={queue}
+            dismissCard={direction => { submitAnswer(direction === 'right'); }}
+            renderCard={(item, props) => {
+              
+              // empty cards
+              if (!item) return <Card empty />
 
-            return (
-              <Card
-                key={id}
-                deckProps={props}
-                subjectType={subjectType}
-                reviewType={reviewType}
-                reviewQuestion={question}
-                reviewQuestionComponent={questionComponent}
-                reviewAnswer={answer}
-              />
-            )
-          }}
-        />
-        
-        <TouchableWithoutFeedback
-          onPress={() => {
-            showActionSheetWithOptions({
-              options: [
-                'Cancel',
-                demo ? 'Back to Main Menu' : 'Logout'
-              ],
-              destructiveButtonIndex: 1,
-            }, buttonIndex => {
-              if (buttonIndex === 1) {
-                if (demo) stopDemo();
-                else logoutFn();
-              }
-            })
-          }}
-        >
-          <View style={styles.bars}>
-            
-            {/* review bar */}
-            <View style={styles.barWrapper}>
-              <Text style={[ styles.barText, styles.barTextLabel, styles.barTextOpac, { marginRight: 8 } ]}>Reviews</Text>
-              <Bar
-                style={styles.bar}
-                values={[ _.get(stats, 'reviews.incorrectPercent', 0), _.get(stats, 'reviews.correctPercent', 0) ]}
-                colors={[ theme.palette.red, theme.palette.green ]}
-              />
-              <Text style={[ styles.barText, { marginLeft: 8 } ]}>{_.get(stats, 'reviews.completed')}</Text>
-              <Text style={[ styles.barText, styles.barTextOpac, { marginLeft: 4, marginRight: 4 } ]}>of</Text>
-              <Text style={[ styles.barText ]}>{totalReviews}</Text>
-            </View>
+              const { id, review, reviewType } = item;
+              const subjectId = _.get(review, 'data.subject_id');
+              const subject = _.get(subjectsDict, subjectId);
+              const subjectType = _.get(subject, 'object');
+              const {
+                question,
+                questionComponent,
+                answer,
+              } = extractSubject(subject, reviewType);
 
-            {/* card bar */}
-            <View style={[ styles.barWrapper, { marginTop: 4 } ]}>
-              <Text style={[ styles.barText, styles.barTextLabel, styles.barTextOpac, { marginRight: 8 } ]}>Cards</Text>
-              <Bar
-                style={styles.bar}
-                values={[ _.get(stats, 'cards.incorrectPercent', 0), _.get(stats, 'cards.correctPercent', 0) ]}
-                colors={[ theme.palette.red, theme.palette.green ]}
-              />
-              <Text style={[ styles.barText, { marginLeft: 8 } ]}>{_.get(stats, 'cards.completed')}</Text>
-              <Text style={[ styles.barText, styles.barTextOpac, { marginLeft: 4, marginRight: 4 } ]}>of</Text>
-              <Text style={[ styles.barText ]}>{totalCards}</Text>
-            </View>
-            
+              return (
+                <Card
+                  key={id}
+                  deckProps={props}
+                  subjectType={subjectType}
+                  reviewType={reviewType}
+                  reviewQuestion={question}
+                  reviewQuestionComponent={questionComponent}
+                  reviewAnswer={answer}
+                />
+              )
+            }}
+          />
+        )}
+
+        {/* no reviews notice */}
+        {isQueueClear && (
+          <View style={styles.noReviewsContainer}>
+            <AntDesign name="smileo" size={32} color={theme.palette.white} />
+            <Text style={styles.noReviewsText}>Review queue clear!</Text>
           </View>
-        </TouchableWithoutFeedback>
+        )}
+          
+        {/* stats */}
+        {totalReviews > 0 && (
+          <TouchableWithoutFeedback
+            onPress={() => {
+              showActionSheetWithOptions({
+                options: [
+                  'Cancel',
+                  'Refresh',
+                  demo ? 'Back to Main Menu' : 'Logout'
+                ],
+                destructiveButtonIndex: 2,
+              }, buttonIndex => {
+                if (buttonIndex === 1) {
+                  if (device('web')) {
+                    if (confirm('Half completed reviews will be lost. Are you sure ?')) {
+                      refreshFn()
+                    }
+                  }
+                  else {
+                    Alert.alert('Are you sure ?', 'Half completed reviews will be lost', [
+                    { text: 'Cancel', style: 'cancel' },
+                    { text: 'OK', onPress: () => refreshFn() },
+                  ])
+                  }
+                }
+                if (buttonIndex === 2) {
+                  if (demo) stopDemo();
+                  else logoutFn();
+                }
+              })
+            }}
+          >
+            <View style={[ styles.box, styles.bars ]}>
+              
+              {/* review bar */}
+              <View style={styles.barWrapper}>
+                <Text style={[ styles.barText, styles.barTextLabel, styles.barTextOpac, { marginRight: 8 } ]}>Reviews</Text>
+                <Bar
+                  style={styles.bar}
+                  values={[ _.get(stats, 'reviews.incorrectPercent', 0), _.get(stats, 'reviews.correctPercent', 0) ]}
+                  colors={[ theme.palette.red, theme.palette.green ]}
+                />
+                <Text style={[ styles.barText, { marginLeft: 8 } ]}>{_.get(stats, 'reviews.completed')}</Text>
+                <Text style={[ styles.barText, styles.barTextOpac, { marginLeft: 4, marginRight: 4 } ]}>of</Text>
+                <Text style={[ styles.barText ]}>{totalReviews}</Text>
+              </View>
+
+              {/* card bar */}
+              <View style={[ styles.barWrapper, { marginTop: 4 } ]}>
+                <Text style={[ styles.barText, styles.barTextLabel, styles.barTextOpac, { marginRight: 8 } ]}>Cards</Text>
+                <Bar
+                  style={styles.bar}
+                  values={[ _.get(stats, 'cards.incorrectPercent', 0), _.get(stats, 'cards.correctPercent', 0) ]}
+                  colors={[ theme.palette.red, theme.palette.green ]}
+                />
+                <Text style={[ styles.barText, { marginLeft: 8 } ]}>{_.get(stats, 'cards.completed')}</Text>
+                <Text style={[ styles.barText, styles.barTextOpac, { marginLeft: 4, marginRight: 4 } ]}>of</Text>
+                <Text style={[ styles.barText ]}>{totalCards}</Text>
+              </View>
+              
+            </View>
+          </TouchableWithoutFeedback>
+        )}
+        
+        {/* review stats */}
+        {totalReviews > 0 && isQueueClear && (
+          <View style={[ styles.box, { marginTop: 8 } ]}>
+            <Text
+              style={{
+                fontWeight: '700',
+                color: theme.palette.black,
+                opacity: 0.3,
+                fontSize: 12,
+              }}
+            >
+              Session details coming soon
+            </Text>
+          </View>
+        )}
+
+        {/* controls */}
+        {isQueueClear && (
+          <>
+            <Button
+              text="Refresh"
+              style={{ marginTop: 12 }}
+              iconLeft={<Ionicons name="md-refresh" size={24} color={theme.color.black} />}
+              onPress={() => refreshFn()}
+            />
+            {!demo && (
+              <Button
+                text="Logout"
+                style={{ marginTop: 8, backgroundColor: theme.palette.green }}
+                textStyle={{ color: theme.palette.white }}
+              />
+            )}
+            {demo && (
+              <Button
+                text="Back to Main Menu"
+                style={{ marginTop: 8 }}
+                iconLeft={<AntDesign name="arrowleft" size={24} color={theme.color.black} />}
+                onPress={() => stopDemo()}
+              />
+            )}
+          </>
+        )}
       </View>
     </Page>
   )
@@ -151,6 +242,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  pageNoReviews: {
+    backgroundColor: theme.palette.green,
+  },
+  noReviewsContainer: {
+    textAlign: 'center',
+    marginBottom: 12,
+  },
+  noReviewsText: {
+    fontSize: 16,
+    fontWeight: '600',
+    textTransform: 'uppercase',
+    letterSpacing: 2,
+    marginTop: 12,
+    color: theme.palette.white,
+  },
   deckWrapper: {
     flex: 8,
     flexGrow: 1,
@@ -167,15 +273,17 @@ const styles = StyleSheet.create({
     maxHeight: 620,
     zIndex: 9,
   },
-  bars: {
-    flexShrink: 0,
-    marginTop: 12,
+  box: {
     width: '100%',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
     backgroundColor: theme.palette.white,
     padding: theme.padding.card,
     borderRadius: theme.radius.card,
+  },
+  bars: {
+    flexShrink: 0,
+    marginTop: 12,
+    alignItems: 'center',
+    justifyContent: 'flex-end',
   },
   barWrapper: {
     flexDirection: 'row',

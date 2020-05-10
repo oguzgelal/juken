@@ -1,7 +1,4 @@
 - Create review requests
-- Demo mode
-- Separate api calls from "useReview"
-- move stats to "useReview"
-
-- No more reviews screen
 - Overlay screen 
+- Network detection
+- Test better on Android

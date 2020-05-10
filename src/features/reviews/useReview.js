@@ -14,22 +14,34 @@ export default (reviews, subjects,) => {
   const [ queue, setQueue ] = useState([]);
   const [ subjectsDict, setSubjectsDict ] = useState({});
   
-  // reviews
+  // total
   const [ totalReviews, setTotalReviews ] = useState(0);
+  const [ totalCards, setTotalCards ] = useState(0);
+  
+  // review stats
   const [ completedReviewsTmp, setCompletedReviewsTmp ] = useState({});
   const [ completedReviews, setCompletedReviews ] = useState({});
   const [ incorrectReviews, setIncorrectReviews ] = useState({});
   const [ incorrectMeanings, setIncorrectMeanings ] = useState({});
   const [ incorrectReadings, setIncorrectReadings ] = useState({});
   
-  // cards
-  const [ totalCards, setTotalCards ] = useState(0);
+  // cards stats
   const [ completedCards, setCompletedCards ] = useState({});
   const [ incorrectCards, setIncorrectCards ] = useState({});
 
+  // refresh &
   // reviews and subjects loaded
   useEffect(() => {
     if (_.isNil(reviews) || _.isNil(subjects)) return;
+
+    // reset stats
+    setCompletedReviewsTmp({})
+    setCompletedReviews({})
+    setIncorrectReviews({})
+    setIncorrectMeanings({})
+    setIncorrectReadings({})
+    setCompletedCards({})
+    setIncorrectCards({})
 
     // set reviews and subject data
     setSubjectsDict(listToDict(subjects));
@@ -39,8 +51,11 @@ export default (reviews, subjects,) => {
     const _queue = queueReviews(reviews);
     setQueue(_queue);
     setTotalCards(_queue.length);
-
-  }, [ reviews, subjects ]);
+    
+  }, [
+    reviews,
+    subjects,
+  ]);
 
   // calculate stats
   const stats = useMemo(() => {
