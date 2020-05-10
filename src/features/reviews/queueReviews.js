@@ -1,5 +1,6 @@
 import _ from 'lodash';
-import { v4 as uuidv4 } from 'uuid';
+import randid from 'src/utils/randid';
+
 import pickReviewAndType from 'src/features/reviews/pickReviewAndType';
 // pick multiple reviews from the list, respecting the
 // removed items from the list from the previous loop
@@ -16,9 +17,10 @@ const queueReviews = (reviews, reviewTypesHistory, queue) => {
     newReviewTypeHistory,
   ] = pickReviewAndType(reviews, reviewTypesHistory);
 
+
   // add current pick to the queue
   const newQueue = queue.concat({
-    id: uuidv4(),
+    id: randid(),
     review,
     reviewType,
   });

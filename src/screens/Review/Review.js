@@ -87,6 +87,7 @@ const Review = () => {
     incorrectReviews,
   ]);
 
+
   if (reviewLoading) {
     return <Message loading />;
   }
@@ -141,22 +142,9 @@ const Review = () => {
         >
           <View style={styles.bars}>
             
-            {/* card bar */}
-            <View style={styles.barWrapper}>
-              <Text style={[ styles.barText, styles.barTextOpac, { marginRight: 8 } ]}>Cards</Text>
-              <Bar
-                style={styles.bar}
-                values={[ _.get(stats, 'cards.incorrectPercent', 0), _.get(stats, 'cards.correctPercent', 0) ]}
-                colors={[ theme.palette.red, theme.palette.green ]}
-              />
-              <Text style={[ styles.barText, { marginLeft: 8 } ]}>{_.get(stats, 'cards.completed')}</Text>
-              <Text style={[ styles.barText, styles.barTextOpac, { marginLeft: 4, marginRight: 4 } ]}>of</Text>
-              <Text style={[ styles.barText ]}>{totalCards}</Text>
-            </View>
-            
             {/* review bar */}
-            <View style={[styles.barWrapper, { marginTop: 4 }]}>
-              <Text style={[ styles.barText, styles.barTextOpac, { marginRight: 8 } ]}>Reviews</Text>
+            <View style={styles.barWrapper}>
+              <Text style={[ styles.barText, styles.barTextLabel, styles.barTextOpac, { marginRight: 8 } ]}>Reviews</Text>
               <Bar
                 style={styles.bar}
                 values={[ _.get(stats, 'reviews.incorrectPercent', 0), _.get(stats, 'reviews.correctPercent', 0) ]}
@@ -165,6 +153,19 @@ const Review = () => {
               <Text style={[ styles.barText, { marginLeft: 8 } ]}>{_.get(stats, 'reviews.completed')}</Text>
               <Text style={[ styles.barText, styles.barTextOpac, { marginLeft: 4, marginRight: 4 } ]}>of</Text>
               <Text style={[ styles.barText ]}>{totalReviews}</Text>
+            </View>
+
+            {/* card bar */}
+            <View style={[ styles.barWrapper, { marginTop: 4 } ]}>
+              <Text style={[ styles.barText, styles.barTextLabel, styles.barTextOpac, { marginRight: 8 } ]}>Cards</Text>
+              <Bar
+                style={styles.bar}
+                values={[ _.get(stats, 'cards.incorrectPercent', 0), _.get(stats, 'cards.correctPercent', 0) ]}
+                colors={[ theme.palette.red, theme.palette.green ]}
+              />
+              <Text style={[ styles.barText, { marginLeft: 8 } ]}>{_.get(stats, 'cards.completed')}</Text>
+              <Text style={[ styles.barText, styles.barTextOpac, { marginLeft: 4, marginRight: 4 } ]}>of</Text>
+              <Text style={[ styles.barText ]}>{totalCards}</Text>
             </View>
             
           </View>
@@ -205,7 +206,7 @@ const styles = StyleSheet.create({
   },
   bars: {
     flexShrink: 0,
-    marginTop: 18,
+    marginTop: 12,
     width: '100%',
     alignItems: 'center',
     justifyContent: 'flex-end',
@@ -214,7 +215,6 @@ const styles = StyleSheet.create({
     borderRadius: theme.radius.card,
   },
   barWrapper: {
-    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
   bar: {
     flexGrow: 1,
     flexShrink: 1,
-    backgroundColor: 'rgba(0, 0, 0, .1)'
+    backgroundColor: 'rgba(0, 0, 0, .1)',
   },
   barText: {
     fontSize: 10,
@@ -231,7 +231,12 @@ const styles = StyleSheet.create({
     lineHeight: 12,
     color: theme.palette.black,
   },
-  barTextOpac: { opacity: 0.5 },
+  barTextLabel: {
+    width: 45,
+  },
+  barTextOpac: {
+    opacity: 0.3,
+  },
 })
 
 export default Review;
