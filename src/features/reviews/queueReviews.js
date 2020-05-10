@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import randid from 'src/utils/randid';
+import randomId from 'src/utils/randomId';
 
 import pickReviewAndType from 'src/features/reviews/pickReviewAndType';
 // pick multiple reviews from the list, respecting the
@@ -20,7 +20,7 @@ const queueReviews = (reviews, reviewTypesHistory, queue) => {
 
   // add current pick to the queue
   const newQueue = queue.concat({
-    id: randid(),
+    id: randomId(),
     review,
     reviewType,
   });

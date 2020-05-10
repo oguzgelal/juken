@@ -1,5 +1,6 @@
 - Create review requests
 - Demo mode
 - Separate api calls from "useReview"
+- move stats to "useReview"
 
 - Overlay screen 

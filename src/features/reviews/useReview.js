@@ -2,21 +2,18 @@
  * Hook that controls a review session
  */
 
-import { useState, useCallback } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import _ from 'lodash';
 import { MEANING, RADICAL } from 'src/common/constants';
 import listToDict from 'src/utils/listToDict';
-import { useWkLoading } from 'src/features/wk/hooks';
-import { getReviewMaterial } from 'src/features/wk/api';
 import queueReviews from 'src/features/reviews/queueReviews';
-import randomIndex from 'src/utils/randomIndex';
+import randomInt from 'src/utils/randomInt';
 
-export default () => {
+export default (reviews, subjects,) => {
 
   const [ queue, setQueue ] = useState([]);
   const [ subjectsDict, setSubjectsDict ] = useState({});
   
-  // total
   // reviews
   const [ totalReviews, setTotalReviews ] = useState(0);
   const [ completedReviewsTmp, setCompletedReviewsTmp ] = useState({});
@@ -24,25 +21,79 @@ export default () => {
   const [ incorrectReviews, setIncorrectReviews ] = useState({});
   const [ incorrectMeanings, setIncorrectMeanings ] = useState({});
   const [ incorrectReadings, setIncorrectReadings ] = useState({});
+  
   // cards
   const [ totalCards, setTotalCards ] = useState(0);
   const [ completedCards, setCompletedCards ] = useState({});
   const [ incorrectCards, setIncorrectCards ] = useState({});
 
-  // load reviews
-  const reviewLoading = useWkLoading(getReviewMaterial, {
-    onSuccess: ({ reviews: _reviews, subjects: _subjects }) => {
-      
-      // set reviews and subject data
-      setSubjectsDict(listToDict(_subjects));
-      setTotalReviews(_reviews ? _reviews.length : 0);
-      
-      // create queue
-      const _queue = queueReviews(_reviews);
-      setQueue(_queue);
-      setTotalCards(_queue.length);
+  // reviews and subjects loaded
+  useEffect(() => {
+    if (_.isNil(reviews) || _.isNil(subjects)) return;
+
+    // set reviews and subject data
+    setSubjectsDict(listToDict(subjects));
+    setTotalReviews(reviews ? reviews.length : 0);
+    
+    // create queue
+    const _queue = queueReviews(reviews);
+    setQueue(_queue);
+    setTotalCards(_queue.length);
+
+  }, [ reviews, subjects ]);
+
+  // calculate stats
+  const stats = useMemo(() => {
+    
+    const totalCompletedCards = Object.keys(completedCards).length;
+    const totalCompletedReviews = Object.keys(completedReviews).length;
+    let totalCorrectCards = 0;
+    let totalIncorrectCards = 0;
+    let totalCorrectReviews = 0;
+    let totalIncorrectReviews = 0;
+    let correctCardsPercent = 0;
+    let incorrectCardsPercent = 0;
+    let correctReviewsPercent = 0;
+    let incorrectReviewsPercent = 0;
+
+    if (totalCompletedCards !== 0) {
+      const completed = Object.keys(completedCards);
+      totalIncorrectCards = completed.reduce((acc, id) => acc + (incorrectCards[id] ? 1 : 0), 0);
+      totalCorrectCards = totalCompletedCards - totalIncorrectCards;
+      incorrectCardsPercent = Math.round((totalIncorrectCards / totalCompletedCards) * 100);
+      correctCardsPercent = 100 - incorrectCardsPercent;
     }
-  });
+
+    if (totalCompletedReviews !== 0) {
+      const completed = Object.keys(completedReviews);
+      totalIncorrectReviews = completed.reduce((acc, id) => acc + (incorrectReviews[id] ? 1 : 0), 0);
+      totalCorrectReviews = totalCompletedReviews - totalIncorrectReviews;
+      incorrectReviewsPercent = Math.round((totalIncorrectReviews / totalCompletedReviews) * 100);
+      correctReviewsPercent = 100 - incorrectReviewsPercent;
+    }
+
+    return {
+      cards: {
+        completed: totalCompletedCards,
+        correct: totalCorrectCards,
+        incorrect: totalIncorrectCards,
+        correctPercent: correctCardsPercent,
+        incorrectPercent: incorrectCardsPercent,
+      },
+      reviews: {
+        completed: totalCompletedReviews,
+        correct: totalCorrectReviews,
+        incorrect: totalIncorrectReviews,
+        correctPercent: correctReviewsPercent,
+        incorrectPercent: incorrectReviewsPercent,
+      }
+    };
+  }, [
+    completedCards,
+    completedReviews,
+    incorrectCards,
+    incorrectReviews,
+  ]);
 
   // submit answer for the top of the queue item
   const submitAnswer = correct => {
@@ -93,15 +144,14 @@ export default () => {
     // if answer was incorrect, put the item back
     // into the queue randomly
     if (!correct) {
-      let requeueIndex = randomIndex(newQueue);
       
-      // for a better experience, we want to requeue
-      // an item at least five - ten levels back. if the
+      // for a good experience, we want to requeue
+      // an item at least two levels back. if the
       // current queue is empty (so the requeue index
-      // is -1) or if it has less than 10 items, splice
+      // is -1) or if it has less than 2 items, splice
       // statement will put the item to the end of the
       // array, so we don't have to check for overflows
-      requeueIndex += 10;
+      const requeueIndex = randomInt(2, 8);
 
       // put the item back into the queue
       newQueue.splice(requeueIndex, 0, queueItem);
@@ -112,11 +162,10 @@ export default () => {
   }
 
   return {
+    stats,
     queue,
     submitAnswer,
-    reviewLoading,
     subjectsDict,
-
     totalCards,
     totalReviews,
     completedCards,

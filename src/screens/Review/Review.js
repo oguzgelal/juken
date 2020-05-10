@@ -1,12 +1,12 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { StyleSheet, View, Text, TouchableWithoutFeedback } from 'react-native';
 import { useActionSheet } from '@expo/react-native-action-sheet';
-import device from 'src/utils/device';
+import { useWkLoading } from 'src/features/wk/hooks';
+import { getReviewMaterial } from 'src/features/wk/api';
 import theme from 'src/common/theme';
 import Page from 'src/components/Page/Page';
-import Button from 'src/components/Button/Button';
 import Bar from 'src/components/Bar/Bar';
 import Card from 'src/components/Card/Card';
 import Deck from 'src/components/Deck/Deck';
@@ -18,77 +18,33 @@ import extractSubject from 'src/utils/extractSubject';
 
 const Review = () => {
   const { showActionSheetWithOptions } = useActionSheet();
-  const [ staged, setStaged ] = useState([]);
+  const [ reviews, setReviews ] = useState(null);
+  const [ subjects, setSubjects ] = useState(null);
+
   const logoutFn = useWkFn(logout);
+
+  // load reviews
+  const reviewsLoading = useWkLoading(getReviewMaterial, {
+    onSuccess: ({ reviews: _reviews, subjects: _subjects }) => {
+      setReviews(_reviews);
+      setSubjects(_subjects);
+    }
+  });
 
   const {
     queue,
     submitAnswer,
-    reviewLoading,
     subjectsDict,
     totalCards,
-    completedCards,
-    completedReviews,
     totalReviews,
-    incorrectCards,
-    incorrectReviews,
-  } = useReview();
-
-  // calculate stats
-  const stats = useMemo(() => {
-    
-    const totalCompletedCards = Object.keys(completedCards).length;
-    const totalCompletedReviews = Object.keys(completedReviews).length;
-    let totalCorrectCards = 0;
-    let totalIncorrectCards = 0;
-    let totalCorrectReviews = 0;
-    let totalIncorrectReviews = 0;
-    let correctCardsPercent = 0;
-    let incorrectCardsPercent = 0;
-    let correctReviewsPercent = 0;
-    let incorrectReviewsPercent = 0;
-
-    if (totalCompletedCards !== 0) {
-      const completed = Object.keys(completedCards);
-      totalIncorrectCards = completed.reduce((acc, id) => acc + (incorrectCards[id] ? 1 : 0), 0);
-      totalCorrectCards = totalCompletedCards - totalIncorrectCards;
-      incorrectCardsPercent = Math.round((totalIncorrectCards / totalCompletedCards) * 100);
-      correctCardsPercent = 100 - incorrectCardsPercent;
-    }
-
-    if (totalCompletedReviews !== 0) {
-      const completed = Object.keys(completedReviews);
-      totalIncorrectReviews = completed.reduce((acc, id) => acc + (incorrectReviews[id] ? 1 : 0), 0);
-      totalCorrectReviews = totalCompletedReviews - totalIncorrectReviews;
-      incorrectReviewsPercent = Math.round((totalIncorrectReviews / totalCompletedReviews) * 100);
-      correctReviewsPercent = 100 - incorrectReviewsPercent;
-    }
-
-    return {
-      cards: {
-        completed: totalCompletedCards,
-        correct: totalCorrectCards,
-        incorrect: totalIncorrectCards,
-        correctPercent: correctCardsPercent,
-        incorrectPercent: incorrectCardsPercent,
-      },
-      reviews: {
-        completed: totalCompletedReviews,
-        correct: totalCorrectReviews,
-        incorrect: totalIncorrectReviews,
-        correctPercent: correctReviewsPercent,
-        incorrectPercent: incorrectReviewsPercent,
-      }
-    };
-  }, [
-    completedCards,
-    completedReviews,
-    incorrectCards,
-    incorrectReviews,
-  ]);
+    stats,
+  } = useReview(
+    reviews,
+    subjects,
+  );
 
 
-  if (reviewLoading) {
+  if (reviewsLoading) {
     return <Message loading />;
   }
 
