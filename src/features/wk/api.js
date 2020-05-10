@@ -3,10 +3,10 @@ import { request, collection } from 'src/features/wk/request';
 import { GET } from 'src/common/constants';
 import { setUser, removeUser, setApiKey, removeApiKey } from 'src/features/wk/state';
 import run from 'src/utils/run';
+import sleep from 'src/utils/test/sleep';
 
-// import _reviews from 'src/mock/reviews.mock.json';
-// import _subjects from 'src/mock/subjects.mock.json';
-// const _reviews = __reviews.slice(0, 2);
+import freeReviews from 'src/mock/freeReviews';
+import freeSubjects from 'src/mock/freeSubjects';
 
 /**
  * use GET user as a way to validate api key
@@ -82,12 +82,19 @@ export const getReviewMaterial = (opts = {}) => async () => {
     })
 
     run(_stop);
-    run(onSuccess, { reviews, subjects })
-    // run(onSuccess, { reviews: _reviews, subjects: _subjects })
+    run(onSuccess, { reviews, subjects });
 
   } catch(e) {
     run(_stop);
     run(onError, e)
   }
+}
+
+export const getReviewMaterialDemo = (opts = {}) => async () => {
+  const { onSuccess, onError, _start, _stop } = opts;
+  run(_start);
+  await sleep(1000);
+  run(_stop);
+  run(onSuccess, { reviews: freeReviews, subjects: freeSubjects })
 }
 

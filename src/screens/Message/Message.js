@@ -27,7 +27,7 @@ const Message = ({
       <ActivityIndicator
         size="large"
         color={theme.palette.white}
-      />  
+      />
     )}
 
     {/** error icon */}

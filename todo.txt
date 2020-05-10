@@ -3,4 +3,5 @@
 - Separate api calls from "useReview"
 - move stats to "useReview"
 
+- No more reviews screen
 - Overlay screen 

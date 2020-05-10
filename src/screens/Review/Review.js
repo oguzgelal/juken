@@ -4,7 +4,7 @@ import _ from 'lodash';
 import { StyleSheet, View, Text, TouchableWithoutFeedback } from 'react-native';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import { useWkLoading } from 'src/features/wk/hooks';
-import { getReviewMaterial } from 'src/features/wk/api';
+import { getReviewMaterial, getReviewMaterialDemo } from 'src/features/wk/api';
 import theme from 'src/common/theme';
 import Page from 'src/components/Page/Page';
 import Bar from 'src/components/Bar/Bar';
@@ -16,7 +16,7 @@ import { logout } from 'src/features/wk/api';
 import { useWkFn } from 'src/features/wk/hooks';
 import extractSubject from 'src/utils/extractSubject';
 
-const Review = () => {
+const Review = ({ demo = false, stopDemo } = {}) => {
   const { showActionSheetWithOptions } = useActionSheet();
   const [ reviews, setReviews ] = useState(null);
   const [ subjects, setSubjects ] = useState(null);
@@ -24,7 +24,8 @@ const Review = () => {
   const logoutFn = useWkFn(logout);
 
   // load reviews
-  const reviewsLoading = useWkLoading(getReviewMaterial, {
+  const getReviewMaterialFn = demo ? getReviewMaterialDemo : getReviewMaterial;
+  const reviewsLoading = useWkLoading(getReviewMaterialFn, {
     onSuccess: ({ reviews: _reviews, subjects: _subjects }) => {
       setReviews(_reviews);
       setSubjects(_subjects);
@@ -87,11 +88,15 @@ const Review = () => {
         <TouchableWithoutFeedback
           onPress={() => {
             showActionSheetWithOptions({
-              options: ['Cancel', 'Logout'],
+              options: [
+                'Cancel',
+                demo ? 'Back to Main Menu' : 'Logout'
+              ],
               destructiveButtonIndex: 1,
             }, buttonIndex => {
               if (buttonIndex === 1) {
-                logoutFn();
+                if (demo) stopDemo();
+                else logoutFn();
               }
             })
           }}
@@ -132,6 +137,8 @@ const Review = () => {
 };
 
 Review.propTypes = {
+  demo: PropTypes.bool,
+  stopDemo: PropTypes.func,
 };
 
 const styles = StyleSheet.create({

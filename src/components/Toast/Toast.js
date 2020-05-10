@@ -12,11 +12,12 @@ export const TYPES = {
   WARNING: 'warning',
 };
 
-const ToastComponent = React.forwardRef(({ type, style, styleText }, ref) => {
+const ToastComponent = React.forwardRef(({ type, style, styleText, position }, ref) => {
 
   return (
     <Toast
       ref={ref}
+      position={position}
       textStyle={[
         styles.styleText,
         type === TYPES.ERROR && styles.textError,
