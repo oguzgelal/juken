@@ -1,4 +1,25 @@
-- Overlay screen 
-- Network detection
-- Test better on Android
+Tasks:
+- Test on Android
+- Open-source the repo
+- App store submissions
+
+Features:
+- Confirmation on page refresh (for web - mobile web)
+- Have user select be disabled (for web - mobile web)
+- Lock body scroll on review screen (for mobile web)
+- Have subject pairs be closer to each other
+- Network detection screen
 - Display burned etc. on review completion
+- Show a very small loading indicator for submitting answers somewhere
+- Overlay screen (also use this for submission errors)
+- Session stats
+- Button to open details card after answer revealed
+- Voice actors
+
+Ideas:
+- Option to combine reading and meaning into one card ?
+- Swiping is difficult on mobile web, maybe add buttons ?
+
+Fix:
+- Answer text won't wrap on cards (on mobile native)
+- Mobile web viewport settings: prevent zoom (on double tap)

@@ -100,6 +100,10 @@ const Review = ({ demo = false, stopDemo } = {}) => {
               submitAnswer(direction === 'right', res => {
                 // callback for when the submit answer causes
                 // the review to be completed
+
+                // do not submit to wanikani while on demo
+                if (demo) return;
+
                 const {
                   review,
                   incorrectMeanings,
