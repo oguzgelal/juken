@@ -23,3 +23,4 @@ Ideas:
 Fix:
 - Answer text won't wrap on cards (on mobile native)
 - Mobile web viewport settings: prevent zoom (on double tap)
+- "Review Queue Clear" smiley face not centered on (ios) mobile native
