@@ -24,3 +24,5 @@ Fix:
 - Answer text won't wrap on cards (on mobile native)
 - Mobile web viewport settings: prevent zoom (on double tap)
 - "Review Queue Clear" smiley face not centered on (ios) mobile native
+- Logout button on success screen not hooked up or not working
+-
