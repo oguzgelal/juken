@@ -7,8 +7,8 @@
 
 import _ from 'lodash';
 
-const ALLOWED_MAX_DISTANCE = 12;
-const ALLOWED_MIN_DISTANCE = 4;
+const ALLOWED_MAX_DISTANCE = 8;
+const ALLOWED_MIN_DISTANCE = 2;
 
 const adjustSubjectPairDistances = (queue, currentIndex) => {
   const newQueue = queue.slice();
