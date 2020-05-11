@@ -2,6 +2,8 @@ import _ from 'lodash';
 import randomId from 'src/utils/randomId';
 
 import pickReviewAndType from 'src/features/reviews/pickReviewAndType';
+import adjustQueue from 'src/features/reviews/adjustQueue';
+
 // pick multiple reviews from the list, respecting the
 // removed items from the list from the previous loop
 const queueReviews = (reviews, reviewTypesHistory, queue) => {
@@ -34,5 +36,6 @@ const queueReviews = (reviews, reviewTypesHistory, queue) => {
 }
 
 export default reviews => {
-  return queueReviews(reviews, {}, []);
+  const queued = queueReviews(reviews, {}, []);
+  return adjustQueue(queued);
 };
