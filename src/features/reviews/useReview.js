@@ -7,7 +7,6 @@ import _ from 'lodash';
 import { MEANING, RADICAL } from 'src/common/constants';
 import listToDict from 'src/utils/listToDict';
 import queueReviews from 'src/features/reviews/queueReviews';
-import randomInt from 'src/utils/randomInt';
 
 export default (reviews, subjects,) => {
 
@@ -178,7 +177,7 @@ export default (reviews, subjects,) => {
       // is -1) or if it has less than 2 items, splice
       // statement will put the item to the end of the
       // array, so we don't have to check for overflows
-      const requeueIndex = randomInt(2, 8);
+      const requeueIndex = _.random(2, 8);
 
       // put the item back into the queue
       newQueue.splice(requeueIndex, 0, queueItem);
