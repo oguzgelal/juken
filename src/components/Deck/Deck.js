@@ -112,7 +112,6 @@ const Deck = ({
       if (swipeLock) return;
       if (e.key === 'ArrowLeft' || e.code === 'ArrowLeft') triggerSwipeLeft();
       if (e.key === 'ArrowRight' || e.code === 'ArrowRight') triggerSwipeRight();
-      if (e.key === 'ArrowRight' || e.code === 'ArrowRight') triggerSwipeRight();
     }
   }, [
     revealed,

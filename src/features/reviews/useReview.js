@@ -49,6 +49,7 @@ export default (reviews, subjects,) => {
     
     // create queue
     const _queue = queueReviews(reviews);
+    
     setQueue(_queue);
     setTotalCards(_queue.length);
     
@@ -111,7 +112,7 @@ export default (reviews, subjects,) => {
   ]);
 
   // submit answer for the top of the queue item
-  const submitAnswer = correct => {
+  const submitAnswer = (correct, onReviewComplete) => {
     const queueItem = queue.slice(0, 1)[0];
     const { id, review, reviewType } = queueItem;
     const reviewId = _.get(review, 'id');
@@ -148,6 +149,17 @@ export default (reviews, subjects,) => {
 
     // set review as completed
     if (isReviewCompleted) {
+
+      if (typeof onReviewComplete === 'function') {
+        const incorrectMeaningAnswers = incorrectMeanings[reviewId];
+        const incorrectReadingAnswers = incorrectReadings[reviewId];
+        onReviewComplete({
+          review,
+          incorrectMeanings: incorrectMeaningAnswers,
+          incorrectReadings: incorrectReadingAnswers,
+        })
+      }
+      
       setCompletedReviews(Object.assign({}, completedReviews, {
         [reviewId]: true
       }))

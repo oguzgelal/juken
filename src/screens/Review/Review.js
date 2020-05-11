@@ -4,7 +4,6 @@ import _ from 'lodash';
 import { Alert, StyleSheet, View, Text, TouchableWithoutFeedback } from 'react-native';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { useActionSheet } from '@expo/react-native-action-sheet';
-import { getReviewMaterial, getReviewMaterialDemo } from 'src/features/wk/api';
 import device from 'src/utils/device';
 import theme from 'src/common/theme';
 import Page from 'src/components/Page/Page';
@@ -13,8 +12,8 @@ import Card from 'src/components/Card/Card';
 import Deck from 'src/components/Deck/Deck';
 import Message from 'src/screens/Message/Message';
 import useReview from 'src/features/reviews/useReview';
-import { logout } from 'src/features/wk/api';
 import { useWkFn, useWk } from 'src/features/wk/hooks';
+import { getReviewMaterial, getReviewMaterialDemo, submitReview, logout } from 'src/features/wk/api';
 import Button from 'src/components/Button/Button';
 import extractSubject from 'src/utils/extractSubject';
 
@@ -23,12 +22,23 @@ const Review = ({ demo = false, stopDemo } = {}) => {
   const [ reviews, setReviews ] = useState(null);
   const [ subjects, setSubjects ] = useState(null);
   const [ displayResults, setDisplayResults ] = useState(false);
+  const [ submitError, setSubmitError ] = useState(null);
 
+  const [ submitReviewFn, reviewsSubmitting ] = useWk(submitReview, {
+    onSuccess: ({ res } = {}) => {
+      if (!res || !res.id || !res.resources_updated) {
+        setSubmitError('Failed to submit review');
+      }
+    },
+    onError: (e) => {
+      setSubmitError(e);
+    },
+  })
   const logoutFn = useWkFn(logout);
 
   // load reviews
   const getReviewMaterialFn = demo ? getReviewMaterialDemo : getReviewMaterial;
-  const [ loadReviews, reviewsLoading ] = useWk(getReviewMaterialFn, {
+  const [ loadReviewsFn, reviewsLoading ] = useWk(getReviewMaterialFn, {
     onSuccess: ({ reviews: _reviews, subjects: _subjects }) => {
       setReviews(_reviews.slice());
       setSubjects(_subjects.slice());
@@ -56,11 +66,20 @@ const Review = ({ demo = false, stopDemo } = {}) => {
   const isQueueClear = queue.length === 0 && displayResults;
   const refreshFn = () => {
     setDisplayResults(false);
-    loadReviews();
+    loadReviewsFn();
   };
 
   if (reviewsLoading) {
     return <Message loading />;
+  }
+  
+  if (submitError) {
+    return (
+      <Message
+        error
+        title="Failed to Submit Review"
+      />
+    );
   }
 
   return (
@@ -77,7 +96,24 @@ const Review = ({ demo = false, stopDemo } = {}) => {
           <Deck
             style={styles.deck}
             cards={queue}
-            dismissCard={direction => { submitAnswer(direction === 'right'); }}
+            dismissCard={direction => {
+              submitAnswer(direction === 'right', res => {
+                // callback for when the submit answer causes
+                // the review to be completed
+                const {
+                  review,
+                  incorrectMeanings,
+                  incorrectReadings,
+                } = res;
+
+                // submit review
+                submitReviewFn({
+                  reviewId: review.id,
+                  incorrectMeanings,
+                  incorrectReadings,
+                });
+              });
+            }}
             renderCard={(item, props) => {
               
               // empty cards

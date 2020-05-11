@@ -1,4 +1,4 @@
-- Create review requests
 - Overlay screen 
 - Network detection
 - Test better on Android
+- Display burned etc. on review completion

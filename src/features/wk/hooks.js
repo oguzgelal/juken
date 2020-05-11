@@ -17,9 +17,9 @@ export const useWk = (func, args = {}, { immediate } = {}) => {
   const _stop = () => setLoading(false);
 
   // trigger function
-  const trigger = () => {
+  const trigger = (fnArgs = {}) => {
     _start(true);
-    dispatch(func({ ...args, _start, _stop, }))
+    dispatch(func({ ...args, ...fnArgs, _start, _stop, }))
   };
   
   // auto-trigger if immediate

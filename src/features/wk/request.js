@@ -11,6 +11,7 @@ export const request = async opts => {
     apiKey,
     endpoint,
     params,
+    body,
     method,
     nextUrl,
   } = opts;
@@ -21,6 +22,7 @@ export const request = async opts => {
 
   // make the request
   return await requestBase(method, finalUrl, {
+    body,
     params: !nextUrl ? params : null,
     headers: { Authorization: `Bearer ${useApiKey}` },
     hasError: res => res.error ? res : null,

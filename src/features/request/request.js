@@ -20,7 +20,11 @@ export default async (method, url, opts = {}) => {
     
     // construct options
     const opts = { method, headers };
-    if (body && method !== GET) opts.body = JSON.stringify(body);
+    if (body && method !== GET) {
+      headers['Accept'] = 'application/json';
+      headers['Content-Type'] = 'application/json';
+      opts.body = JSON.stringify(body);
+    }
     
     // log request
     if (env.DEBUG) console.log(`🌎 [${method}]: `, finalUrl, opts);
