@@ -12,6 +12,7 @@ import Card from 'src/components/Card/Card';
 import Deck from 'src/components/Deck/Deck';
 import Message from 'src/screens/Message/Message';
 import useReview from 'src/features/reviews/useReview';
+import useScrollLock from 'src/hooks/useScrollLock';
 import { useWkFn, useWk } from 'src/features/wk/hooks';
 import { getReviewMaterial, getReviewMaterialDemo, submitReview, logout } from 'src/features/wk/api';
 import Button from 'src/components/Button/Button';
@@ -23,6 +24,8 @@ const Review = ({ demo = false, stopDemo } = {}) => {
   const [ subjects, setSubjects ] = useState(null);
   const [ displayResults, setDisplayResults ] = useState(false);
   const [ submitError, setSubmitError ] = useState(null);
+
+  useScrollLock();
 
   const [ submitReviewFn, reviewsSubmitting ] = useWk(submitReview, {
     onSuccess: ({ res } = {}) => {
