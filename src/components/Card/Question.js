@@ -88,8 +88,8 @@ const styles = StyleSheet.create({
   },
   answer: {
     minHeight: 28,
-    flex: 1,
     flexGrow: 0,
+    flexShrink: 0,
     alignItems: 'center',
     justifyContent: 'center',
   },
