@@ -20,6 +20,11 @@ const color = {
   vocab: 'rgb(160, 35, 238)',
   githubBlack: '#333',
   githubWhite: '#fafafa',
+  apprentice: '#dd0093',
+  guru: '#882d9e',
+  master: '#294ddb',
+  enlightened: '#0093dd',
+  burned: '#434343',
 };
 
 const bg = {

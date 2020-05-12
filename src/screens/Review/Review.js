@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { Alert, StyleSheet, View, Text, TouchableWithoutFeedback } from 'react-native';
@@ -10,6 +10,7 @@ import Page from 'src/components/Page/Page';
 import Bar from 'src/components/Bar/Bar';
 import Card from 'src/components/Card/Card';
 import Deck from 'src/components/Deck/Deck';
+import SrsStages from 'src/components/Toast/SrsStages';
 import Message from 'src/screens/Message/Message';
 import useReview from 'src/features/reviews/useReview';
 import useScrollLock from 'src/hooks/useScrollLock';
@@ -25,6 +26,7 @@ const Review = ({ demo = false, stopDemo } = {}) => {
   const [ subjects, setSubjects ] = useState(null);
   const [ displayResults, setDisplayResults ] = useState(false);
   const [ submitError, setSubmitError ] = useState(null);
+  const [ srsStages, setSrsStages ] = useState({});
 
   useScrollLock();
   useLeaveWarning();
@@ -88,6 +90,11 @@ const Review = ({ demo = false, stopDemo } = {}) => {
   }
 
   return (
+    <>
+    
+    {/** display srs stages toasts */}
+    <SrsStages stages={srsStages} />
+
     <Page
       style={[
         styles.page,
@@ -106,14 +113,26 @@ const Review = ({ demo = false, stopDemo } = {}) => {
                 // callback for when the submit answer causes
                 // the review to be completed
 
-                // do not submit to wanikani while on demo
-                if (demo) return;
-
                 const {
                   review,
                   incorrectMeanings,
                   incorrectReadings,
                 } = res;
+
+                const isCorrect = (
+                  !incorrectMeanings &&
+                  !incorrectReadings
+                );
+
+                if (isCorrect) {
+                  setSrsStages({
+                    current: _.get(review, 'data.starting_srs_stage'),
+                    next: _.get(review, 'data.ending_srs_stage')
+                  })
+                }
+
+                // do not submit to wanikani while on demo
+                if (demo) return;
 
                 // submit review
                 submitReviewFn({
@@ -269,6 +288,7 @@ const Review = ({ demo = false, stopDemo } = {}) => {
         )}
       </View>
     </Page>
+    </>
   )
 };
 
