@@ -323,12 +323,17 @@ const styles = StyleSheet.create({
     padding: theme.padding.card,
     borderRadius: theme.radius.card,
   },
-  bars: {
-    flexShrink: 0,
-    marginTop: 12,
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-  },
+  bars: device({
+    base: {
+      flexShrink: 0,
+      marginTop: 12,
+      alignItems: 'center',
+      justifyContent: 'flex-end',
+    },
+    web: {
+      userSelect: 'none',
+    }
+  }),
   barWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
