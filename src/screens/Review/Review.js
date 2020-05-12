@@ -288,6 +288,7 @@ const styles = StyleSheet.create({
   noReviewsContainer: {
     textAlign: 'center',
     marginBottom: 12,
+    alignItems: 'center',
   },
   noReviewsText: {
     fontSize: 16,
