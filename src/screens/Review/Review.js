@@ -13,6 +13,7 @@ import Deck from 'src/components/Deck/Deck';
 import Message from 'src/screens/Message/Message';
 import useReview from 'src/features/reviews/useReview';
 import useScrollLock from 'src/hooks/useScrollLock';
+import useLeaveWarning from 'src/hooks/useLeaveWarning';
 import { useWkFn, useWk } from 'src/features/wk/hooks';
 import { getReviewMaterial, getReviewMaterialDemo, submitReview, logout } from 'src/features/wk/api';
 import Button from 'src/components/Button/Button';
@@ -26,6 +27,7 @@ const Review = ({ demo = false, stopDemo } = {}) => {
   const [ submitError, setSubmitError ] = useState(null);
 
   useScrollLock();
+  useLeaveWarning();
 
   const [ submitReviewFn, reviewsSubmitting ] = useWk(submitReview, {
     onSuccess: ({ res } = {}) => {
