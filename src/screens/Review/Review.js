@@ -109,9 +109,12 @@ const Review = ({ demo = false, stopDemo } = {}) => {
             style={styles.deck}
             cards={queue}
             dismissCard={direction => {
-              submitAnswer(direction === 'right', res => {
+              submitAnswer(
+                // right direction means correct answer
+                direction === 'right',
                 // callback for when the submit answer causes
                 // the review to be completed
+                res => {
 
                 const {
                   review,
@@ -119,19 +122,20 @@ const Review = ({ demo = false, stopDemo } = {}) => {
                   incorrectReadings,
                 } = res;
 
+                // review was correct when there are
+                // no incorrect readings or meanings
                 const isCorrect = (
                   !incorrectMeanings &&
                   !incorrectReadings
                 );
-
+                
+                // increase srs stage if the answer was correct
                 if (isCorrect) {
-                  setSrsStages({
-                    current: _.get(review, 'data.starting_srs_stage'),
-                    next: _.get(review, 'data.ending_srs_stage')
-                  })
+                  const currentStage = _.get(review, 'data.srs_stage');
+                  setSrsStages({ current: currentStage, next: currentStage + 1 })
                 }
 
-                // do not submit to wanikani while on demo
+                // do not submit to wanikani on demo mode
                 if (demo) return;
 
                 // submit review

@@ -85,6 +85,7 @@ const styles = StyleSheet.create({
     // web environments
     web: {
       position: 'fixed',
+      userSelect: 'none',
     }
   }),
   webTop: device({
@@ -93,10 +94,15 @@ const styles = StyleSheet.create({
   webBottom: device({
     web: { bottom: '8%' }
   }),
-  styleText: {
-    fontWeight: '500',
-    color: theme.palette.white,
-  },
+  styleText: device({
+    base: {
+      fontWeight: '500',
+      color: theme.palette.white,
+    },
+    web: {
+      userSelect: 'none',
+    }
+  }),
 
   error: { backgroundColor: theme.palette.red },
   success: { backgroundColor: theme.palette.green },

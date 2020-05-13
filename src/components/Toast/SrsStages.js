@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet } from 'react-native';
 import _ from 'lodash';
-import Toast, { DURATION } from 'src/components/Toast/Toast';
+import Toast from 'src/components/Toast/Toast';
 import checkSrsStage from 'src/utils/checkSrsStage';
 
 import {
@@ -14,7 +14,7 @@ import {
   TERMINOLOGY,
 } from 'src/common/constants';
 
-const DUR = 1500;
+const DUR = 400;
 
 const SrsStages = ({ stages } = {}) => {
   const srsApprentice = useRef(null);
@@ -47,10 +47,6 @@ const SrsStages = ({ stages } = {}) => {
     
     else if (stageChangedTo === BURNED) {
       srsBurned.current.show(TERMINOLOGY[BURNED], DUR);
-    }
-
-    else {
-      /** keep going! */
     }
   }, [stages])
 

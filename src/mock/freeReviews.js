@@ -4,8 +4,7 @@ export default [
     "data": {
       "subject_id": 444,
       "subject_type": "kanji",
-      "starting_srs_stage": 0,
-      "ending_srs_stage": 1,
+      "srs_stage": 0,
     }
   },
   {
@@ -13,8 +12,7 @@ export default [
     "data": {
       "subject_id": 453,
       "subject_type": "kanji",
-      "starting_srs_stage": 1,
-      "ending_srs_stage": 2,
+      "srs_stage": 1,
     }
   },
   {
@@ -22,8 +20,7 @@ export default [
     "data": {
       "subject_id": 455,
       "subject_type": "kanji",
-      "starting_srs_stage": 2,
-      "ending_srs_stage": 3,
+      "srs_stage": 2,
     }
   },
   {
@@ -31,8 +28,7 @@ export default [
     "data": {
       "subject_id": 2502,
       "subject_type": "vocabulary",
-      "starting_srs_stage": 4,
-      "ending_srs_stage": 5,
+      "srs_stage": 4,
     }
   },
   {
@@ -40,8 +36,7 @@ export default [
     "data": {
       "subject_id": 2503,
       "subject_type": "vocabulary",
-      "starting_srs_stage": 6,
-      "ending_srs_stage": 7,
+      "srs_stage": 6,
     }
   },
   {
@@ -49,8 +44,7 @@ export default [
     "data": {
       "subject_id": 2504,
       "subject_type": "vocabulary",
-      "starting_srs_stage": 7,
-      "ending_srs_stage": 8,
+      "srs_stage": 7,
     }
   },
   {
@@ -58,8 +52,7 @@ export default [
     "data": {
       "subject_id": 7560,
       "subject_type": "vocabulary",
-      "starting_srs_stage": 8,
-      "ending_srs_stage": 9,
+      "srs_stage": 8,
     }
   },
   {
@@ -67,8 +60,7 @@ export default [
     "data": {
       "subject_id": 8761,
       "subject_type": "radical",
-      "starting_srs_stage": 1,
-      "ending_srs_stage": 2,
+      "srs_stage": 1,
     }
   },
   {
@@ -76,8 +68,7 @@ export default [
     "data": {
       "subject_id": 8762,
       "subject_type": "radical",
-      "starting_srs_stage": 1,
-      "ending_srs_stage": 2,
+      "srs_stage": 1,
     }
   },
   {
@@ -85,8 +76,7 @@ export default [
     "data": {
       "subject_id": 8763,
       "subject_type": "radical",
-      "starting_srs_stage": 4,
-      "ending_srs_stage": 5,
+      "srs_stage": 4,
     }
   },
 ];
