@@ -6394,14 +6394,14 @@ expo-file-system@~8.1.0:
   dependencies:
     uuid "^3.4.0"
 
-expo-firebase-analytics@~2.1.1:
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/expo-firebase-analytics/-/expo-firebase-analytics-2.1.2.tgz#d91b3cade9e0a2e4f47983b9ce268f1bb076c6da"
-  integrity sha512-4MV6D/Omu+WNjhCD6/htC3uZg8uP8Y0Av/wH03U0yEYmqyiJG5/WsA2bvColwDcjnPtM0xvPBMx2Ya65Eo9gWA==
+expo-firebase-analytics@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/expo-firebase-analytics/-/expo-firebase-analytics-2.3.0.tgz#e6fc715b173ec38ebedd73b47642c36c7ecf00c0"
+  integrity sha512-xabKu0xU6NewUeK8IdEbJYs2OnP3KDO6e3DK3s0V/2wTuxCdyUcO0V9V3XRHX+51ylba01nHFrt/efU+ek1VbQ==
   dependencies:
     expo-firebase-core "~1.0.0"
 
-expo-firebase-core@~1.0.0:
+expo-firebase-core@^1.0.0, expo-firebase-core@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/expo-firebase-core/-/expo-firebase-core-1.0.0.tgz#fb97e43cae68545ddb178adbb93a91c07973ef60"
   integrity sha512-wXEZrB3a1gH2LAmOK4tEtqtpxFTnClhnSReTNRkAkZYoRaScp+Cwn8jLz1nCqk1bXQYLFDBIqbAkPKw07xBbQg==

@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import { Platform } from 'react-native';
+import _ from 'lodash';
 import { initializeApp, apps } from 'firebase/app';
 import * as Analytics from 'expo-firebase-analytics';
 import { select } from 'src/features/wk/state';
 import Review from 'src/screens/Review/Review';
 import Login from 'src/screens/Login/Login';
 import setUserAnalytics from 'src/utils/setUserAnalytics';
+import device from 'src/utils/device';
 import { VERSION } from 'src/../app.config'
-
 export default () => {
 
   const apiKey = select(r => r.API_KEY);
@@ -15,8 +17,7 @@ export default () => {
   const [ demo, setDemo ] = useState(false);
 
   useEffect(() => {
-    // TODO: do we need this ?
-    if (!apps.length) {
+    if (device('web') && !apps.length) {
       initializeApp({
         apiKey: process.env.FIREBASE_API_KEY,
         authDomain: process.env.FIREBASE_AUTH_DOMAIN,
@@ -31,17 +32,22 @@ export default () => {
 
     Analytics.setUnavailabilityLogging(false);
     
+    const logargs = {
+      user: _.get(user, 'data.username'),
+      version: VERSION,
+      os: Platform.OS,
+      osversion: Platform.Version,
+      isIpad: Platform.isPad,
+      isTv: Platform.isTV,
+      isTvOs: Platform.isTVOS,
+    };
+
     if (user) {
       setUserAnalytics(user, () => {
-        Analytics.logEvent('wanianki_Load', {
-          user,
-          version: VERSION,
-        })
+        Analytics.logEvent('wanianki_Load', logargs)
       });
     } else {
-      Analytics.logEvent('wanianki_Load', {
-        version: VERSION,
-      })
+      Analytics.logEvent('wanianki_Load', logargs)
     }
     
   }, [])
