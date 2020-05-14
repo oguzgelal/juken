@@ -26,11 +26,13 @@ export default {
   ios: {
     supportsTablet: true,
     bundleIdentifier: process.env.BUNDLE_ID,
-    googleServicesFile: "./GoogleService-Info.plist"
+    googleServicesFile: "./GoogleService-Info.plist",
+    buildNumber: VERSION,
   },
   android: {
     package: process.env.PACKAGE,
-    googleServicesFile: "./google-services.json"
+    googleServicesFile: "./google-services.json",
+    "versionCode": 1,
   },
   web: {
     config: {
