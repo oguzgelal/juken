@@ -24,6 +24,7 @@ export default {
     "**/*"
   ],
   ios: {
+    icon: "./assets/wk4sq.png",
     supportsTablet: true,
     bundleIdentifier: process.env.BUNDLE_ID,
     googleServicesFile: "./GoogleService-Info.plist",
