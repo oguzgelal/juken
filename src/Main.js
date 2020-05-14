@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import * as firebase from 'firebase';
+import { initializeApp, apps } from 'firebase/app';
 import * as Analytics from 'expo-firebase-analytics';
 import { select } from 'src/features/wk/state';
 import Review from 'src/screens/Review/Review';
@@ -12,8 +12,8 @@ export default () => {
   const [ demo, setDemo ] = useState(false);
 
   useEffect(() => {
-    if (!firebase.apps.length) {
-      firebase.initializeApp({
+    if (!apps.length) {
+      initializeApp({
         apiKey: process.env.FIREBASE_API_KEY,
         authDomain: process.env.FIREBASE_AUTH_DOMAIN,
         databaseURL: process.env.FIREBASE_DATABASE_URL,
