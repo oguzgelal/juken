@@ -7,6 +7,7 @@ import theme from 'src/common/theme';
 import device from 'src/utils/device';
 
 const Message = ({
+  style,
   title,
   description,
   component,
@@ -18,7 +19,8 @@ const Message = ({
   <Page
     style={[
       styles.page,
-      error && styles.coverError
+      error && styles.coverError,
+      style,
     ]}
   >
     
@@ -85,6 +87,7 @@ const Message = ({
 );
 
 Message.propTypes = {
+  style: PropTypes.object,
   loading: PropTypes.bool,
   title: PropTypes.string,
   description: PropTypes.string,

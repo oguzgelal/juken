@@ -10,6 +10,7 @@ import Page from 'src/components/Page/Page';
 import Bar from 'src/components/Bar/Bar';
 import Card from 'src/components/Card/Card';
 import Deck from 'src/components/Deck/Deck';
+import Overlay from 'src/components/Overlay/Overlay';
 import SrsStages from 'src/components/Toast/SrsStages';
 import Message from 'src/screens/Message/Message';
 import useReview from 'src/features/reviews/useReview';
@@ -78,15 +79,6 @@ const Review = ({ demo = false, stopDemo } = {}) => {
     loadReviewsFn();
   };
 
-  if (!isInternetReachable) {
-    return (
-      <Message
-        error
-        title="Cannot connect to the internet"
-      />
-    );
-  }
-
   if (reviewsLoading) {
     return <Message loading />;
   }
@@ -102,6 +94,24 @@ const Review = ({ demo = false, stopDemo } = {}) => {
 
   return (
     <>
+
+    {/** cannot connect to the internet view */}
+    {!isInternetReachable && (
+      <Overlay>
+        <Message
+          error
+          title="No Internet Connection"
+          style={styles.pageCover}
+          description={
+            "You can continue your reviews from where you're left off once your " +
+            "connection is back! Please do not close the app " +
+            (device('web') ? "or refresh the page " : "") + "to prevent from losing unfinished " +
+            "reviews. Note that this does not effect the reviews you have submitted " +
+            "in this session so far."
+          }
+        />
+      </Overlay>
+    )}
     
     {/** display srs stages toasts */}
     <SrsStages stages={srsStages} />
@@ -325,6 +335,10 @@ const styles = StyleSheet.create({
   pageNoReviews: {
     backgroundColor: theme.palette.green,
   },
+  pageCover: device({
+    web: { backgroundColor: 'rgba(0, 0, 0, .9)' },
+    mobile: { backgroundColor: 'rgba(0, 0, 0, .8)' },
+  }),
   noReviewsContainer: {
     textAlign: 'center',
     marginBottom: 12,
