@@ -12,8 +12,9 @@ export default () => {
   const [ demo, setDemo ] = useState(false);
 
   useEffect(() => {
-    console.log('firebaseConfig', firebaseConfig);
-    firebase.initializeApp(firebaseConfig);
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
     Analytics.setUnavailabilityLogging(false);
   }, [])
 
