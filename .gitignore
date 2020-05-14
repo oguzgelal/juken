@@ -19,5 +19,4 @@ src/mock/**/*.json
 ga_instructions.txt
 google-services.json
 GoogleService-Info.plist
-app.json
-src/common/firebaseConfig.js
+.env
