@@ -15,6 +15,7 @@ import Message from 'src/screens/Message/Message';
 import useReview from 'src/features/reviews/useReview';
 import useScrollLock from 'src/hooks/useScrollLock';
 import useLeaveWarning from 'src/hooks/useLeaveWarning';
+import useNetworkListener from 'src/hooks/useNetworkListener';
 import { useWkFn, useWk } from 'src/features/wk/hooks';
 import { getReviewMaterial, getReviewMaterialDemo, submitReview, logout } from 'src/features/wk/api';
 import Button from 'src/components/Button/Button';
@@ -27,6 +28,7 @@ const Review = ({ demo = false, stopDemo } = {}) => {
   const [ displayResults, setDisplayResults ] = useState(false);
   const [ submitError, setSubmitError ] = useState(null);
   const [ srsStages, setSrsStages ] = useState({});
+  const isInternetReachable = useNetworkListener();
 
   useScrollLock();
   useLeaveWarning();
@@ -75,6 +77,15 @@ const Review = ({ demo = false, stopDemo } = {}) => {
     setDisplayResults(false);
     loadReviewsFn();
   };
+
+  if (!isInternetReachable) {
+    return (
+      <Message
+        error
+        title="Cannot connect to the internet"
+      />
+    );
+  }
 
   if (reviewsLoading) {
     return <Message loading />;
