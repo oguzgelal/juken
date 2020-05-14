@@ -17,6 +17,4 @@ src/mock/**/*.json
 .DS_Store
 
 ga_instructions.txt
-google-services.json
-GoogleService-Info.plist
 .env

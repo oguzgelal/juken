@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "157198813464",
+    "firebase_url": "https://wanianki.firebaseio.com",
+    "project_id": "wanianki",
+    "storage_bucket": "wanianki.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:157198813464:android:b1bd9372d9a664d13d766d",
+        "android_client_info": {
+          "package_name": "com.wk.wanianki"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "157198813464-n1ulhv0h9fb0bl1s9fed4ju42b53d98k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTGeQ1ytA8ifZYnGBBCwBR-OnknunhHS4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "157198813464-n1ulhv0h9fb0bl1s9fed4ju42b53d98k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
