@@ -1,10 +1,10 @@
 import _ from 'lodash';
-import * as Analytics from 'expo-firebase-analytics';
 import { request, collection } from 'src/features/wk/request';
 import { GET, POST } from 'src/common/constants';
 import { setUser, removeUser, setApiKey, removeApiKey } from 'src/features/wk/state';
 import run from 'src/utils/run';
 import sleep from 'src/utils/test/sleep';
+import setUserAnalytics from 'src/utils/setUserAnalytics';
 
 import freeReviews from 'src/mock/freeReviews';
 import freeSubjects from 'src/mock/freeSubjects';
@@ -24,20 +24,8 @@ export const login = (args = {}) => async dispatch => {
       apiKey,
     });
 
-    try {
-      // capture basic user details
-      await Analytics.setUserId(_.get(user, 'data.id'));
-      await Analytics.setUserProperties({
-        username: _.get(user, 'data.username'),
-        level: String(_.get(user, 'data.level')),
-        startedAt: _.get(user, 'data.started_at'),
-        subActive: String(_.get(user, 'data.subscription.active')),
-        subType: _.get(user, 'data.subscription.type'),
-        subEnds: _.get(user, 'data.subscription.period_ends_at'),
-      });
-    } catch(e) {
-      /** do nothing */
-    }
+    // capture basic user info
+    setUserAnalytics(user)
 
     dispatch(setUser(user));
     dispatch(setApiKey(apiKey));
