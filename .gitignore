@@ -15,3 +15,9 @@ src/mock/**/*.json
 
 # macOS
 .DS_Store
+
+ga_instructions.txt
+google-services.json
+GoogleService-Info.plist
+app.json
+src/common/firebaseConfig.js

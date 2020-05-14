@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import * as Analytics from 'expo-firebase-analytics';
 import { request, collection } from 'src/features/wk/request';
 import { GET, POST } from 'src/common/constants';
 import { setUser, removeUser, setApiKey, removeApiKey } from 'src/features/wk/state';
@@ -23,6 +24,21 @@ export const login = (args = {}) => async dispatch => {
       apiKey,
     });
 
+    try {
+      // capture basic user details
+      await Analytics.setUserId(_.get(user, 'data.id'));
+      await Analytics.setUserProperties({
+        username: _.get(user, 'data.username'),
+        level: String(_.get(user, 'data.level')),
+        startedAt: _.get(user, 'data.started_at'),
+        subActive: String(_.get(user, 'data.subscription.active')),
+        subType: _.get(user, 'data.subscription.type'),
+        subEnds: _.get(user, 'data.subscription.period_ends_at'),
+      });
+    } catch(e) {
+      /** do nothing */
+    }
+
     dispatch(setUser(user));
     dispatch(setApiKey(apiKey));
 
@@ -30,6 +46,7 @@ export const login = (args = {}) => async dispatch => {
     run(onSuccess, user);
 
   } catch(e) {
+    console.log('e', e);
     run(_stop);
     run(onError, e);
   }
