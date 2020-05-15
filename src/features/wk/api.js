@@ -115,7 +115,9 @@ export const submitReview = (args = {}) => async () => {
     onError,
     _start,
     _stop,
+    resubmit = {},
     reviewId,
+    subjectId,
     incorrectMeanings,
     incorrectReadings,
   } = args;
@@ -123,24 +125,39 @@ export const submitReview = (args = {}) => async () => {
   try {
     run(_start);
 
+    const submit = resubmit.submit || {
+      assignment_id: reviewId,
+      incorrect_meaning_answers: incorrectMeanings || 0,
+      incorrect_reading_answers: incorrectReadings || 0,
+    };
+
+    const objectToResubmitOnError = resubmit || {
+      reviewId,
+      subjectId,
+      submit,
+    };
+
     const res = await request({
       endpoint: 'reviews',
       method: POST,
-      body: {
-        review: {
-          assignment_id: reviewId,
-          incorrect_meaning_answers: incorrectMeanings || 0,
-          incorrect_reading_answers: incorrectReadings || 0,
-        }
-      }
+      body: { review: submit }
     });
 
-    run(onSuccess, { res })
+    // if we can't get confirmation on the resource that we submitted was updated,
+    // consider it a submission error. pass the data on err so we can resubmit.
+    const hasError = _.get(res, 'resources_updated.assignment.id') !== reviewId;
+    
+    if (hasError) {
+      run(onError, { objectToResubmitOnError })
+    } else {
+      run(onSuccess, { res })
+    }
+
     run(_stop);
 
   } catch(e) {
     run(_stop);
-    run(onError, e);
+    run(onError, { e, objectToResubmitOnError });
   }
   
 }

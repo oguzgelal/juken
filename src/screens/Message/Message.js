@@ -7,6 +7,8 @@ import theme from 'src/common/theme';
 import device from 'src/utils/device';
 
 const Message = ({
+  icon,
+  iconStyle,
   style,
   title,
   description,
@@ -40,6 +42,10 @@ const Message = ({
           color={theme.palette.white}
         />
     )}
+
+    {/** custom icon */}
+    {icon && typeof icon === 'string' && <Text style={iconStyle}>{icon}</Text>}
+    {icon && typeof icon !== 'string' && <View style={iconStyle}>{icon}</View>}
 
     {/** page title */}
     {title && (
@@ -87,6 +93,8 @@ const Message = ({
 );
 
 Message.propTypes = {
+  icon: PropTypes.any,
+  iconStyle: PropTypes.object,
   style: PropTypes.object,
   loading: PropTypes.bool,
   title: PropTypes.string,
@@ -117,6 +125,10 @@ const styles = StyleSheet.create({
   text: {
     color: theme.palette.white,
     textAlign: 'center',
+  },
+  iconStyle: {
+    fontSize: 44,
+    fontWeight: '700',
   },
   title: {
     fontSize: 24,

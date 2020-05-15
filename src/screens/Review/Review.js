@@ -34,14 +34,15 @@ const Review = ({ demo = false, stopDemo } = {}) => {
   useScrollLock();
   useLeaveWarning();
 
-  const [ submitReviewFn, reviewsSubmitting ] = useWk(submitReview, {
-    onSuccess: ({ res } = {}) => {
-      if (!res || !res.id || !res.resources_updated) {
-        setSubmitError('Failed to submit review');
-      }
-    },
-    onError: (e) => {
-      setSubmitError(e);
+  const [ submitReviewFn ] = useWk(submitReview, {
+    onError: objectToResubmitOnError => {
+      const subjectId = _.get(objectToResubmitOnError, 'subjectId');
+      const subject = _.get(subjectsDict, subjectId);
+      const { characters } = extractSubject(subject);
+      setSubmitError({
+        objectToResubmitOnError,
+        errSubjectCharacters: characters
+      });
     },
   })
   const logoutFn = useWkFn(logout);
@@ -70,7 +71,9 @@ const Review = ({ demo = false, stopDemo } = {}) => {
   // once results are loaded and reviews are queued
   // set display to true
   useEffect(() => {
-    if (!reviewsLoading) setDisplayResults(true);
+    if (!reviewsLoading) {
+      setDisplayResults(true);
+    }
   }, [queue]);
 
   const isQueueClear = queue.length === 0 && displayResults;
@@ -81,15 +84,6 @@ const Review = ({ demo = false, stopDemo } = {}) => {
 
   if (reviewsLoading) {
     return <Message loading />;
-  }
-  
-  if (submitError) {
-    return (
-      <Message
-        error
-        title="Failed to Submit Review"
-      />
-    );
   }
 
   return (
@@ -105,13 +99,32 @@ const Review = ({ demo = false, stopDemo } = {}) => {
           description={
             "You can continue your reviews from where you're left off once your " +
             "connection is back! Please do not close the app " +
-            (device('web') ? "or refresh the page " : "") + "to prevent from losing unfinished " +
+            (device('web') ? "or refresh the page " : "") + "to prevent from losing half finished " +
             "reviews. Note that this does not effect the reviews you have submitted " +
             "in this session so far."
           }
         />
       </Overlay>
     )}
+
+    {
+      isInternetReachable &&
+      submitError &&
+      (
+        <Overlay>
+          <Message
+            icon={_.get(submitError, 'errSubjectCharacters')}
+            title="Failed to Submit"
+            style={styles.pageCover}
+            description={
+              `We failed to the review above to WaniKani servers. \n` +
+              `${_.get(stats, 'reviews.completed')} reviews you completed were submitted successfully. \n` +
+              `${_.get(stats, 'reviews.unfinished')} reviews were half finished, and will be lost if you close the app` + (device('web') ? " or refresh the page " : "")
+            }
+          />
+        </Overlay>
+      )
+    }
     
     {/** display srs stages toasts */}
     <SrsStages stages={srsStages} />
@@ -161,6 +174,7 @@ const Review = ({ demo = false, stopDemo } = {}) => {
 
                 // submit review
                 submitReviewFn({
+                  subjectId: _.get(review, 'data.subject_id'),
                   reviewId: review.id,
                   incorrectMeanings,
                   incorrectReadings,
@@ -248,6 +262,9 @@ const Review = ({ demo = false, stopDemo } = {}) => {
                   colors={[ theme.palette.red, theme.palette.green ]}
                 />
                 <Text style={[ styles.barText, { marginLeft: 8 } ]}>{_.get(stats, 'reviews.completed')}</Text>
+                {_.get(stats, 'reviews.unfinished') > 0 && (
+                  <Text style={[ styles.barText, styles.barTextOpac, { fontSize: 8, marginTop: -12 } ]}>{_.get(stats, 'reviews.unfinished')}</Text>
+                )}
                 <Text style={[ styles.barText, styles.barTextOpac, { marginLeft: 4, marginRight: 4 } ]}>of</Text>
                 <Text style={[ styles.barText ]}>{totalReviews}</Text>
               </View>

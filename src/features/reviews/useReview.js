@@ -18,7 +18,7 @@ export default (reviews, subjects,) => {
   const [ totalCards, setTotalCards ] = useState(0);
   
   // review stats
-  const [ completedReviewsTmp, setCompletedReviewsTmp ] = useState({});
+  const [ unfinishedReviews, setUnfinishedReviews ] = useState({});
   const [ completedReviews, setCompletedReviews ] = useState({});
   const [ incorrectReviews, setIncorrectReviews ] = useState({});
   const [ incorrectMeanings, setIncorrectMeanings ] = useState({});
@@ -34,7 +34,7 @@ export default (reviews, subjects,) => {
     if (_.isNil(reviews) || _.isNil(subjects)) return;
 
     // reset stats
-    setCompletedReviewsTmp({})
+    setUnfinishedReviews({})
     setCompletedReviews({})
     setIncorrectReviews({})
     setIncorrectMeanings({})
@@ -62,6 +62,7 @@ export default (reviews, subjects,) => {
     
     const totalCompletedCards = Object.keys(completedCards).length;
     const totalCompletedReviews = Object.keys(completedReviews).length;
+    const totalUnfinishedReview = Object.keys(unfinishedReviews).length;
     let totalCorrectCards = 0;
     let totalIncorrectCards = 0;
     let totalCorrectReviews = 0;
@@ -96,6 +97,7 @@ export default (reviews, subjects,) => {
         incorrectPercent: incorrectCardsPercent,
       },
       reviews: {
+        unfinished: totalUnfinishedReview,
         completed: totalCompletedReviews,
         correct: totalCorrectReviews,
         incorrect: totalIncorrectReviews,
@@ -127,12 +129,13 @@ export default (reviews, subjects,) => {
       // considered completed automatically. kanjis and vocabs has two
       // review types, so if they were answered once before, they are completed
       if (subjectType === RADICAL) isReviewCompleted = true;
-      else isReviewCompleted = !!completedReviewsTmp[reviewId];
-
+      else isReviewCompleted = !!unfinishedReviews[reviewId];
+      
       // record review as (tmp) completed
-      setCompletedReviewsTmp(Object.assign({}, completedReviewsTmp, {
-        [reviewId]: true
-      }))
+      const newUnfinishedReviews = { ...unfinishedReviews };
+      if (isReviewCompleted) { delete newUnfinishedReviews[reviewId] }
+      else { newUnfinishedReviews[reviewId] = true; }
+      setUnfinishedReviews(newUnfinishedReviews)
 
       // a card is surely complete when answered correctly
       setCompletedCards(Object.assign({}, completedCards, { [id]: true }));
@@ -195,6 +198,7 @@ export default (reviews, subjects,) => {
     totalCards,
     totalReviews,
     completedCards,
+    unfinishedReviews,
     completedReviews,
     incorrectCards,
     incorrectReviews,

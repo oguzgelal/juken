@@ -17,8 +17,8 @@ export default (subject, reviewType) => {
   const question = characters;
   const answer = !reviewType ? null : (
     reviewType === MEANING
-    ? meaningAccepted
-    : readingAccepted
+      ? meaningAccepted
+      : readingAccepted
     );
   
   let questionComponent = subjectType === RADICAL
