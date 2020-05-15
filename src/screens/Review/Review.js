@@ -1,7 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import { Alert, StyleSheet, View, Text, TouchableWithoutFeedback } from 'react-native';
+import {
+  Alert,
+  StyleSheet,
+  View,
+  Text,
+  TouchableWithoutFeedback,
+  ActivityIndicator,
+} from 'react-native';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import device from 'src/utils/device';
@@ -11,6 +18,7 @@ import Bar from 'src/components/Bar/Bar';
 import Card from 'src/components/Card/Card';
 import Deck from 'src/components/Deck/Deck';
 import Overlay from 'src/components/Overlay/Overlay';
+import Toast, { TYPES } from 'src/components/Toast/Toast';
 import SrsStages from 'src/components/Toast/SrsStages';
 import Message from 'src/screens/Message/Message';
 import useReview from 'src/features/reviews/useReview';
@@ -30,18 +38,27 @@ const Review = ({ demo = false, stopDemo } = {}) => {
   const [ submitError, setSubmitError ] = useState(null);
   const [ srsStages, setSrsStages ] = useState({});
   const isInternetReachable = useNetworkListener();
+  const resubmitSuccess = useRef(null);
 
   useScrollLock();
   useLeaveWarning();
 
-  const [ submitReviewFn ] = useWk(submitReview, {
-    onError: objectToResubmitOnError => {
+  const [ submitReviewFn, submittingReview ] = useWk(submitReview, {
+    onSuccess: ({ isResubmitting }) => {
+      setSubmitError(null);
+      if (isResubmitting) {
+        resubmitSuccess.current.show('Success!')
+      }
+    },
+    onError: ({ objectToResubmitOnError } = {}) => {
       const subjectId = _.get(objectToResubmitOnError, 'subjectId');
       const subject = _.get(subjectsDict, subjectId);
-      const { characters } = extractSubject(subject);
+      const subjectType = _.get(subject, 'object');
+      const { characters, type } = extractSubject(subject, subjectType);
       setSubmitError({
         objectToResubmitOnError,
-        errSubjectCharacters: characters
+        errSubjectCharacters: characters,
+        errSubjectType: type,
       });
     },
   })
@@ -89,6 +106,13 @@ const Review = ({ demo = false, stopDemo } = {}) => {
   return (
     <>
 
+    {/** resubmission success */}
+    <Toast
+      ref={resubmitSuccess}
+      type={TYPES.SUCCESS}
+      position="top"
+    />
+
     {/** cannot connect to the internet view */}
     {!isInternetReachable && (
       <Overlay>
@@ -114,13 +138,46 @@ const Review = ({ demo = false, stopDemo } = {}) => {
         <Overlay>
           <Message
             icon={_.get(submitError, 'errSubjectCharacters')}
+            error={!!!_.get(submitError, 'errSubjectCharacters')}
             title="Failed to Submit"
             style={styles.pageCover}
             description={
-              `We failed to the review above to WaniKani servers. \n` +
-              `${_.get(stats, 'reviews.completed')} reviews you completed were submitted successfully. \n` +
-              `${_.get(stats, 'reviews.unfinished')} reviews were half finished, and will be lost if you close the app` + (device('web') ? " or refresh the page " : "")
+              `We failed to submit ${_.get(submitError, 'errSubjectCharacters') || 'your last'} ${_.get(submitError, 'errSubjectType') || ''} review to WaniKani. ` +
+              (_.get(stats, 'reviews.completed') - 1 > 0 ? `${_.get(stats, 'reviews.completed')  - 1} reviews you completed were submitted successfully. ` : '') +
+              (_.get(stats, 'reviews.unfinished') > 0
+                ? (`${_.get(stats, 'reviews.unfinished')} half finished reviews will be lost if you close the app` + (device('web') ? " or refresh the page" : "") + '.')
+                : 'You have no half finished reviews so you will not lose any data. You can try again or safely close the app and continue later.'
+              )
             }
+            ctas={[
+              {
+                id: 'err-btn-retry',
+                text: submittingReview ? 'Retrying...' : 'Retry',
+                style: { marginTop: 32 },
+                onPress: () => {
+                  submitReviewFn({
+                    resubmit: _.get(submitError, 'objectToResubmitOnError')
+                  })
+                },
+                iconRight: submittingReview
+                  ? <ActivityIndicator size={24} color={theme.palette.black} />
+                  : null
+              },
+              {
+                id: 'err-btn-ignore',
+                text: 'Ignore',
+                style: {
+                  marginTop: 4,
+                  background: 'transparent',
+                },
+                textStyle: {
+                  color: theme.palette.white,
+                },
+                onPress: () => {
+                  setSubmitError(null);
+                }
+              }
+            ]}
           />
         </Overlay>
       )

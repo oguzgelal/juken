@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { StyleSheet, ActivityIndicator, Text, ScrollView, View } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import Page from 'src/components/Page/Page';
+import Button from 'src/components/Button/Button';
 import theme from 'src/common/theme';
 import device from 'src/utils/device';
 
@@ -17,6 +18,7 @@ const Message = ({
   error,
   errorMessage,
   center,
+  ctas = [],
 }) => (
   <Page
     style={[
@@ -44,8 +46,8 @@ const Message = ({
     )}
 
     {/** custom icon */}
-    {icon && typeof icon === 'string' && <Text style={iconStyle}>{icon}</Text>}
-    {icon && typeof icon !== 'string' && <View style={iconStyle}>{icon}</View>}
+    {icon && typeof icon === 'string' && <Text style={[styles.iconStyle, iconStyle]}>{icon}</Text>}
+    {icon && typeof icon !== 'string' && <View style={[styles.iconStyle, iconStyle]}>{icon}</View>}
 
     {/** page title */}
     {title && (
@@ -88,6 +90,18 @@ const Message = ({
         {component}
       </View>
     )}
+
+    {/** render cta's */}
+    {ctas.length > 0 && ctas.filter(Boolean).map(cta => (
+      <Button
+        key={cta.id}
+        style={[ styles.width, cta.style ]}
+        text={cta.text}
+        textStyle={cta.textStyle}
+        onPress={cta.onPress}
+        iconRight={cta.iconRight}
+      />
+    ))}
     
   </Page>
 );
@@ -101,6 +115,14 @@ Message.propTypes = {
   description: PropTypes.string,
   errorMessage: PropTypes.string,
   component: PropTypes.any,
+  ctas: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string,
+    title: PropTypes.string,
+    iconRight: PropTypes.any,
+    style: PropTypes.object,
+    textStyle: PropTypes.object,
+    onPress: PropTypes.func,
+  }))
 };
 
 const styles = StyleSheet.create({
@@ -127,8 +149,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   iconStyle: {
-    fontSize: 44,
+    fontSize: 48,
     fontWeight: '700',
+    color: theme.palette.white,
   },
   title: {
     fontSize: 24,

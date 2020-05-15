@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import { MEANING, RADICAL } from 'src/common/constants';
+import { MEANING, RADICAL, TERMINOLOGY } from 'src/common/constants';
 import Radical from 'src/components/Radical/Radical';
 
 export default (subject, reviewType) => {
@@ -26,6 +26,7 @@ export default (subject, reviewType) => {
     : null;
 
   return {
+    type: TERMINOLOGY[reviewType],
     characters,
     meaningAccepted,
     meaningOther,
