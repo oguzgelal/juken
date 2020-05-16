@@ -99,6 +99,7 @@ const Message = ({
         text={cta.text}
         textStyle={cta.textStyle}
         onPress={cta.onPress}
+        color={cta.color}
         iconRight={cta.iconRight}
       />
     ))}
@@ -121,6 +122,7 @@ Message.propTypes = {
     iconRight: PropTypes.any,
     style: PropTypes.object,
     textStyle: PropTypes.object,
+    color: PropTypes.string,
     onPress: PropTypes.func,
   }))
 };

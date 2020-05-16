@@ -168,7 +168,7 @@ const Review = ({ demo = false, stopDemo } = {}) => {
                 text: 'Ignore',
                 style: {
                   marginTop: 4,
-                  background: 'transparent',
+                  backgroundColor: 'transparent',
                 },
                 textStyle: {
                   color: theme.palette.white,
