@@ -357,7 +357,10 @@ const Review = ({ demo = false, appleDemo = false, stopDemo } = {}) => {
                 text="Logout"
                 style={{ marginTop: 8, backgroundColor: 'transparent' }}
                 textStyle={{ color: theme.palette.white }}
-                onPress={() => stopDemo()}
+                onPress={() => {
+                  if (demo) stopDemo()
+                  else logoutFn();
+                }}
               />
             )}
             {(demo && !appleDemo) && (
