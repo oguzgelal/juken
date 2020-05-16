@@ -4,7 +4,7 @@ import { GET, POST } from 'src/common/constants';
 import { setUser, removeUser, setApiKey, removeApiKey } from 'src/features/wk/state';
 import run from 'src/utils/run';
 import sleep from 'src/utils/test/sleep';
-import setUserAnalytics from 'src/utils/setUserAnalytics';
+import setUserAnalytics from 'src/features/events/setUserAnalytics';
 
 import freeReviews from 'src/mock/freeReviews';
 import freeSubjects from 'src/mock/freeSubjects';

@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import * as Analytics from 'expo-firebase-analytics';
 
 export default async (user, callback) => {
