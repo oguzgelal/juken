@@ -11,4 +11,4 @@ If you find a bug in WaniAnki, reporting it would be much appreciated. You can h
 
 ## Further Contact
 
-If for whatever reason you'd like to contact me, you can do so by sending an email to [o.gelal77@gmail.com](mailto:o.gelal77@gmail.com).
+If you like to contact me direcly, you can do so by sending an email to [o.gelal77@gmail.com](mailto:o.gelal77@gmail.com).

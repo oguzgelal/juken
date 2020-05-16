@@ -34,6 +34,9 @@ export default {
     package: process.env.PACKAGE,
     googleServicesFile: "./google-services.json",
     "versionCode": 1,
+    permissions: [
+      "VIBRATE"
+    ]
   },
   web: {
     config: {

@@ -1,7 +1,7 @@
 import device from 'src/utils/device';
 
 const palette = {
-  blue: 'rgb(30, 203, 225)',
+  blue: 'rgb(30, 203, 225)', // 1ecbe1
   green: 'rgb(83, 242, 185)',
   red: 'rgb(255, 149, 143)',
   black: 'rgb(81, 81, 81)',
