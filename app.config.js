@@ -33,7 +33,7 @@ export default {
   android: {
     package: process.env.PACKAGE,
     googleServicesFile: "./google-services.json",
-    "versionCode": 1,
+    "versionCode": 2,
     permissions: [
       "VIBRATE"
     ]
