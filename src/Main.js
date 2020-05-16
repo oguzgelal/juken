@@ -16,6 +16,7 @@ export default () => {
   const user = select(r => r.USER);
 
   const [ demo, setDemo ] = useState(false);
+  const [ appleDemo, setAppleDemo ] = useState(false);
 
   useEffect(() => {
 
@@ -33,9 +34,29 @@ export default () => {
     
   }, [])
 
-  if (demo) return <Review demo stopDemo={() => setDemo(false)} />;
+  if (demo) {
+    return (
+      <Review
+        demo
+        appleDemo={appleDemo}
+        stopDemo={() => {
+          setDemo(false);
+          setAppleDemo(false);
+        }}
+      />
+    );
+  }
 
-  if (!apiKey) return <Login startDemo={() => setDemo(true)} />;
+  if (!apiKey) {
+    return (
+      <Login
+        startDemo={apple => {
+          if (apple) setAppleDemo(true);
+          setDemo(true)
+        }}
+      />
+    );
+  }
 
   return <Review />;
 };

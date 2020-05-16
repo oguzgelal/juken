@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import * as WebBrowser from 'expo-web-browser';
-import { Linking } from 'expo';
+import { useActionSheet } from '@expo/react-native-action-sheet';
 
 import {
   StyleSheet,
@@ -35,6 +35,7 @@ const Login = ({ startDemo }) => {
   const [ key, setKey ] = useState('');
   const failed = useRef(null);
   const empty = useRef(null);
+  const { showActionSheetWithOptions } = useActionSheet();
 
   const [ loginFn, loginLoading ] = useWk(login, {
     apiKey: key,
@@ -67,7 +68,7 @@ const Login = ({ startDemo }) => {
             </View>
 
             <TextInput
-              placeholder="WaniKani Api Key v2"
+              placeholder="WaniKani Personal Access Token"
               value={key}
               onChangeText={text => setKey(text)}
             />
@@ -89,46 +90,85 @@ const Login = ({ startDemo }) => {
                   empty.current.show('Please enter your API key');
                   return;
                 }
+                if (key === '1111') {
+                  startDemo(true);
+                  return;
+                }
                 loginFn();
               }}
             />
 
-            <View style={styles.or}>
-              <Text style={styles.orText}>-or-</Text>
-            </View>
-            
-            {/* demo button */}
-            <Button
-              text="Demo"
-              iconLeft={<MaterialCommunityIcons name="test-tube" size={24} color={theme.palette.black} />}
-              onPress={() => startDemo()}
-            />
+            {/* more button */}
+            {device('mobile') && (
+              <Button
+                textStyle={{ color: theme.palette.white }}
+                text="More"
+                style={{ marginTop: 12, backgroundColor: 'transparent' }}
+                onPress={() => {
+                  showActionSheetWithOptions({
+                    options: [
+                      'Cancel',
+                      'Feedback',
+                      'Report Issues',
+                      'Source Code',
+                      device('ios') ? null : 'Demo',
+                    ].filter(Boolean),
+                  }, async buttonIndex => {
+                    if (buttonIndex === 1) {
+                      await WebBrowser.openBrowserAsync('https://github.com/oguzgelal/wanianki')
+                    } else if (buttonIndex === 2) {
+                      await WebBrowser.openBrowserAsync('https://github.com/oguzgelal/wanianki')
+                    } else if (buttonIndex === 3) {
+                      await WebBrowser.openBrowserAsync('https://github.com/oguzgelal/wanianki')
+                    } else if (buttonIndex === 4) {
+                      startDemo()
+                    }
+                  })
+                }}
+              />
+            )}
 
-            {/* feedback button */}
-            <Button
-              style={{ marginTop: 8 }}
-              text="Feedback & Bug Report"
-              iconLeft={<MaterialIcons name="email" size={24} color={theme.palette.black} />}
-              onPress={() => {
-                Linking.openURL('mailto: o.gelal77@gmail.com?subject=WaniAnki - Feedback / Bug Report')
-              }}
-            />
-            
-            {/* source code button */}
-            <Button
-              style={{
-                marginTop: 8,
-                backgroundColor: theme.color.githubBlack
-              }}
-              textStyle={{
-                color: theme.color.githubWhite
-              }}
-              text="Source Code"
-              iconLeft={<AntDesign name="github" size={24} color={theme.color.githubWhite} />}
-              onPress={async () => {
-                await WebBrowser.openBrowserAsync('https://github.com/oguzgelal/wanianki')
-              }}
-            />
+            {/** do not show this part for iOS */}
+            {device('web') && (
+              <>
+                <View style={styles.or}>
+                  <Text style={styles.orText}>-or-</Text>
+                </View>
+                
+                {/* demo button */}
+                <Button
+                  text="Demo"
+                  iconLeft={<MaterialCommunityIcons name="test-tube" size={24} color={theme.palette.black} />}
+                  onPress={() => startDemo()}
+                />
+
+                {/* feedback button */}
+                <Button
+                  style={{ marginTop: 8 }}
+                  text="Feedback & Bug Report"
+                  iconLeft={<MaterialIcons name="email" size={24} color={theme.palette.black} />}
+                  onPress={async () => {
+                    await WebBrowser.openBrowserAsync('https://github.com/oguzgelal/wanianki')
+                  }}
+                />
+                
+                {/* source code button */}
+                <Button
+                  style={{
+                    marginTop: 8,
+                    backgroundColor: theme.color.githubBlack
+                  }}
+                  textStyle={{
+                    color: theme.color.githubWhite
+                  }}
+                  text="Source Code"
+                  iconLeft={<AntDesign name="github" size={24} color={theme.color.githubWhite} />}
+                  onPress={async () => {
+                    await WebBrowser.openBrowserAsync('https://github.com/oguzgelal/wanianki')
+                  }}
+                />
+              </>
+            )}
             
           </KeyboardAvoidingView>
         </Page>

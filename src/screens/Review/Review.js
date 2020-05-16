@@ -30,7 +30,7 @@ import { getReviewMaterial, getReviewMaterialDemo, submitReview, logout } from '
 import Button from 'src/components/Button/Button';
 import extractSubject from 'src/utils/extractSubject';
 
-const Review = ({ demo = false, stopDemo } = {}) => {
+const Review = ({ demo = false, appleDemo = false, stopDemo } = {}) => {
   const { showActionSheetWithOptions } = useActionSheet();
   const [ reviews, setReviews ] = useState(null);
   const [ subjects, setSubjects ] = useState(null);
@@ -284,7 +284,7 @@ const Review = ({ demo = false, stopDemo } = {}) => {
                 options: [
                   'Cancel',
                   'Refresh',
-                  demo ? 'Back to Main Menu' : 'Logout'
+                  demo ? (appleDemo ? 'Logout' : 'Back to Main Menu') : 'Logout'
                 ],
                 destructiveButtonIndex: 2,
               }, buttonIndex => {
@@ -342,22 +342,6 @@ const Review = ({ demo = false, stopDemo } = {}) => {
             </View>
           </TouchableWithoutFeedback>
         )}
-        
-        {/* review stats */}
-        {totalReviews > 0 && isQueueClear && (
-          <View style={[ styles.box, { marginTop: 8 } ]}>
-            <Text
-              style={{
-                fontWeight: '700',
-                color: theme.palette.black,
-                opacity: 0.3,
-                fontSize: 12,
-              }}
-            >
-              Session details coming soon
-            </Text>
-          </View>
-        )}
 
         {/* controls */}
         {isQueueClear && (
@@ -368,18 +352,20 @@ const Review = ({ demo = false, stopDemo } = {}) => {
               iconLeft={<Ionicons name="md-refresh" size={24} color={theme.color.black} />}
               onPress={() => refreshFn()}
             />
-            {!demo && (
+            {(!demo || (demo && appleDemo)) && (
               <Button
                 text="Logout"
-                style={{ marginTop: 8, backgroundColor: theme.palette.green }}
+                style={{ marginTop: 8, backgroundColor: 'transparent' }}
                 textStyle={{ color: theme.palette.white }}
+                onPress={() => stopDemo()}
               />
             )}
-            {demo && (
+            {(demo && !appleDemo) && (
               <Button
                 text="Back to Main Menu"
-                style={{ marginTop: 8 }}
-                iconLeft={<AntDesign name="arrowleft" size={24} color={theme.color.black} />}
+                style={{ marginTop: 8, backgroundColor: 'transparent' }}
+                textStyle={{ color: theme.palette.white }}
+                iconLeft={<AntDesign name="arrowleft" size={24} color={theme.palette.white} />}
                 onPress={() => stopDemo()}
               />
             )}

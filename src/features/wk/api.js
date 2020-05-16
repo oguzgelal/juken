@@ -99,9 +99,9 @@ export const getReviewMaterial = (args = {}) => async () => {
  * return demo review materials with a delay
  */
 export const getReviewMaterialDemo = (args = {}) => async () => {
-  const { onSuccess, onError, _start, _stop } = args;
+  const { onSuccess, _start, _stop } = args;
   run(_start);
-  await sleep(500);
+  await sleep(1000);
   run(_stop);
   run(onSuccess, { reviews: freeReviews, subjects: freeSubjects })
 }
