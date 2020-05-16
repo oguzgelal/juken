@@ -5,7 +5,7 @@ I am planning to maintain WaniAnki and add in more features down the line. Needl
 
 ## Reporting Bugs
 
-If you find a bug in WaniAnki, reporting it would be much appreciated. You can simply head over to the [open issues](https://github.com/oguzgelal/wanianki/issues) section and submit your issue from there. I'll try to fix bugs as quick as possible. Reporting bugs is easy, I made a crash screen that shows the error details (as shown below), so you can just take a screenshot of it and include it in your ticket.
+If you find a bug in WaniAnki, reporting it would be much appreciated. You can head over to the [open issues](https://github.com/oguzgelal/wanianki/issues) section and submit the issue from there. I'll try to fix bugs as quick as possible. Reporting bugs is easy, I made a crash screen that shows the error details (as shown below), so you can just take a screenshot of it and include it in your ticket.
 
 <img src="https://user-images.githubusercontent.com/2817993/82118683-8b305f80-9781-11ea-9a74-633421342a80.PNG" width="320" />
 
