@@ -28,6 +28,18 @@ WaniAnki is a minimalistic review app for [WaniKani](https://www.wanikani.com/) 
 
 WaniAnki was inspired by the popular flashcard app [Anki](https://ankiweb.net/) in the sense that it allows you to reveal the answer instead of having to typing it out, and it features Tinder-like swipe gestures to quickly submit your answers. Just login with your WaniKani Personal Access Token and start swiping.
 
+### User Interface
+
+Cards are fairly simple. Before revealing, it shows the Japanese characters and the question text under it. The characters are color-coded with WaniKani colors; purple for vocabulary, pink for kanji and light blue for radicals. After you recall, simply use the Reveal button to reveal the answer. It's a press & hold button to prevent accidental touches. On web (desktop), you can use spacebar to reveal the answer. Once revealed, answer will be displayed below the characters. If you got it right, you should swipe **right**. If you got it wrong, you should swipe **left**. On desktop (web), you can use the arrow keys instead of swiping. That's all there is to it. 
+
+<img width="200" alt="Screen Shot 2020-05-17 at 7 27 03 PM" src="https://user-images.githubusercontent.com/2817993/82154792-0fb1d980-9879-11ea-801e-114f3965b0c9.png">
+
+One thing worth talking about is the review stats below the cards. The top row shows review data, and bottom row shows card data. A "card" represents a question, every single question asked in a review session comes in a card, it's basically a *review / review type* pair. (ie. for one vocab or kanji review, there are two cards - reading and meaning, for one radical review there is one card - meaning).
+
+The bars displays the percentage of correct / incorrect reviews / cards you **completed** respectively. A card is completed when you get it right, a review is completed when you get all cards for a review right. If you get a card wrong, it will be requeued and will be asked again, and it won't be included in the percentage until you get it right. Same goes for reviews. Once you get a card (and a review) correct, it will be count as correct if you haven't submitted an incorrect answer for it previously, otherwise, it'll be count as incorrect. (The number of incorrect answers you've submitted for a card / review isn't reflected on the bar - as it'll just count as one wrong answer - but it'll be submitted to WaniKani).
+
+The `X of Y` displays show how many items you have *completed* (`X`), and the number of items there are in total (`Y`). The `Y` of the top bar shows how many reviews you have in that session, and the `Y` of the bottom bar shows how many cards you have in total (ie. how many questions you'll be answering). The `X` of the top bar is the number of reviews you have completed, and the superscript of it shows the number of half finished reviews, that is, the number of reviews that are not completed but has completed parts. It could also be thought as the number of reviews that'll lost if you close the app mid-session. The `X` at the bottom bar shows the number of cards you completed.
+
 
 ## Platforms
 
@@ -62,7 +74,7 @@ WaniAnki not only supports the web, it is also optimized for the desktop experie
 
 ### Progressive Web App (PWA)
 
-Wanianki.com features PWA support, so you can install it and use it like a desktop application. [Here's](https://support.google.com/chrome/answer/9658361) a guide on how to install PWA's apps on Chrome, and note that most major browsers have support for PWA's.
+Wanianki.com features PWA support, so you can install it and use it like a desktop application. [Here's](https://support.google.com/chrome/answer/9658361) a guide on how to install PWAs on Chrome, and note that most major browsers have support for PWA's.
 
 <img width="200" alt="WaniAnki PWA Dock" src="https://user-images.githubusercontent.com/2817993/82148898-b7211300-985d-11ea-938a-1feba5ccb41b.png">
 
@@ -88,7 +100,7 @@ I made an extra special effort to make WaniAnki work as reliably as I can, espec
 
 **Failed submission:** If any of the reviews you've completed fails to be submitted, WaniAnki will again block your interaction to prevent further data loss. The error message will tell you how many reviews in the session were submitted successfully and how many are half finished, and will be lost if you close the app. There is a "Retry" button that you can use to re-send the submission (any number of times, until it works or you give up). As a general principle, you can think that that if you're not seing this screen, your reviews are being submitted.
 
-**On-the-fly submission:** Your reviews will be submitted in the background as you go through the session. This means if something goes horribly wrong in mind-session, like a complete crash, previously submitted reviews will not be lost.
+**On-the-fly submission:** Your reviews will be submitted in the background as you go through the session. This means if something goes horribly wrong mid-session, like a complete crash, previously submitted reviews will not be lost.
 
 <img width="235" alt="Half finished reviews" src="https://user-images.githubusercontent.com/2817993/82154143-a039eb00-9874-11ea-9938-44d23e461a26.png">
 
