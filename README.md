@@ -105,7 +105,7 @@ I made an extra special effort to make WaniAnki work as reliably as I can, espec
 
 <img width="235" alt="Half finished reviews" src="https://user-images.githubusercontent.com/2817993/82154143-a039eb00-9874-11ea-9938-44d23e461a26.png">
 
-**Review distribution:** A review is only submitted when it's fully completed, that is, when you get all parts of a it correct (reading and meaning, only meaning for radicals). Kanji and Vocabulary reviews with only one part completed are half finished reviews, and they are the ones that'll be lost in a far from ideal situation like a crash, or dropping your device in a lake etc. To prepare for the worst and keep this loss minimal, WaniAnki will not put review pairs too far from each other. On the review bar below, superscript of the number of completed reviews, it displays the number of half-finished reviews (shown above). WaniAnki will make sure that you don't having more than ~10 half finished reviews at a time.
+**Review distribution:** A review is only submitted when it's fully completed, that is, when you get all parts of it correct (reading and meaning, only meaning for radicals). Kanji and Vocabulary reviews with only one part completed are half finished reviews, and they are the ones that'll be lost in a far from ideal situation like a crash, or dropping your device in a lake etc. To prepare for the worst and keep this loss minimal, WaniAnki will not put review pairs too far from each other. On the review bar below, superscript of the completed review number displays the number of half-finished reviews (shown above). WaniAnki will make sure that you don't having more than ~10 half finished reviews at a time.
 
 
 ## Feature Requests
