@@ -40,7 +40,7 @@ WaniAnki is a cross-platform application, natively awailable on mobile platforms
 <a href="#">
   <img src="https://user-images.githubusercontent.com/2817993/82145767-ea11d980-9852-11ea-8880-704240dcbeae.png" height="40" alt="WaniAnki App Store">
   <br />
-  <img src="https://user-images.githubusercontent.com/2817993/82147983-1b41d800-985a-11ea-9e91-1321b85af125.png" width="60%" alt="WaniAnki iOS Screenshots">
+  <img src="https://user-images.githubusercontent.com/2817993/82147983-1b41d800-985a-11ea-9e91-1321b85af125.png" width="70%" alt="WaniAnki iOS Screenshots">
 </a>
 
 ### Android
@@ -48,7 +48,7 @@ WaniAnki is a cross-platform application, natively awailable on mobile platforms
 <a href="#">
   <img src="https://user-images.githubusercontent.com/2817993/82146513-8dfb8500-9853-11ea-9769-bb2f81a1afe1.png" height="40" alt="WaniAnki Google Play">
   <br />
-  <img src="https://user-images.githubusercontent.com/2817993/82147988-25fc6d00-985a-11ea-8b7c-e9dc02fddb1f.png" width="60%" alt="WaniAnki Android Screenshots">
+  <img src="https://user-images.githubusercontent.com/2817993/82147988-25fc6d00-985a-11ea-8b7c-e9dc02fddb1f.png" width="70%" alt="WaniAnki Android Screenshots">
 </a>
 
 ### Web / Mobile Web
@@ -57,6 +57,9 @@ WaniAnki not only supports the web platform, it is optimized for the desktop exp
 
 <a href="https://wanianki.com">
   <img src="https://user-images.githubusercontent.com/2817993/82147198-bc2e9400-9856-11ea-984b-629e7df1b4a8.png" height="40" alt="WaniAnki Web">
+  <br />
+  <img src="https://user-images.githubusercontent.com/2817993/82148509-234f4700-985d-11ea-9e41-84516b763aed.png" width="70%" alt="WaniAnki Web Screenshot">
+  
 </a>
 
 ### Progressive Web App (PWA)
