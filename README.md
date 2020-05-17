@@ -13,32 +13,33 @@
 
 <p align="center">
   <a href="#what-is-wanianki">Introduction</a> •
+  <a href="#user-interface">User Interface</a> •
   <a href="#platforms">Platforms</a> •
   <a href="#reliability">Reliability</a> •
-  <a href="#feature-requests">Feature Requests</a> •
-  <a href="#contribution">Contribution</a>
+  <a href="#feature-requests">Feedback</a> •
+  <a href="#further-contact">Contact</a>
 </p>
 
 
 ## What is WaniAnki ?
 
-WaniAnki is a minimalistic review app for [WaniKani](https://www.wanikani.com/) optimized for speed. It eliminates the need for typing; you just just have to recall, reveal the answer and submit by swiping left or right.
+WaniAnki is a minimalistic review app for [WaniKani](https://www.wanikani.com/) optimized for speed. It eliminates the need for typing; you just have to recall, reveal the answer and submit by swiping left or right.
 
 <img src="https://user-images.githubusercontent.com/2817993/82143706-81286280-984e-11ea-9336-b982002f6d80.gif" width="120" alt="WaniAnki"> 
 
-WaniAnki was inspired by the popular flashcard app [Anki](https://ankiweb.net/) in the sense that it allows you to reveal the answer instead of having to typing it out, and it features Tinder-like swipe gestures to quickly submit your answers. Just login with your WaniKani Personal Access Token and start swiping.
+WaniAnki was inspired by the popular flashcard app [Anki](https://ankiweb.net/) in the sense that it allows you to reveal the answer instead of having to typing it out, and it features Tinder-like swipe gestures to submit your answers. Just login with your WaniKani Personal Access Token and start swiping.
 
 ### User Interface
 
-Cards are fairly simple. Before revealing, it shows the Japanese characters and the question text under it. The characters are color-coded with WaniKani colors; purple for vocabulary, pink for kanji and light blue for radicals. After you recall, simply use the Reveal button to reveal the answer. It's a press & hold button to prevent accidental touches. On web (desktop), you can use spacebar to reveal the answer. Once revealed, answer will be displayed below the characters. If you got it right, you should swipe **right**. If you got it wrong, you should swipe **left**. On desktop (web), you can use the arrow keys instead of swiping. That's all there is to it. 
+Cards are fairly simple; they show the Japanese characters and the question text under it. The characters are color coded in WaniKani color scheme; purple for vocabulary, pink for kanji and light blue for radicals. After you recall, simply use the `Reveal` button to reveal the answer. It's a press & hold interaction to prevent accidental touches. On the web (desktop), you can reveal the answer with space bar as well. Once revealed, the answer will be displayed under the characters. If you got the answer right, you should swipe **right**. If you got it wrong, you should swipe **left**. On desktop (web), you can use the arrow keys instead of swiping. That's all there is to it. 
 
 <img width="200" alt="Screen Shot 2020-05-17 at 7 27 03 PM" src="https://user-images.githubusercontent.com/2817993/82154792-0fb1d980-9879-11ea-801e-114f3965b0c9.png">
 
-One thing worth talking about is the review stats below the cards. The top row shows review data, and bottom row shows card data. A "card" represents a question, every single question asked in a review session comes in a card, it's basically a *review / review type* pair. (ie. for one vocab or kanji review, there are two cards - reading and meaning, for one radical review there is one card - meaning).
+As for the review stats below the cards; the top and bottom rows show **completed** review and card data respectively. A "card" represents a question, every single question asked in a review session comes in a card, it's basically a *review / review type* pair. (ie. for one vocab or kanji review, there are two cards - reading and meaning, for one radical review there is one card - meaning).
 
-The bars displays the percentage of correct / incorrect reviews / cards you **completed** respectively. A card is completed when you get it right, a review is completed when you get all cards for a review right. If you get a card wrong, it will be requeued and will be asked again, and it won't be included in the percentage until you get it right. Same goes for reviews. Once you get a card (and a review) correct, it will be count as correct if you haven't submitted an incorrect answer for it previously, otherwise, it'll be count as incorrect. (The number of incorrect answers you've submitted for a card / review isn't reflected on the bar - as it'll just count as one wrong answer - but it'll be submitted to WaniKani).
+The bars displays the percentage of the **completed** correct / incorrect reviews / cards respectively. A card is completed when you get it right, and a review is completed when you get all cards for a review right. If you get a card wrong, it'll be requeued and asked again, and it won't be included in the percentage until you get it right. Same goes for reviews. Once you get a card / review right, it will be count as correct if you didn't submit an incorrect answer for it previously, otherwise, it'll be count as incorrect. (The number of incorrect answers you've submitted for a card / review isn't reflected on the bar - as it'll just count as one wrong answer - but it'll be submitted to WaniKani).
 
-The `X of Y` displays show how many items you have *completed* (`X`), and the number of items there are in total (`Y`). The `Y` of the top bar shows how many reviews you have in that session, and the `Y` of the bottom bar shows how many cards you have in total (ie. how many questions you'll be answering). The `X` of the top bar is the number of reviews you have completed, and the superscript of it shows the number of half finished reviews, that is, the number of reviews that are not completed but has completed parts. It could also be thought as the number of reviews that'll lost if you close the app mid-session. The `X` at the bottom bar shows the number of cards you completed.
+The `X of Y` displays show the number of items you have *completed* (`X`), and the number of items you have available in total (`Y`). The `Y` of the top bar shows how many reviews you have in that session, and the `Y` of the bottom bar shows how many cards you have in total (ie. how many questions you'll be answering). The `X` of the top bar is the number of reviews you have completed, and its superscript shows the number of half finished reviews, that is, the number of reviews that are not completed but has one completed part. It could also be thought as the number of reviews that'll lost if you close the app mid-session. The `X` at the bottom bar shows the number of cards you have completed.
 
 
 ## Platforms
@@ -106,11 +107,20 @@ I made an extra special effort to make WaniAnki work as reliably as I can, espec
 
 **Review distribution:** A review is only submitted when it's fully completed, that is, when you get all parts of a it correct (reading and meaning, only meaning for radicals). Kanji and Vocabulary reviews with only one part completed are half finished reviews, and they are the ones that'll be lost in a far from ideal situation like a crash, or dropping your device in a lake etc. To prepare for the worst and keep this loss minimal, WaniAnki will not put review pairs too far from each other. On the review bar below, superscript of the number of completed reviews, it displays the number of half-finished reviews (shown above). WaniAnki will make sure that you don't having more than ~10 half finished reviews at a time.
 
-### Feedback
+## Feature Requests
 
-### Feature Requests
+I am planning to maintain WaniAnki and add in more features down the line. Needless to say, I'm open to feature requests. To see what's planned and get insights on the roadmap, you can check out the tickets under each [milestone](https://github.com/oguzgelal/wanianki/milestones), tickets related to new features will have an `enhancement` tag. You can also head over to [issues](https://github.com/oguzgelal/wanianki/issues) section and submit your own feature request. 
 
-### Contribution
+
+## Reporting Bugs
+
+If you find a bug in WaniAnki, reporting it would be much appreciated. You can head over to the [open issues](https://github.com/oguzgelal/wanianki/issues) section and submit the issue from there. I'll try to fix bugs as quick as possible. Reporting bugs is easy, I made a crash screen that shows the error details (as shown below), so you can just take a screenshot of it and include it in your ticket.
+
+<img src="https://user-images.githubusercontent.com/2817993/82118683-8b305f80-9781-11ea-9a74-633421342a80.PNG" width="320" />
+
+## Further Contact
+
+If you like to contact me direcly, you can do so by sending an email to [o.gelal77@gmail.com](mailto:o.gelal77@gmail.com).
 
 ### Mentions
 
