@@ -14,12 +14,13 @@
 <p align="center">
   <a href="#what-is-wanianki">Introduction</a> •
   <a href="#platforms">Platforms</a> •
-  <a href="#contribution">Feedback</a> •
+  <a href="#reliability">Reliability</a> •
   <a href="#feature-requests">Feature Requests</a> •
   <a href="#contribution">Contribution</a>
 </p>
 
-### What is WaniAnki ?
+
+## What is WaniAnki ?
 
 WaniAnki is a minimalistic review app for [WaniKani](https://www.wanikani.com/) optimized for speed. It eliminates the need for typing; you just just have to recall, reveal the answer and submit by swiping left or right.
 
@@ -29,28 +30,48 @@ The user experience was inspired by the popular flashcard app [Anki](https://ank
 
 <img src="https://user-images.githubusercontent.com/2817993/82143183-9a2f1480-984a-11ea-8a7f-976694aaa0ca.png" width="320" alt="WaniAnki">
 
-### Platforms
 
-WaniAnki is a cross-platform app, natively awailable on mobile platforms and also optimized for the web. It's built with [React Native](https://reactnative.dev/), and uses [react-native-web](https://github.com/necolas/react-native-web) for the web support.
+## Platforms
 
-### iOS & Android
+WaniAnki is a cross-platform application, natively awailable on mobile platforms and also is optimized for the web. It's built with [React Native](https://reactnative.dev/), and uses [react-native-web](https://github.com/necolas/react-native-web) for the web support. There are a few different ways to use WaniAnki, 
 
+### iOS
 
 <a href="#">
-  <img src="https://user-images.githubusercontent.com/2817993/82145767-ea11d980-9852-11ea-8880-704240dcbeae.png" height="80" alt="WaniAnki App Store">
-</a>
-<a href="#">
-  <img src="https://user-images.githubusercontent.com/2817993/82146513-8dfb8500-9853-11ea-9769-bb2f81a1afe1.png" height="80" alt="WaniAnki Google Play">
+  <img src="https://user-images.githubusercontent.com/2817993/82145767-ea11d980-9852-11ea-8880-704240dcbeae.png" height="40" alt="WaniAnki App Store">
+  <br />
+  <img src="https://user-images.githubusercontent.com/2817993/82147983-1b41d800-985a-11ea-9e91-1321b85af125.png" height="220" alt="WaniAnki iOS Screenshots">
 </a>
 
-### Web
+### Android
+
+<a href="#">
+  <img src="https://user-images.githubusercontent.com/2817993/82146513-8dfb8500-9853-11ea-9769-bb2f81a1afe1.png" height="40" alt="WaniAnki Google Play">
+  <br />
+  <img src="https://user-images.githubusercontent.com/2817993/82147988-25fc6d00-985a-11ea-8b7c-e9dc02fddb1f.png" height="220" alt="WaniAnki Android Screenshots">
+</a>
+
+### Web / Mobile Web
+
+WaniAnki not only supports the web platform, it is optimized for desktop experience. You can do your reviews using only your keyboard, space to reveal the answer and arrow keys instead of the swipe gestures. WaniAnki also supports the mobile web. You can go to [wanianki.com](wanianki.com) on your mobile browser and have a decent review experience (however native apps offers a much superior experience and are recommended).
 
 <a href="https://wanianki.com">
-  <img src="https://user-images.githubusercontent.com/2817993/82147198-bc2e9400-9856-11ea-984b-629e7df1b4a8.png" height="80" alt="WaniAnki Web">
+  <img src="https://user-images.githubusercontent.com/2817993/82147198-bc2e9400-9856-11ea-984b-629e7df1b4a8.png" height="40" alt="WaniAnki Web">
 </a>
 
+### Progressive Web App (PWA)
 
-### Feature Requests
+Wanianki.com features PWA support, so you can install it and use it like a desktop application. [Here's](https://support.google.com/chrome/answer/9658361) a guide on how to install / uninstall PWA's apps on Chrome, and note that most major browsers have support for PWA's.
+
+### Expo
+
+If for whatever reason you're unable to download the native mobile apps but still prefer a have a native mobile experience, you can use WaniAnki through Expo. You can go to [https://expo.io/@oguzgelal/wanianki](https://expo.io/@oguzgelal/wanianki) or scan the QR code below to get started.
+
+<a href="https://wanianki.com">
+  <img src="https://user-images.githubusercontent.com/2817993/82147800-ef722280-9858-11ea-9e9d-ae6413ebaa68.png" height="80" alt="WaniAnki Expo QR Code">
+</a>
+
+## Reliab
 
 ### Feedback
 
