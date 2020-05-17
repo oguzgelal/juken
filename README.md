@@ -8,7 +8,6 @@
 </h1>
 
 <h3 align="center">Review App for WaniKani</h3>
-
 <p align="center">Sail through your reviews without typing. Just recall, reveal and swipe.</p>
 
 <p align="center">
@@ -19,12 +18,15 @@
   <a href="#further-contact">Contact</a>
 </p>
 
+<p align="center">
+<br />
+<br />
+<img src="https://user-images.githubusercontent.com/2817993/82143706-81286280-984e-11ea-9336-b982002f6d80.gif" width="220" alt="WaniAnki"> 
+</p>
 
 ## Introduction
 
 WaniAnki is a minimalistic review app for [WaniKani](https://www.wanikani.com/) optimized for speed. It eliminates the need for typing; you just have to recall, reveal the answer and submit by swiping left or right.
-
-<img src="https://user-images.githubusercontent.com/2817993/82143706-81286280-984e-11ea-9336-b982002f6d80.gif" width="120" alt="WaniAnki"> 
 
 WaniAnki was inspired by the popular flashcard app [Anki](https://ankiweb.net/) in the sense that it allows you to reveal the answer instead of having to typing it out, and it features Tinder-like swipe gestures to submit your answers. Just login with your WaniKani Personal Access Token and start swiping.
 
@@ -32,14 +34,13 @@ WaniAnki was inspired by the popular flashcard app [Anki](https://ankiweb.net/) 
 
 Cards are fairly simple; they show the Japanese characters and the question text under it. The characters are color coded in WaniKani color scheme; purple for vocabulary, pink for kanji and light blue for radicals. After you recall, simply use the `Reveal` button to reveal the answer. It's a press & hold interaction to avoid accidental touches. On the web (desktop), you can reveal the answer using the space bar as well. Once revealed, the answer will be displayed under the characters: if you got the answer right, swipe **right**, if you got it wrong, swipe **left**. On desktop (web), you can use the arrow keys instead of swiping. That's all there is to it. 
 
-<img width="200" alt="Screen Shot 2020-05-17 at 7 27 03 PM" src="https://user-images.githubusercontent.com/2817993/82154792-0fb1d980-9879-11ea-801e-114f3965b0c9.png">
+<img width="400" alt="Screen Shot 2020-05-17 at 7 27 03 PM" src="https://user-images.githubusercontent.com/2817993/82154792-0fb1d980-9879-11ea-801e-114f3965b0c9.png">
 
 As for the review stats below the cards; the top and bottom rows show **completed** review and card data respectively. A "card" represents a question, every single question asked in a review session comes in a card, it's basically a *review / review type* pair. (ie. for one vocab or kanji review, there are two cards - reading and meaning, for one radical review there is one card - meaning).
 
 The bars displays the percentage of the **completed** correct / incorrect reviews / cards respectively. A card is completed when you get it right, and a review is completed when you get all the cards for a review right. If you get a card wrong, it'll be requeued and asked again, and it won't be included in the percentage until you get it right. Same goes for reviews. Once you get a card / review right, it will be count as correct if you didn't submit an incorrect answer for it previously, otherwise, it'll be count as incorrect. (The number of incorrect answers you've submitted for a card / review isn't reflected on the bar - as it'll just count as one wrong answer - but it'll be submitted to WaniKani).
 
 The `X of Y` displays show the number of items you have *completed* (`X`), and the number of items you have available in total (`Y`). The `Y` of the top bar shows how many reviews you have in that session, and the `Y` of the bottom bar shows how many cards you have in total (ie. how many questions you'll be answering). The `X` of the top bar is the number of reviews you have completed, and its superscript shows the number of half finished reviews, that is, the number of reviews that are not completed but has one completed part. It could also be thought as the number of reviews that'll lost if you close the app mid-session. The `X` at the bottom bar shows the number of cards you have completed.
-
 
 ## Platforms
 
