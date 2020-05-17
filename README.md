@@ -28,8 +28,6 @@ WaniAnki is a minimalistic review app for [WaniKani](https://www.wanikani.com/) 
 
 The user experience was inspired by the popular flashcard app [Anki](https://ankiweb.net/) in the sense that it allows you to reveal the answer instead of having to typing it out, and it features a Tinder-like swipe interface to quickly submit your answers. Just login with your WaniKani Personal Access Token and start swiping.
 
-<img src="https://user-images.githubusercontent.com/2817993/82143183-9a2f1480-984a-11ea-8a7f-976694aaa0ca.png" width="320" alt="WaniAnki">
-
 
 ## Platforms
 
