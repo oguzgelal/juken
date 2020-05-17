@@ -58,7 +58,7 @@ WaniAnki not only supports the web platform, it is optimized for the desktop exp
 <a href="https://wanianki.com">
   <img src="https://user-images.githubusercontent.com/2817993/82147198-bc2e9400-9856-11ea-984b-629e7df1b4a8.png" height="40" alt="WaniAnki Web">
   <br />
-  <img src="https://user-images.githubusercontent.com/2817993/82148509-234f4700-985d-11ea-9e41-84516b763aed.png" width="70%" alt="WaniAnki Web Screenshot">
+  <img src="https://user-images.githubusercontent.com/2817993/82148778-8ccf5580-985d-11ea-95f4-ed207ea4fc1e.png" width="70%" alt="WaniAnki Web Screenshot">
   
 </a>
 
