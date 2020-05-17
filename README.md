@@ -67,7 +67,6 @@ WaniAnki not only supports the web platform, it is optimized for the desktop exp
 Wanianki.com features PWA support, so you can install it and use it like a desktop application. [Here's](https://support.google.com/chrome/answer/9658361) a guide on how to install / uninstall PWA's apps on Chrome, and note that most major browsers have support for PWA's.
 
 <img width="200" alt="WaniAnki PWA Dock" src="https://user-images.githubusercontent.com/2817993/82148898-b7211300-985d-11ea-938a-1feba5ccb41b.png">
-">
 
 ### Expo
 
