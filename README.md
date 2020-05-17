@@ -22,7 +22,9 @@
 
 ### What is WaniAnki ?
 
-WaniAnki is a minimalistic review app for [WaniKani](https://www.wanikani.com/) optimized for speed. It eliminates the need for typing; you just just have to recall, reveal the answer and submit by swiping left or right. The user experience was inspired by the popular flashcard app [Anki](https://ankiweb.net/) in the sense that it allows you to reveal the answer instead of having to typing it out, and it features a Tinder-like swipe interface to quickly submit your answers. Just login with your WaniKani Personal Access Token and start swiping.
+WaniAnki is a minimalistic review app for [WaniKani](https://www.wanikani.com/) optimized for speed. It eliminates the need for typing; you just just have to recall, reveal the answer and submit by swiping left or right.
+
+The user experience was inspired by the popular flashcard app [Anki](https://ankiweb.net/) in the sense that it allows you to reveal the answer instead of having to typing it out, and it features a Tinder-like swipe interface to quickly submit your answers. Just login with your WaniKani Personal Access Token and start swiping.
 
 <img src="https://user-images.githubusercontent.com/2817993/82143706-81286280-984e-11ea-9336-b982002f6d80.gif" width="180" alt="WaniAnki">
 
