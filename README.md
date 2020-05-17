@@ -33,7 +33,7 @@ The user experience was inspired by the popular flashcard app [Anki](https://ank
 
 ## Platforms
 
-WaniAnki is a cross-platform application, natively awailable on mobile platforms and also is optimized for the web. It's built with [React Native](https://reactnative.dev/), and uses [react-native-web](https://github.com/necolas/react-native-web) for the web support. There are a few different ways to use WaniAnki, 
+WaniAnki is a cross-platform application, natively awailable on mobile platforms and also is optimized for the web. It's built with [React Native](https://reactnative.dev/), and uses [react-native-web](https://github.com/necolas/react-native-web) for the web support. There are a few different ways of using WaniAnki, below you can find some details on these methods. Note that Web, PWA and Expo apps will receive updates / bug fixes more frequently and earlier than the native iOS and Android counterparts due to the review process of app stores.
 
 ### iOS
 
