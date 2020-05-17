@@ -33,14 +33,14 @@ The user experience was inspired by the popular flashcard app [Anki](https://ank
 
 ## Platforms
 
-WaniAnki is a cross-platform application, natively awailable on mobile platforms and also is optimized for the web. It's built with [React Native](https://reactnative.dev/), and uses [react-native-web](https://github.com/necolas/react-native-web) for the web support. There are a few different ways of using WaniAnki, below you can find some details on these methods. Note that Web, PWA and Expo apps will receive updates / bug fixes more frequently and earlier than the native iOS and Android counterparts due to the review process of app stores.
+WaniAnki is a cross-platform application, natively awailable on mobile platforms and is also optimized for the web. It's built with [React Native](https://reactnative.dev/), and uses [react-native-web](https://github.com/necolas/react-native-web) for the web support. There are a few different ways of using WaniAnki, below you can find some details on these methods. Note that Web, PWA and Expo apps will receive updates / bug fixes more frequently and earlier than the native iOS and Android counterparts due to the review process of app stores.
 
 ### iOS
 
 <a href="#">
   <img src="https://user-images.githubusercontent.com/2817993/82145767-ea11d980-9852-11ea-8880-704240dcbeae.png" height="40" alt="WaniAnki App Store">
   <br />
-  <img src="https://user-images.githubusercontent.com/2817993/82147983-1b41d800-985a-11ea-9e91-1321b85af125.png" height="220" alt="WaniAnki iOS Screenshots">
+  <img src="https://user-images.githubusercontent.com/2817993/82147983-1b41d800-985a-11ea-9e91-1321b85af125.png" maxHeight="220" width="100%" alt="WaniAnki iOS Screenshots">
 </a>
 
 ### Android
@@ -48,12 +48,12 @@ WaniAnki is a cross-platform application, natively awailable on mobile platforms
 <a href="#">
   <img src="https://user-images.githubusercontent.com/2817993/82146513-8dfb8500-9853-11ea-9769-bb2f81a1afe1.png" height="40" alt="WaniAnki Google Play">
   <br />
-  <img src="https://user-images.githubusercontent.com/2817993/82147988-25fc6d00-985a-11ea-8b7c-e9dc02fddb1f.png" height="220" alt="WaniAnki Android Screenshots">
+  <img src="https://user-images.githubusercontent.com/2817993/82147988-25fc6d00-985a-11ea-8b7c-e9dc02fddb1f.png" maxHeight="220" width="100%" alt="WaniAnki Android Screenshots">
 </a>
 
 ### Web / Mobile Web
 
-WaniAnki not only supports the web platform, it is optimized for desktop experience. You can do your reviews using only your keyboard, space to reveal the answer and arrow keys instead of the swipe gestures. WaniAnki also supports the mobile web. You can go to [wanianki.com](wanianki.com) on your mobile browser and have a decent review experience (however native apps offers a much superior experience and are recommended).
+WaniAnki not only supports the web platform, it is optimized for the desktop experience. You can do your reviews using only your keyboard, space to reveal the answer and arrow keys to submit the answer instead of the swipe gestures (although gestures are still supported for for touch screen devices using the web app). WaniAnki also supports the mobile web. You can go to [wanianki.com](wanianki.com) on your mobile browser and have a decent review experience (however native apps offers a much superior experience and are recommended).
 
 <a href="https://wanianki.com">
   <img src="https://user-images.githubusercontent.com/2817993/82147198-bc2e9400-9856-11ea-984b-629e7df1b4a8.png" height="40" alt="WaniAnki Web">
