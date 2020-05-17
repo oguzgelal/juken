@@ -92,7 +92,7 @@ If for whatever reason you're unable to download the native mobile apps but stil
 
 I made an extra special effort to make WaniAnki work as reliably as I can, especially when submitting the results, because I know how frustrating it would be to complete a long review session only to find out that they weren't submitted. I wanted to share some of the measures I took:
 
-**No offline support:** I initially considered adding offline support to WaniAnki, but then decided against it. WaniAnki works as long as it can comunicate to WaniKani, and uses it as a single source of truth. This makes it more reliable, because offline support adds a new layer of complexity that can potentially cause bugs: synchronisation. If there is enough demand and enough time on my hands I'm willing to undergo this challenge, but for now we'll have to accept the lack of this feature and enjoy the reliability benefits 🥂
+**No offline support:** I initially considered adding offline support to WaniAnki, but then decided against it. WaniAnki works as long as it can comunicate to WaniKani, and uses it as a single source of truth. This makes it more reliable, because offline support introduces a whole new layer of complexity that can potentially cause bugs: synchronisation. If there is enough demand and enough time on my hands I'm willing to undergo this challenge, but for now we'll have to accept the lack of this feature and enjoy the reliability benefits 🥂
 
 <img src="https://user-images.githubusercontent.com/2817993/82153451-27389480-9870-11ea-9a54-4d39140ddfab.PNG" width="120" alt="WaniAnki no network screen">
 
