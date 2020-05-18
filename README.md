@@ -62,7 +62,7 @@ WaniAnki is a cross-platform application, available natively on mobile platforms
 
 ### iOS
 
-> iOS App is still under reviewed. It could take a few days for it to get approved. I will post updates to [this ticket](https://github.com/oguzgelal/wanianki/issues/3). In the meantime, you can use the web app, or use the native app through Expo.
+> iOS App is still under review. It could take a few days for it to get approved. I will post updates to [this ticket](https://github.com/oguzgelal/wanianki/issues/3). In the meantime, you can use the web app, or use the native app through Expo.
 
 <a href="#" target="_new">
   <img src="https://user-images.githubusercontent.com/2817993/82145767-ea11d980-9852-11ea-8880-704240dcbeae.png" height="40" alt="WaniAnki App Store">
