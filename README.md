@@ -63,16 +63,12 @@ Juken is a cross-platform application, available natively on mobile platforms an
 
 <a href="https://apps.apple.com/ca/app/juken/id1513428918" target="_new">
   <img src="https://user-images.githubusercontent.com/2817993/82145767-ea11d980-9852-11ea-8880-704240dcbeae.png" height="40" alt="Juken App Store">
-  <br />
-  <img src="https://user-images.githubusercontent.com/2817993/82147983-1b41d800-985a-11ea-9e91-1321b85af125.png" width="70%" alt="Juken iOS Screenshots">
 </a>
 
 ### Android
 
 <a href="https://play.google.com/store/apps/details?id=com.wk.wanianki" target="_new">
   <img src="https://user-images.githubusercontent.com/2817993/82146513-8dfb8500-9853-11ea-9769-bb2f81a1afe1.png" height="40" alt="Juken Google Play">
-  <br />
-  <img src="https://user-images.githubusercontent.com/2817993/82147988-25fc6d00-985a-11ea-8b7c-e9dc02fddb1f.png" width="70%" alt="Juken Android Screenshots">
 </a>
 
 ### Web
@@ -81,8 +77,6 @@ Juken is available on the web, and it is optimized for the desktop experience. Y
 
 <a href="https://juken.io" target="_new">
   <img src="https://user-images.githubusercontent.com/2817993/82254164-08fb9300-995b-11ea-9637-6ac42e78359e.png" height="40" alt="Juken Web">
-  <br />
-  <img src="https://user-images.githubusercontent.com/2817993/82148778-8ccf5580-985d-11ea-95f4-ed207ea4fc1e.png" width="70%" alt="Juken Web Screenshot">
 </a>
 
 ### Progressive Web App (PWA)
