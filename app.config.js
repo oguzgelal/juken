@@ -1,4 +1,6 @@
 export const VERSION = '1.0.0';
+export const IOS_VERSION = '1.0.1';
+export const ANDROID_VERSION = 3;
 
 export default {
   name: "Juken",
@@ -28,12 +30,12 @@ export default {
     supportsTablet: true,
     bundleIdentifier: process.env.BUNDLE_ID,
     googleServicesFile: "./GoogleService-Info.plist",
-    buildNumber: VERSION,
+    buildNumber: IOS_VERSION,
   },
   android: {
     package: process.env.PACKAGE,
     googleServicesFile: "./google-services.json",
-    "versionCode": 3,
+    "versionCode": ANDROID_VERSION,
     permissions: [
       "VIBRATE"
     ]

@@ -1,5 +1,3 @@
-export const VERSION = '1.0.0';
-
 export const GET = 'GET';
 export const POST = 'POST';
 export const PUT = 'PUT';
