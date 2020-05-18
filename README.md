@@ -28,7 +28,7 @@
 
 WaniAnki is a minimalistic review app for [WaniKani](https://www.wanikani.com/) optimized for speed. It eliminates the need for typing; you just have to recall, reveal the answer and submit by swiping left or right.
 
-WaniAnki was inspired by the popular flashcard app [Anki](https://ankiweb.net/) in the sense that it allows you to reveal the answer instead of having to typing it out, and it features Tinder-like swipe gestures to submit your answers. Just login with your WaniKani Personal Access Token and start swiping.
+WaniAnki was inspired by the popular flashcard app [Anki](https://ankiweb.net/) in the sense that it allows revealing the answers instead of having to typing it out, and it features Tinder-like swipe gestures to effectively submit your answers. Just login with your WaniKani Personal Access Token and start swiping.
 
 ### User Interface
 
@@ -41,6 +41,20 @@ As for the review stats below the cards; the top and bottom rows show **complete
 The bars displays the percentage of the **completed** correct / incorrect reviews / cards respectively. A card is completed when you get it right, and a review is completed when you get all the cards for a review right. If you get a card wrong, it'll be requeued and asked again, and it won't be included in the percentage until you get it right. Same goes for reviews. Once you get a card / review right, it will be count as correct if you didn't submit an incorrect answer for it previously, otherwise, it'll be count as incorrect. (The number of incorrect answers you've submitted for a card / review isn't reflected on the bar - as it'll just count as one wrong answer - but it'll be submitted to WaniKani).
 
 The `X of Y` displays show the number of items you have *completed* (`X`), and the number of items you have available in total (`Y`). The `Y` of the top bar shows how many reviews you have in that session, and the `Y` of the bottom bar shows how many cards you have in total (ie. how many questions you'll be answering). The `X` of the top bar is the number of reviews you have completed, and its superscript shows the number of half finished reviews, that is, the number of reviews that are not completed but has one completed part. It could also be thought as the number of reviews that'll lost if you close the app mid-session. The `X` at the bottom bar shows the number of cards you have completed.
+
+### Personal Access Token
+
+To log in with your WaniKani account, you'll need to obtain a personal access token. Here's how you can get one:
+
+1. Login to [https://wanikani.com](https://wanikani.com)
+2. Click on your avatar on the top right corner, select `API Tokens` under `Settings` from the dropdown
+3. Under `Personal Access Tokens` section, click `Generate a new token` button down below
+4. Write a descriptive text to the `What is this token for?` input (ie: "WaniAnki")
+4. Check the following boxes:
+    - Recommended: Check all the boxes. For now, WaniAnki doesn't need all these permissions, however down the line I might add new features that needs some (or all) of them. For a smooth transition to newer versions, I recommend you to check all the boxes now.
+    - Restricted: Check the one with the label `reviews:create`
+5. Click `Generate Token`
+6. You can log in with the code generated and listed under the `Token` column next to the item you've just created. Enjoy ☺
 
 ## Platforms
 
