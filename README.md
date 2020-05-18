@@ -56,7 +56,7 @@ WaniAnki is a cross-platform application, natively awailable on mobile platforms
 
 ### Android
 
-<a href="#">
+<a href="https://play.google.com/store/apps/details?id=com.wk.wanianki">
   <img src="https://user-images.githubusercontent.com/2817993/82146513-8dfb8500-9853-11ea-9769-bb2f81a1afe1.png" height="40" alt="WaniAnki Google Play">
   <br />
   <img src="https://user-images.githubusercontent.com/2817993/82147988-25fc6d00-985a-11ea-8b7c-e9dc02fddb1f.png" width="70%" alt="WaniAnki Android Screenshots">
