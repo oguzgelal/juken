@@ -96,7 +96,7 @@ Juken has PWA support on [juken.io](juken.io), so you can install it and use it 
 
 ### Expo
 
-If for whatever reason you're unable to download the native apps but still prefer a native mobile experience, or simply you'd like to get the new features / updates before they're available on the app stores, you can use Juken through Expo. After installing the Expo client, you can get the app from [expo.io/@oguzgelal/wanianki](https://expo.io/@oguzgelal/wanianki) or by scanning the QR code below.
+If for whatever reason you're unable to download the native apps but still prefer a native mobile experience, or simply you'd like to get the new features / updates before they're available on the app stores, you can use Juken through Expo. After installing the Expo client, you can get the app from [expo.io/@oguzgelal/juken](https://expo.io/@oguzgelal/juken) or by scanning the QR code below.
 
 <a href="https://juken.io">
   <img src="https://user-images.githubusercontent.com/2817993/82147800-ef722280-9858-11ea-9e9d-ae6413ebaa68.png" height="140" alt="Juken Expo QR Code">
