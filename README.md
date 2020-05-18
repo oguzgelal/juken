@@ -58,11 +58,11 @@ To log in with your WaniKani account, you'll need to obtain a personal access to
 
 ## Platforms
 
-WaniAnki is a cross-platform application, natively awailable on mobile platforms and is also available for the web. It's built with [React Native](https://reactnative.dev/), and uses [react-native-web](https://github.com/necolas/react-native-web) for the web support. There are a few different ways of using WaniAnki, below you can find details and links for these methods. Note that Web, PWA and Expo apps will receive updates / bug fixes more frequently and earlier than the native iOS and Android counterparts due to the review processes of the app stores.
+WaniAnki is a cross-platform application, available natively on mobile platforms and for the web. It's built with [React Native](https://reactnative.dev/), and uses [react-native-web](https://github.com/necolas/react-native-web) for web support. There are a few different ways you can use WaniAnki, you can find some details and links below. Note that Web, PWA and Expo apps will receive updates / bug fixes more frequently and earlier than the native iOS and Android counterparts due to the review processes of the app stores.
 
 ### iOS
 
-<a href="#">
+<a href="#" target="_new">
   <img src="https://user-images.githubusercontent.com/2817993/82145767-ea11d980-9852-11ea-8880-704240dcbeae.png" height="40" alt="WaniAnki App Store">
   <br />
   <img src="https://user-images.githubusercontent.com/2817993/82147983-1b41d800-985a-11ea-9e91-1321b85af125.png" width="70%" alt="WaniAnki iOS Screenshots">
@@ -70,7 +70,7 @@ WaniAnki is a cross-platform application, natively awailable on mobile platforms
 
 ### Android
 
-<a href="https://play.google.com/store/apps/details?id=com.wk.wanianki">
+<a href="https://play.google.com/store/apps/details?id=com.wk.wanianki" target="_new">
   <img src="https://user-images.githubusercontent.com/2817993/82146513-8dfb8500-9853-11ea-9769-bb2f81a1afe1.png" height="40" alt="WaniAnki Google Play">
   <br />
   <img src="https://user-images.githubusercontent.com/2817993/82147988-25fc6d00-985a-11ea-8b7c-e9dc02fddb1f.png" width="70%" alt="WaniAnki Android Screenshots">
@@ -78,9 +78,9 @@ WaniAnki is a cross-platform application, natively awailable on mobile platforms
 
 ### Web
 
-WaniAnki not only supports the web, it is also optimized for the desktop experience. You can do your reviews using only your keyboard, space to reveal the answer and arrow keys to submit the answer instead of the swipe gestures (although gestures are still supported for for touch screen devices using the web app). WaniAnki also supports the mobile web. You can go to [wanianki.com](wanianki.com) on your mobile browser and have a decent review experience (although native apps offers a much superior experience and are recommended).
+WaniAnki is available on the web, and it is optimized for the desktop experience. You can do your reviews using only your keyboard; space to reveal the answer and arrow keys to submit instead of the swipe gestures (although gestures are still available for touch screen devices using the web app). WaniAnki is also optimized for the mobile web. You can go to [wanianki.com](wanianki.com) on your mobile browser and have a decent review experience (although native apps offers a much superior experience and are recommended).
 
-<a href="https://wanianki.com">
+<a href="https://wanianki.com" target="_new">
   <img src="https://user-images.githubusercontent.com/2817993/82147198-bc2e9400-9856-11ea-984b-629e7df1b4a8.png" height="40" alt="WaniAnki Web">
   <br />
   <img src="https://user-images.githubusercontent.com/2817993/82148778-8ccf5580-985d-11ea-95f4-ed207ea4fc1e.png" width="70%" alt="WaniAnki Web Screenshot">
@@ -89,16 +89,16 @@ WaniAnki not only supports the web, it is also optimized for the desktop experie
 
 ### Progressive Web App (PWA)
 
-Wanianki.com features PWA support, so you can install it and use it like a desktop application. [Here's](https://support.google.com/chrome/answer/9658361) a guide on how to install PWAs on Chrome, and note that most major browsers have support for PWA's.
+WaniAnki has PWA support on [wanianki.com](wanianki.com), so you can install it and use it like a desktop application. [Here's](https://support.google.com/chrome/answer/9658361) a guide on how to install PWAs on Chrome, and note that most major browsers have support for PWAs.
 
 <img width="200" alt="WaniAnki PWA Dock" src="https://user-images.githubusercontent.com/2817993/82148898-b7211300-985d-11ea-938a-1feba5ccb41b.png">
 
 ### Expo
 
-If for whatever reason you're unable to download the native mobile apps but still prefer a native mobile experience, you can use WaniAnki through Expo. You can go to [https://expo.io/@oguzgelal/wanianki](https://expo.io/@oguzgelal/wanianki) or scan the QR code below to get the app.
+If for whatever reason you're unable to download the native apps but still prefer a native mobile experience, or simply you'd like to get the new features / updates before they're available on the app stores, you can use WaniAnki through Expo. After installing the Expo client, you can get the app from [expo.io/@oguzgelal/wanianki](https://expo.io/@oguzgelal/wanianki) or by scanning the QR code below.
 
 <a href="https://wanianki.com">
-  <img src="https://user-images.githubusercontent.com/2817993/82147800-ef722280-9858-11ea-9e9d-ae6413ebaa68.png" height="80" alt="WaniAnki Expo QR Code">
+  <img src="https://user-images.githubusercontent.com/2817993/82147800-ef722280-9858-11ea-9e9d-ae6413ebaa68.png" height="140" alt="WaniAnki Expo QR Code">
 </a>
 
 
@@ -106,7 +106,7 @@ If for whatever reason you're unable to download the native mobile apps but stil
 
 I made an extra special effort to make WaniAnki work as reliably as I can, especially when submitting the results, because I know how frustrating it would be to complete a long review session only to find out that they weren't submitted. I wanted to share some of the measures I took:
 
-**No offline support:** I initially considered adding offline support to WaniAnki, but then decided against it. WaniAnki works as long as it can comunicate to WaniKani, and uses it as a single source of truth. This makes it more reliable, because offline support introduces a whole new layer of complexity that can potentially cause bugs: synchronisation. If there is enough demand and enough time on my hands I'm willing to undergo this challenge, but for now we'll have to accept the lack of this feature and enjoy the reliability benefits 🥂
+**No offline support:** I initially considered adding offline support to WaniAnki, but then decided against it. WaniAnki works as long as it can comunicate to WaniKani, and uses it as a single source of truth. This makes it more reliable, because offline support introduces a whole new layer of complexity that can potentially cause bugs: synchronisation. If there is enough demand and enough time on my hands I'm willing to undergo this trade-off, but for now we'll have to accept the lack of this feature and enjoy the reliability benefits 🥂
 
 <img src="https://user-images.githubusercontent.com/2817993/82153451-27389480-9870-11ea-9a54-4d39140ddfab.PNG" width="120" alt="WaniAnki no network screen">
 
@@ -120,7 +120,7 @@ I made an extra special effort to make WaniAnki work as reliably as I can, espec
 
 <img width="235" alt="Half finished reviews" src="https://user-images.githubusercontent.com/2817993/82154143-a039eb00-9874-11ea-9938-44d23e461a26.png">
 
-**Review distribution:** A review is only submitted when it's fully completed, that is, when you get all parts of it correct (reading and meaning, only meaning for radicals). Kanji and Vocabulary reviews with only one part completed are half finished reviews, and they are the ones that'll be lost in a far from ideal situation like a crash, or dropping your device in a lake etc. To prepare for the worst and keep this loss minimal, WaniAnki will not put review pairs too far from each other. On the review bar below, superscript of the completed review number displays the number of half-finished reviews (shown above). WaniAnki will make sure that you don't having more than ~10 half finished reviews at a time.
+**Review distribution:** A review is only submitted when it's fully completed, that is, when you get all parts of it correct (reading and meaning, only meaning for radicals). Kanji and Vocabulary reviews with only one part completed are half finished reviews, and they are the ones that'll be lost in a far from ideal situation like a crash, or dropping your device in a lake etc. To prepare for the worst and keep this loss at minimal, WaniAnki will not put review pairs too far from each other. On the review bar below, superscript of the completed reviews displays the number of half-finished reviews (shown above). WaniAnki will make sure that you don't having more than ~10 half finished reviews at a time.
 
 
 ## Feature Requests
