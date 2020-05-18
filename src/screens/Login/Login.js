@@ -64,7 +64,7 @@ const Login = ({ startDemo }) => {
           >
             <View style={styles.imageWrapper}>
               <Image source={require('./logo.png')} style={styles.imageIcon} />
-              <Image source={require('./wa.png')} style={styles.imageText} /> 
+              <Image source={require('./wa2.png')} style={styles.imageText} /> 
             </View>
 
             <TextInput

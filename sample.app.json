@@ -12,7 +12,7 @@
     "orientation": "portrait",
     "icon": "./assets/wk4.png",
     "splash": {
-      "image": "./assets/wksplash3.png",
+      "image": "./assets/wksplash4.png",
       "resizeMode": "contain",
       "backgroundColor": "#1ecbe1"
     },
