@@ -13,7 +13,6 @@
 <p align="center">
   <a href="#introduction">Introduction</a> •
   <a href="#platforms">Platforms</a> •
-  <a href="#reliability">Reliability</a> •
   <a href="#feature-requests">Feedback</a> •
   <a href="#further-contact">Contact</a>
 </p>
