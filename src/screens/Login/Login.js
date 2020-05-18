@@ -212,8 +212,9 @@ const styles = StyleSheet.create({
     marginBottom: 18,
   },
   imageText: {
-    width: 180,
-    height: 36,
+    width: 'auto',
+    width: 160,
+    height: 48.85,
     margin: 'auto',
   },
   or: {
