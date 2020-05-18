@@ -13,7 +13,7 @@ export default {
   orientation: "portrait",
   icon: "./assets/wk4.png",
   splash: {
-    image: "./assets/wksplash3.png",
+    image: "./assets/wksplash4.png",
     resizeMode: "contain",
     backgroundColor: "#1ecbe1"
   },
@@ -33,7 +33,7 @@ export default {
   android: {
     package: process.env.PACKAGE,
     googleServicesFile: "./google-services.json",
-    "versionCode": 2,
+    "versionCode": 3,
     permissions: [
       "VIBRATE"
     ]
