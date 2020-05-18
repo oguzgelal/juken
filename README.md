@@ -94,26 +94,6 @@ Juken has PWA support on [juken.io](juken.io), so you can install it and use it 
 
 If for whatever reason you're unable to download the native apps but still prefer a native mobile experience, or simply you'd like to get the new features / updates before they're available on the app stores, you can use Juken through Expo. After installing the Expo client, you can get the app from [expo.io/@oguzgelal/juken](https://expo.io/@oguzgelal/juken).
 
-## Reliability
-
-I made an extra special effort to make Juken work as reliably as I can, especially when submitting the results, because I know how frustrating it would be to complete a long review session only to find out that they weren't submitted. I wanted to share some of the measures I took:
-
-**No offline support:** I initially considered adding offline support to Juken, but then decided against it. Juken works as long as it can comunicate to WaniKani, and uses it as a single source of truth. This makes it more reliable, because offline support introduces a whole new layer of complexity that can potentially cause bugs: synchronisation. If there is enough demand and enough time on my hands I'm willing to undergo this trade-off, but for now we'll have to accept the lack of this feature and enjoy the reliability benefits 🥂
-
-<img src="https://user-images.githubusercontent.com/2817993/82153451-27389480-9870-11ea-9a54-4d39140ddfab.PNG" width="120" alt="Juken no network screen">
-
-**Network detection:** When your internet connection drops, Juken will detect it and block your interactions to prevent you from doing your reviews while they aren't being submitted. Once you're back online, the block will be lifted and you'll be able to continue from where you're left off.
-
-<img src="https://user-images.githubusercontent.com/2817993/82153804-67007b80-9872-11ea-9394-ce4342243bdb.PNG" width="120" alt="Juken failed submission screen">
-
-**Failed submission:** If any of the reviews you've completed fails to be submitted, Juken will again block your interaction to prevent further data loss. The error message will tell you how many reviews in the session were submitted successfully and how many are half finished, and will be lost if you close the app. There is a "Retry" button that you can use to re-send the submission (any number of times, until it works or you give up). As a general principle, you can think that that if you're not seing this screen, your reviews are being submitted.
-
-**On-the-fly submission:** Your reviews will be submitted in the background as you go through the session. This means if something goes horribly wrong mid-session, like a complete crash, previously submitted reviews will not be lost.
-
-<img width="235" alt="Half finished reviews" src="https://user-images.githubusercontent.com/2817993/82154143-a039eb00-9874-11ea-9938-44d23e461a26.png">
-
-**Review distribution:** A review is only submitted when it's fully completed, that is, when you get all parts of it correct (reading and meaning, only meaning for radicals). Kanji and Vocabulary reviews with only one part completed are half finished reviews, and they are the ones that'll be lost in a far from ideal situation like a crash, or dropping your device in a lake etc. To prepare for the worst and keep this loss at minimal, Juken will not put review pairs too far from each other. On the review bar below, superscript of the completed reviews displays the number of half-finished reviews (shown above). Juken will make sure that you don't having more than ~10 half finished reviews at a time.
-
 
 ## Feature Requests
 
