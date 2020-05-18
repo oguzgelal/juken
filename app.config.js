@@ -1,8 +1,8 @@
 export const VERSION = '1.0.0';
 
 export default {
-  name: "WaniAnki",
-  slug: "wanianki",
+  name: "Juken",
+  slug: "juken",
   privacy: "public",
   platforms: [
     "ios",

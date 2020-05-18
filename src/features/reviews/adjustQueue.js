@@ -1,5 +1,5 @@
 /**
- * https://github.com/oguzgelal/wanianki/issues/8
+ * https://github.com/oguzgelal/juken/issues/8
  * 
  * Adjust distances between subject pairs items to
  * make sure that they are not too far apart

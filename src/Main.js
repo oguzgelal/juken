@@ -24,12 +24,12 @@ export default () => {
 
     if (user) {
       setUserAnalytics(user, () => {
-        logEvent('wanianki_Load', {
+        logEvent('juken_Load', {
           user: _.get(user, 'data.username')
         })
       });
     } else {
-      logEvent('wanianki_Load')
+      logEvent('juken_Load')
     }
     
   }, [])

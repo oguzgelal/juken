@@ -115,11 +115,11 @@ const Login = ({ startDemo }) => {
                     ].filter(Boolean),
                   }, async buttonIndex => {
                     if (buttonIndex === 1) {
-                      await WebBrowser.openBrowserAsync('https://github.com/oguzgelal/wanianki')
+                      await WebBrowser.openBrowserAsync('https://github.com/oguzgelal/juken')
                     } else if (buttonIndex === 2) {
-                      await WebBrowser.openBrowserAsync('https://github.com/oguzgelal/wanianki')
+                      await WebBrowser.openBrowserAsync('https://github.com/oguzgelal/juken')
                     } else if (buttonIndex === 3) {
-                      await WebBrowser.openBrowserAsync('https://github.com/oguzgelal/wanianki')
+                      await WebBrowser.openBrowserAsync('https://github.com/oguzgelal/juken')
                     } else if (buttonIndex === 4) {
                       startDemo()
                     }
@@ -148,7 +148,7 @@ const Login = ({ startDemo }) => {
                   text="Feedback & Bug Report"
                   iconLeft={<MaterialIcons name="email" size={24} color={theme.palette.black} />}
                   onPress={async () => {
-                    await WebBrowser.openBrowserAsync('https://github.com/oguzgelal/wanianki')
+                    await WebBrowser.openBrowserAsync('https://github.com/oguzgelal/juken')
                   }}
                 />
                 
@@ -164,7 +164,7 @@ const Login = ({ startDemo }) => {
                   text="Source Code"
                   iconLeft={<AntDesign name="github" size={24} color={theme.color.githubWhite} />}
                   onPress={async () => {
-                    await WebBrowser.openBrowserAsync('https://github.com/oguzgelal/wanianki')
+                    await WebBrowser.openBrowserAsync('https://github.com/oguzgelal/juken')
                   }}
                 />
               </>
