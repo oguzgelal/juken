@@ -49,12 +49,12 @@ To log in with your WaniKani account, you'll need to obtain a personal access to
 1. Login to [https://wanikani.com](https://wanikani.com)
 2. Click on your avatar on the top right corner, select `API Tokens` under `Settings` from the dropdown
 3. Under `Personal Access Tokens` section, click `Generate a new token` button down below
-4. Write a descriptive text to the `What is this token for?` input (ie: "WaniAnki")
-4. Check the following boxes:
+4. Write a descriptive text in the `What is this token for?` input (ie: "WaniAnki")
+5. Check the following boxes:
     - Recommended: Check all the boxes. For now, WaniAnki doesn't need all these permissions, however down the line I might add new features that needs some (or all) of them. For a smooth transition to newer versions, I recommend you to check all the boxes now.
     - Restricted: Check the one with the label `reviews:create`
-5. Click `Generate Token`
-6. You can log in with the code generated and listed under the `Token` column next to the item you've just created. Enjoy ☺
+6. Click `Generate Token`
+7. You can log in with the code generated and listed under the `Token` column next to the item you've just created. Enjoy ☺
 
 ## Platforms
 
