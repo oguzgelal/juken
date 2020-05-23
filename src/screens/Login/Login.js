@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import * as WebBrowser from 'expo-web-browser';
 import { useActionSheet } from '@expo/react-native-action-sheet';
+import { useStoreActions, useStoreState } from 'easy-peasy';
 
 import {
   StyleSheet,
@@ -19,7 +20,6 @@ import {
   MaterialIcons
 } from '@expo/vector-icons';
 
-
 import PropTypes from 'prop-types';
 
 import Page from 'src/components/Page/Page';
@@ -28,8 +28,6 @@ import TextInput from 'src/components/Input/TextInput';
 import Toast, { TYPES } from 'src/components/Toast/Toast';
 import device from 'src/utils/device';
 import theme from 'src/common/theme';
-import { login } from 'src/features/wk/api';
-import { useWk } from 'src/features/wk/hooks';
 
 const Login = ({ startDemo }) => {
   const [ key, setKey ] = useState('');
@@ -37,12 +35,16 @@ const Login = ({ startDemo }) => {
   const empty = useRef(null);
   const { showActionSheetWithOptions } = useActionSheet();
 
+  const login = useStoreActions(actions => actions.user.login);
+  const loginLoading = useStoreState(state => state.loadings.login);
+  /*
   const [ loginFn, loginLoading ] = useWk(login, {
     apiKey: key,
     onError: () => {
       failed.current.show('Invalid API Key')
     }
   });
+  */
 
   return (
     <TouchableWithoutFeedback
@@ -94,7 +96,7 @@ const Login = ({ startDemo }) => {
                   startDemo(true);
                   return;
                 }
-                loginFn();
+                login(key);
               }}
             />
 

@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-
+import { useStoreState } from 'easy-peasy';
 import _ from 'lodash';
 
-import { select } from 'src/features/wk/state';
 import Review from 'src/screens/Review/Review';
 import Login from 'src/screens/Login/Login';
 
@@ -12,8 +11,8 @@ import setUserAnalytics from 'src/features/events/setUserAnalytics';
 
 export default () => {
 
-  const apiKey = select(r => r.API_KEY);
-  const user = select(r => r.USER);
+  const token = useStoreState(s => s.token.data);
+  const user = useStoreState(s => s.user.data);
 
   const [ demo, setDemo ] = useState(false);
   const [ appleDemo, setAppleDemo ] = useState(false);
@@ -47,7 +46,7 @@ export default () => {
     );
   }
 
-  if (!apiKey) {
+  if (!token) {
     return (
       <Login
         startDemo={apple => {

@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 
 export const useWkLoading = (...args) => {
   return useWk(...args, { immediate: true })[1];
@@ -10,7 +9,7 @@ export const useWkFn = (...args) => {
 }
 
 export const useWk = (func, args = {}, { immediate } = {}) => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const [ loading, setLoading ] = useState(immediate ? true : false);
 
   const _start = () => setLoading(true);
@@ -19,7 +18,7 @@ export const useWk = (func, args = {}, { immediate } = {}) => {
   // trigger function
   const trigger = (fnArgs = {}) => {
     _start(true);
-    dispatch(func({ ...args, ...fnArgs, _start, _stop, }))
+    // dispatch(func({ ...args, ...fnArgs, _start, _stop, }))
   };
   
   // auto-trigger if immediate

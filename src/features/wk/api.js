@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import { request, collection } from 'src/features/wk/request';
 import { GET, POST } from 'src/common/constants';
-import { setUser, removeUser, setApiKey, removeApiKey } from 'src/features/wk/state';
 import run from 'src/utils/run';
 import sleep from 'src/utils/test/sleep';
 import setUserAnalytics from 'src/features/events/setUserAnalytics';
@@ -27,8 +26,8 @@ export const login = (args = {}) => async dispatch => {
     // capture basic user info
     setUserAnalytics(user)
 
-    dispatch(setUser(user));
-    dispatch(setApiKey(apiKey));
+    // dispatch(setUser(user));
+    // dispatch(setApiKey(apiKey));
 
     run(_stop);
     run(onSuccess, user);
@@ -44,8 +43,8 @@ export const login = (args = {}) => async dispatch => {
  * clear api key and user from state
  */
 export const logout = ({ _stop }) => async dispatch => {
-  dispatch(removeUser());
-  dispatch(removeApiKey());
+  // dispatch(removeUser());
+  // dispatch(removeApiKey());
   run(_stop);
 };
 

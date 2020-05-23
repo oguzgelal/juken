@@ -1,25 +1,13 @@
-import { configureStore, combineReducers, getDefaultMiddleware } from '@reduxjs/toolkit'
-import { persistStore, persistReducer } from 'redux-persist'
-import { AsyncStorage } from 'react-native';
-import localForage from 'localforage';
-import * as r from 'src/common/resources';
-import device from 'src/utils/device';
+// We need to import the store from models, and models
+// from the file we create the store, which would create
+// a circular dependency. To avoid this, separate the store
+// instance and the store creator function
+//
+// model[].js -> createStore.js -> App.js <- store
+// model[].js <- store
 
-import wk from 'src/features/wk/state';
+let store;
 
-const wkPersist = {
-  key: 'wk',
-  storage: device('mobile') ? AsyncStorage : localForage,
-  whitelist: [r.USER, r.API_KEY]
-}
+export const saveStore = s => { store = s; }
 
-export const store = configureStore({
-  reducer: combineReducers({
-    wk: persistReducer(wkPersist, wk),
-  }),
-  middleware: getDefaultMiddleware({
-    serializableCheck: false,
-  })
-})
-
-export const persistor = persistStore(store);
+export default store;
