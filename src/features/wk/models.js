@@ -1,11 +1,13 @@
 import { action, actionOn, computed, thunk } from 'easy-peasy';
 import store from 'src/features/store';
-import sleep from 'src/utils/test/sleep';
+import { GET, POST } from 'src/common/constants';
+import { request, collection } from 'src/features/wk/request';
+import setUserAnalytics from 'src/features/events/setUserAnalytics';
 
 export const token = {
   data: null,
-  save: action((state, payload) => { state.data = payload; }),
-  clear: action(state => { state.data = null; })
+  save: action((state, data) => state.data = data),
+  clear: action(state => state.data = null),
 };
 
 export const settings = {
@@ -26,11 +28,32 @@ export const settings = {
 
 export const user = {
   data: null,
-  loginLoading: false,
-  login: thunk(async (action, payload, { getStoreActions }) => {
-    const { loadings } = getStoreActions();
-    loadings.start('login');
-    await sleep(2000);
-    loadings.stop('login');
+  save: action((state, data) => action.data = data),
+  login: thunk(async (action, { token: tkn, onFail }, { getStoreActions }) => {
+    const { loadings, token } = getStoreActions();
+    try {
+      loadings.start('login');
+      const res = await request({
+        endpoint: 'user',
+        method: GET,
+        apiKey: tkn,
+      });
+      if (!res) {
+        throw 'Cannot log in';
+      }
+      setUserAnalytics(res);
+      action.save(res);
+      token.save(tkn);
+      loadings.stop('login');
+    } catch(e) {
+      console.log('e',e);
+      onFail();
+      loadings.stop('login');
+    }
+  }),
+  logout: action(state => {
+    const { token } = getStoreActions();
+    state.data = null;
+    token.clear();
   })
 };

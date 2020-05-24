@@ -9,6 +9,7 @@ import {
   TouchableWithoutFeedback,
   ActivityIndicator,
 } from 'react-native';
+import { useStoreActions, useStoreState } from 'easy-peasy';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import device from 'src/utils/device';
@@ -26,9 +27,9 @@ import useScrollLock from 'src/hooks/useScrollLock';
 import useLeaveWarning from 'src/hooks/useLeaveWarning';
 import useNetworkListener from 'src/hooks/useNetworkListener';
 import { useWkFn, useWk } from 'src/features/wk/hooks';
-import { getReviewMaterial, getReviewMaterialDemo, submitReview, logout } from 'src/features/wk/api';
 import Button from 'src/components/Button/Button';
 import extractSubject from 'src/utils/extractSubject';
+// import { getReviewMaterial, getReviewMaterialDemo, submitReview, logout } from 'src/features/wk/api';
 
 const Review = ({ demo = false, appleDemo = false, stopDemo } = {}) => {
   const { showActionSheetWithOptions } = useActionSheet();
@@ -43,6 +44,7 @@ const Review = ({ demo = false, appleDemo = false, stopDemo } = {}) => {
   useScrollLock();
   useLeaveWarning();
 
+  /*
   const [ submitReviewFn, submittingReview ] = useWk(submitReview, {
     onSuccess: ({ isResubmitting }) => {
       setSubmitError(null);
@@ -62,9 +64,12 @@ const Review = ({ demo = false, appleDemo = false, stopDemo } = {}) => {
       });
     },
   })
-  const logoutFn = useWkFn(logout);
+  */
+  const submittingReview = false;
+  const logoutFn = useStoreActions(actions => actions.user.logout);
 
   // load reviews
+  /*
   const getReviewMaterialFn = demo ? getReviewMaterialDemo : getReviewMaterial;
   const [ loadReviewsFn, reviewsLoading ] = useWk(getReviewMaterialFn, {
     onSuccess: ({ reviews: _reviews, subjects: _subjects }) => {
@@ -72,6 +77,12 @@ const Review = ({ demo = false, appleDemo = false, stopDemo } = {}) => {
       setSubjects(_subjects.slice());
     }
   }, { immediate: true });
+  */
+  
+  const getReviewMaterialFn = () => {};
+  const loadReviewsFn = () => {};
+  const reviewsLoading = false;
+
 
   const {
     queue,
@@ -155,9 +166,11 @@ const Review = ({ demo = false, appleDemo = false, stopDemo } = {}) => {
                 text: submittingReview ? 'Retrying...' : 'Retry',
                 style: { marginTop: 32 },
                 onPress: () => {
+                  /*
                   submitReviewFn({
                     resubmit: _.get(submitError, 'objectToResubmitOnError')
                   })
+                  */
                 },
                 iconRight: submittingReview
                   ? <ActivityIndicator size={24} color={theme.palette.black} />
@@ -230,12 +243,14 @@ const Review = ({ demo = false, appleDemo = false, stopDemo } = {}) => {
                 if (demo) return;
 
                 // submit review
+                /*
                 submitReviewFn({
                   subjectId: _.get(review, 'data.subject_id'),
                   reviewId: review.id,
                   incorrectMeanings,
                   incorrectReadings,
                 });
+                */
               });
             }}
             renderCard={(item, props) => {

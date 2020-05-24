@@ -30,21 +30,13 @@ import device from 'src/utils/device';
 import theme from 'src/common/theme';
 
 const Login = ({ startDemo }) => {
-  const [ key, setKey ] = useState('');
+  const [ token, setToken ] = useState('');
   const failed = useRef(null);
   const empty = useRef(null);
   const { showActionSheetWithOptions } = useActionSheet();
 
   const login = useStoreActions(actions => actions.user.login);
   const loginLoading = useStoreState(state => state.loadings.login);
-  /*
-  const [ loginFn, loginLoading ] = useWk(login, {
-    apiKey: key,
-    onError: () => {
-      failed.current.show('Invalid API Key')
-    }
-  });
-  */
 
   return (
     <TouchableWithoutFeedback
@@ -71,8 +63,8 @@ const Login = ({ startDemo }) => {
 
             <TextInput
               placeholder="WaniKani Personal Access Token"
-              value={key}
-              onChangeText={text => setKey(text)}
+              value={token}
+              onChangeText={text => setToken(text)}
             />
 
             {/* login button */}
@@ -88,15 +80,18 @@ const Login = ({ startDemo }) => {
               disabled={loginLoading}
               onPress={() => {
                 if (device('mobile')) Keyboard.dismiss();
-                if (!key) {
-                  empty.current.show('Please enter your API key');
+                if (!token) {
+                  empty.current.show('Please enter your API token');
                   return;
                 }
-                if (key === '1111') {
+                if (token === '1111') {
                   startDemo(true);
                   return;
                 }
-                login(key);
+                login({
+                  token,
+                  onFail: () => failed.current.show('Invalid token')
+                });
               }}
             />
 
