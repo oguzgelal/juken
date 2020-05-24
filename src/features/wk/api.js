@@ -8,46 +8,6 @@ import freeReviews from 'src/mock/freeReviews';
 import freeSubjects from 'src/mock/freeSubjects';
 
 /**
- * use GET user as a way to validate api key
- */
-export const login = (args = {}) => async dispatch => {
-  const { apiKey, onSuccess, onError, _start, _stop } = args;  
-  
-  try {
-    run(_start);
-    
-    const user = await request({
-      endpoint: 'user',
-      method: GET,
-      apiKey,
-    });
-
-    // capture basic user info
-    setUserAnalytics(user)
-
-    // dispatch(setUser(user));
-    // dispatch(setApiKey(apiKey));
-
-    run(_stop);
-    run(onSuccess, user);
-
-  } catch(e) {
-    console.log('e', e);
-    run(_stop);
-    run(onError, e);
-  }
-};
-
-/**
- * clear api key and user from state
- */
-export const logout = ({ _stop }) => async dispatch => {
-  // dispatch(removeUser());
-  // dispatch(removeApiKey());
-  run(_stop);
-};
-
-/**
  * get immediately available reviews and their subjects
  */
 export const getReviewMaterial = (args = {}) => async () => {

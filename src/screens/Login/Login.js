@@ -35,7 +35,7 @@ const Login = ({ startDemo }) => {
   const empty = useRef(null);
   const { showActionSheetWithOptions } = useActionSheet();
 
-  const login = useStoreActions(actions => actions.user.login);
+  const login = useStoreActions(actions => actions.session.login);
   const loginLoading = useStoreState(state => state.loadings.login);
 
   return (

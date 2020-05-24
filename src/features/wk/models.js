@@ -1,59 +1,55 @@
 import { action, actionOn, computed, thunk } from 'easy-peasy';
-import store from 'src/features/store';
 import { GET, POST } from 'src/common/constants';
 import { request, collection } from 'src/features/wk/request';
 import setUserAnalytics from 'src/features/events/setUserAnalytics';
 
-export const token = {
-  data: null,
-  save: action((state, data) => state.data = data),
-  clear: action(state => state.data = null),
-};
+export const session = {
+  user: null,
+  token: null,
+  settings: {},
 
-export const settings = {
-  data: {},
-  save: action((state, { key, value }) => {
-    const token = store.getState().token;
-    if (!token) return;
-    if (!state.data[token]) state.data[token] = {};
-    state.data[token][key] = value
+  /** actions */
+
+  saveUser: action((state, { user, token }) => {
+    state.user = user;
+    state.token = token;
   }),
-  user: computed([
-      (state, _) => state.data,
-      (_, storeState) => storeState.token.data,
-    ],
-    (settings, token) => settings[token] || {}
-  )
-};
 
-export const user = {
-  data: null,
-  save: action((state, data) => action.data = data),
-  login: thunk(async (action, { token: tkn, onFail }, { getStoreActions }) => {
-    const { loadings, token } = getStoreActions();
+  saveSetting: action((state, { key, value }) => {
+    if (!state.token) return;
+    if (!state.settings[state.token]) state.settings[token] = {};
+    state.settings[token][key] = value;
+  }),
+
+  logout: action(state => {
+    state.user = null;
+    state.token = null;
+  }),
+
+  /** computed */
+
+  userSettings: computed(state => {
+    return state.settings[state.token]
+  }),
+
+  /** thunks */
+
+  login: thunk(async (action, { token, onFail }, { getStoreActions }) => {
+    const { loadings } = getStoreActions();
+    loadings.start('login');
     try {
-      loadings.start('login');
-      const res = await request({
+      const user = await request({
         endpoint: 'user',
         method: GET,
-        apiKey: tkn,
+        apiKey: token,
       });
-      if (!res) {
-        throw 'Cannot log in';
-      }
-      setUserAnalytics(res);
-      action.save(res);
-      token.save(tkn);
+      if (!user) throw 'Cannot log in';
+      action.saveUser({ user, token });
       loadings.stop('login');
+      setUserAnalytics(user);
     } catch(e) {
-      console.log('e',e);
       onFail();
       loadings.stop('login');
     }
   }),
-  logout: action(state => {
-    const { token } = getStoreActions();
-    state.data = null;
-    token.clear();
-  })
 };

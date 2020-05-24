@@ -26,7 +26,6 @@ import useReview from 'src/features/reviews/useReview';
 import useScrollLock from 'src/hooks/useScrollLock';
 import useLeaveWarning from 'src/hooks/useLeaveWarning';
 import useNetworkListener from 'src/hooks/useNetworkListener';
-import { useWkFn, useWk } from 'src/features/wk/hooks';
 import Button from 'src/components/Button/Button';
 import extractSubject from 'src/utils/extractSubject';
 // import { getReviewMaterial, getReviewMaterialDemo, submitReview, logout } from 'src/features/wk/api';
@@ -66,7 +65,7 @@ const Review = ({ demo = false, appleDemo = false, stopDemo } = {}) => {
   })
   */
   const submittingReview = false;
-  const logoutFn = useStoreActions(actions => actions.user.logout);
+  const logoutFn = useStoreActions(actions => actions.session.logout);
 
   // load reviews
   /*

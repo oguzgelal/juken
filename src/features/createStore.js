@@ -1,13 +1,31 @@
-import { createStore } from 'easy-peasy';
+import { createStore, persist } from 'easy-peasy';
 import { loadings } from 'src/features/request/models';
-import { token, settings, user } from 'src/features/wk/models';
+import { session } from 'src/features/wk/models';
 
-// import { AsyncStorage } from 'react-native';
-// import localForage from 'localforage';
-// import device from 'src/utils/device';
+import { AsyncStorage } from 'react-native';
+import localForage from 'localforage';
+import device from 'src/utils/device';
 
 export default saveStore => {
-  const store = createStore({ user, token, settings, loadings })
+
+  const models = {
+    session,
+    loadings,
+  };
+
+  const persisted = persist(models, {
+    storage: device('mobile')
+      ? AsyncStorage
+      : localForage,
+    whitelist: [
+      'session'
+    ]
+  });
+
+  const store = createStore(persisted, {
+    name: 'JukenStore'   
+  });
+  
   saveStore(store);
   return store;
 };
