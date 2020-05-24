@@ -14,8 +14,8 @@ export const request = async opts => {
     method,
     nextUrl,
   } = opts;
-  
-  const useApiKey = apiKey || store.getState().token.data;
+
+  const useApiKey = apiKey || store.getState().session.token;
   const finalUrl = nextUrl || `${BASE}${endpoint}`;
 
   // make the request

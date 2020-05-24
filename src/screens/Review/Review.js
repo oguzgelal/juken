@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import {
@@ -28,13 +28,9 @@ import useLeaveWarning from 'src/hooks/useLeaveWarning';
 import useNetworkListener from 'src/hooks/useNetworkListener';
 import Button from 'src/components/Button/Button';
 import extractSubject from 'src/utils/extractSubject';
-// import { getReviewMaterial, getReviewMaterialDemo, submitReview, logout } from 'src/features/wk/api';
 
 const Review = ({ demo = false, appleDemo = false, stopDemo } = {}) => {
   const { showActionSheetWithOptions } = useActionSheet();
-  const [ reviews, setReviews ] = useState(null);
-  const [ subjects, setSubjects ] = useState(null);
-  const [ displayResults, setDisplayResults ] = useState(false);
   const [ submitError, setSubmitError ] = useState(null);
   const [ srsStages, setSrsStages ] = useState({});
   const isInternetReachable = useNetworkListener();
@@ -65,23 +61,23 @@ const Review = ({ demo = false, appleDemo = false, stopDemo } = {}) => {
   })
   */
   const submittingReview = false;
-  const logoutFn = useStoreActions(actions => actions.session.logout);
-
-  // load reviews
-  /*
-  const getReviewMaterialFn = demo ? getReviewMaterialDemo : getReviewMaterial;
-  const [ loadReviewsFn, reviewsLoading ] = useWk(getReviewMaterialFn, {
-    onSuccess: ({ reviews: _reviews, subjects: _subjects }) => {
-      setReviews(_reviews.slice());
-      setSubjects(_subjects.slice());
-    }
-  }, { immediate: true });
-  */
+  const logout = useStoreActions(actions => actions.session.logout);
   
-  const getReviewMaterialFn = () => {};
-  const loadReviewsFn = () => {};
-  const reviewsLoading = false;
+  const loadingReviews = useStoreState(state => state.loadings.loadAvailable);
+  const loadReviewsMain = useStoreActions(actions => actions.reviews.loadAvailable);
+  const loadReviewsDemo = useStoreActions(actions => actions.reviews.loadAvailableDemo);
+  const loadReviews = demo ? loadReviewsDemo : loadReviewsMain;
 
+  useEffect(() => {
+    loadReviews({
+      onError: () => {}
+    });
+  }, [])
+
+  // TODO: I accidentally referred to 'assignments' as 'reviews,
+  // which is making things super confusing. change the terminology
+  const reviews = useStoreState(state => state.reviews.assignments);
+  const subjects = useStoreState(state => state.reviews.subjects);
 
   const {
     queue,
@@ -94,22 +90,15 @@ const Review = ({ demo = false, appleDemo = false, stopDemo } = {}) => {
     reviews,
     subjects,
   );
-  
-  // once results are loaded and reviews are queued
-  // set display to true
-  useEffect(() => {
-    if (!reviewsLoading) {
-      setDisplayResults(true);
-    }
-  }, [queue]);
 
-  const isQueueClear = queue.length === 0 && displayResults;
+  const isQueueClear = queue.length === 0;
+  
   const refreshFn = () => {
-    setDisplayResults(false);
-    loadReviewsFn();
+    loadReviews();
   };
 
-  if (reviewsLoading) {
+  // TODO: fix flashing
+  if (loadingReviews) {
     return <Message loading />;
   }
 
@@ -317,7 +306,7 @@ const Review = ({ demo = false, appleDemo = false, stopDemo } = {}) => {
                 }
                 if (buttonIndex === 2) {
                   if (demo) stopDemo();
-                  else logoutFn();
+                  else logout();
                 }
               })
             }}
@@ -373,7 +362,7 @@ const Review = ({ demo = false, appleDemo = false, stopDemo } = {}) => {
                 textStyle={{ color: theme.palette.white }}
                 onPress={() => {
                   if (demo) stopDemo()
-                  else logoutFn();
+                  else logout();
                 }}
               />
             )}

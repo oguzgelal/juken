@@ -11,8 +11,8 @@ import setUserAnalytics from 'src/features/events/setUserAnalytics';
 export default () => {
 
   const rehydrated = useStoreRehydrated();
-  const user = useStoreState(s => s.session.user);
-  const token = useStoreState(s => s.session.token);
+  const user = useStoreState(state => state.session.user);
+  const token = useStoreState(state => state.session.token);
 
   const [ demo, setDemo ] = useState(false);
   const [ appleDemo, setAppleDemo ] = useState(false);

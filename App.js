@@ -6,10 +6,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Main from 'src/Main';
 import Message from 'src/screens/Message/Message'
 import device from 'src/utils/device';
-import createStore from 'src/features/createStore';
-import { saveStore } from 'src/features/store';
-
-const store = createStore(saveStore);
+import store from 'src/features/store';
 
 class App extends React.Component {
 

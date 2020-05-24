@@ -1,13 +1,27 @@
-// We need to import the store from models, and models
-// from the file we create the store, which would create
-// a circular dependency. To avoid this, separate the store
-// instance and the store creator function
-//
-// model[].js -> createStore.js -> App.js <- store
-// model[].js <- store
+import { createStore, persist } from 'easy-peasy';
+import { loadings } from 'src/features/request/models';
+import { session } from 'src/features/wk/models';
+import { reviews } from 'src/features/reviews/models';
 
-let store;
+import { AsyncStorage } from 'react-native';
+import localForage from 'localforage';
+import device from 'src/utils/device';
 
-export const saveStore = s => { store = s; }
+const models = {
+  session,
+  loadings,
+  reviews,
+};
 
-export default store;
+const persisted = persist(models, {
+  storage: device('mobile')
+    ? AsyncStorage
+    : localForage,
+  whitelist: [
+    'session'
+  ]
+});
+
+export default createStore(persisted, {
+  name: 'JukenStore'   
+});
