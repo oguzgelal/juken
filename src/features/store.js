@@ -6,6 +6,8 @@ import { session } from 'src/features/wk/models';
 import { reviews } from 'src/features/reviews/models';
 import device from 'src/utils/device';
 
+// This fixes the crash caused by using AsyncStorage directly
+// https://github.com/ctrlplusb/easy-peasy/issues/431#issuecomment-590333685
 const asyncStorage = {
   async getItem(key) {
     return JSON.parse(await AsyncStorage.getItem(key))
