@@ -22,7 +22,7 @@ export default demo => {
 
   // stop loading when assignments
   // and subjects are set
-  useEffect(() => { setLoading(false); }, [
+  useEffect(() => { setLoading(false);}, [
     assignments,
     subjects
   ]);

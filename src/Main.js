@@ -15,7 +15,6 @@ export default () => {
   const token = useStoreState(state => state.session.token);
 
   const [ demo, setDemo ] = useState(false);
-  const [ appleDemo, setAppleDemo ] = useState(false);
 
   useEffect(() => {
     initEvents();
@@ -45,10 +44,8 @@ export default () => {
     return (
       <Review
         demo
-        appleDemo={appleDemo}
         stopDemo={() => {
           setDemo(false);
-          setAppleDemo(false);
         }}
       />
     );
@@ -58,8 +55,7 @@ export default () => {
   if (!token) {
     return (
       <Login
-        startDemo={apple => {
-          if (apple) setAppleDemo(true);
+        startDemo={() => {
           setDemo(true)
         }}
       />

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, Text, View, TextInput } from 'react-native';
+import { StyleSheet, TextInput } from 'react-native';
 import theme from 'src/common/theme';
 
 const TextInputComponent = ({ style, ...props } = {}) => (

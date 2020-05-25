@@ -23,7 +23,7 @@ export const reviews = {
     action.saveReviews({
       assignments: freeAssignments.slice(),
       subjects: freeSubjects.slice(),
-    })
+    });
   }),
 
   loadAvailable: thunk(async (action, { onEmpty }) => {

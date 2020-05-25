@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import * as WebBrowser from 'expo-web-browser';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import { useStoreActions, useStoreState } from 'easy-peasy';
@@ -85,7 +85,7 @@ const Login = ({ startDemo }) => {
                   return;
                 }
                 if (token === '1111') {
-                  startDemo(true);
+                  startDemo();
                   return;
                 }
                 login({
