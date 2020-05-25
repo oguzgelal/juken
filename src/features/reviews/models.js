@@ -18,22 +18,15 @@ export const reviews = {
   
   /** thunks */
 
-  loadAvailableDemo: thunk(async (action, { callback }, { getStoreActions }) => {
-    const { loadings } = getStoreActions();
-    loadings.start('loadAvailable');
+  loadAvailableDemo: thunk(async (action) => {
     await sleep(1000);
-    loadings.stop('loadAvailable');
-    callback();
     action.saveReviews({
       assignments: freeAssignments,
       subjects: freeSubjects,
     })
   }),
 
-  loadAvailable: thunk(async (action, { callback }, { getStoreActions }) => {
-    const { loadings } = getStoreActions();
-    loadings.start('loadAvailable');
-
+  loadAvailable: thunk(async (action, { onEmpty }) => {
     try {
 
       // get immediately available reviews
@@ -47,8 +40,7 @@ export const reviews = {
 
       // stop here if there are no immediate reviews
       if (!assignments || assignments.length === 0) {
-        loadings.stop('loadAvailable');
-        callback();
+        onEmpty();
         return;
       }
 
@@ -64,15 +56,13 @@ export const reviews = {
         },
       });
 
-      console.log('>', { assignments, subjects });
-      loadings.stop('loadAvailable');
-      action.saveReviews({ assignments, subjects })
-      callback();
+      action.saveReviews({
+        assignments,
+        subjects,
+      })
 
     } catch(e) {
-      console.log('e', e);
-      loadings.stop('loadAvailable');
-      callback();
+      onEmpty();
     }
   }),
 

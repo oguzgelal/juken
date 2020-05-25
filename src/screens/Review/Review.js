@@ -9,7 +9,7 @@ import {
   TouchableWithoutFeedback,
   ActivityIndicator,
 } from 'react-native';
-import { useStoreActions, useStoreState } from 'easy-peasy';
+import { useStoreActions } from 'easy-peasy';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import device from 'src/utils/device';
@@ -22,7 +22,8 @@ import Overlay from 'src/components/Overlay/Overlay';
 import Toast, { TYPES } from 'src/components/Toast/Toast';
 import SrsStages from 'src/components/Toast/SrsStages';
 import Message from 'src/screens/Message/Message';
-import useReview from 'src/features/reviews/useReview';
+import useLoadReviews from 'src/features/reviews/useLoadReviews';
+import useReviewSession from 'src/features/reviews/useReviewSession';
 import useScrollLock from 'src/hooks/useScrollLock';
 import useLeaveWarning from 'src/hooks/useLeaveWarning';
 import useNetworkListener from 'src/hooks/useNetworkListener';
@@ -62,22 +63,13 @@ const Review = ({ demo = false, appleDemo = false, stopDemo } = {}) => {
   */
   const submittingReview = false;
   const logout = useStoreActions(actions => actions.session.logout);
-  
-  const loadingReviews = useStoreState(state => state.loadings.loadAvailable);
-  const loadReviewsMain = useStoreActions(actions => actions.reviews.loadAvailable);
-  const loadReviewsDemo = useStoreActions(actions => actions.reviews.loadAvailableDemo);
-  const loadReviews = demo ? loadReviewsDemo : loadReviewsMain;
 
-  useEffect(() => {
-    loadReviews({
-      onError: () => {}
-    });
-  }, [])
-
-  // TODO: I accidentally referred to 'assignments' as 'reviews,
-  // which is making things super confusing. change the terminology
-  const reviews = useStoreState(state => state.reviews.assignments);
-  const subjects = useStoreState(state => state.reviews.subjects);
+  const {
+    loadReviews,
+    loadingReviews,
+    reviews,
+    subjects,
+  } = useLoadReviews(demo)
 
   const {
     queue,
@@ -86,18 +78,13 @@ const Review = ({ demo = false, appleDemo = false, stopDemo } = {}) => {
     totalCards,
     totalReviews,
     stats,
-  } = useReview(
+  } = useReviewSession(
     reviews,
     subjects,
   );
 
-  const isQueueClear = queue.length === 0;
-  
-  const refreshFn = () => {
-    loadReviews();
-  };
+  const isQueueClear = queue.length === 0 && !loadingReviews;
 
-  // TODO: fix flashing
   if (loadingReviews) {
     return <Message loading />;
   }
@@ -294,13 +281,13 @@ const Review = ({ demo = false, appleDemo = false, stopDemo } = {}) => {
                 if (buttonIndex === 1) {
                   if (device('web')) {
                     if (confirm('Half completed reviews will be lost. Are you sure ?')) {
-                      refreshFn()
+                      loadReviews()
                     }
                   }
                   else {
                     Alert.alert('Are you sure ?', 'Half completed reviews will be lost', [
                     { text: 'Cancel', style: 'cancel' },
-                    { text: 'OK', onPress: () => refreshFn() },
+                    { text: 'OK', onPress: () => loadReviews() },
                   ])
                   }
                 }
@@ -353,7 +340,7 @@ const Review = ({ demo = false, appleDemo = false, stopDemo } = {}) => {
               text="Refresh"
               style={{ marginTop: 12 }}
               iconLeft={<Ionicons name="md-refresh" size={24} color={theme.color.black} />}
-              onPress={() => refreshFn()}
+              onPress={() => loadReviews()}
             />
             {(!demo || (demo && appleDemo)) && (
               <Button
