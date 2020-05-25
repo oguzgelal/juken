@@ -1,4 +1,4 @@
-import getReviewType from 'src/features/reviews/getReviewType';
+import getReviewType from 'src/features/reviews/utils/getReviewType';
 import {
   MEANING,
   READING,

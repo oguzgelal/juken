@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     web: {
       position: 'fixed',
       border: 'none',
-      borderColor: 'black',
+      borderWidth: 0,
     },
     mobile: {
       position: 'absolute',

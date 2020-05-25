@@ -85,12 +85,11 @@ const Review = ({ demo = false, appleDemo = false, stopDemo } = {}) => {
 
   const isQueueClear = queue.length === 0 && !loadingReviews;
 
-  if (loadingReviews) {
-    return <Message loading />;
-  }
-
   return (
     <>
+
+    {/** display srs stages toasts */}
+    <SrsStages stages={srsStages} />
 
     {/** resubmission success */}
     <Toast
@@ -99,8 +98,14 @@ const Review = ({ demo = false, appleDemo = false, stopDemo } = {}) => {
       position="top"
     />
 
+    {loadingReviews && (
+      <Overlay>
+        <Message loading />
+      </Overlay>
+    )}
+
     {/** cannot connect to the internet view */}
-    {!isInternetReachable && (
+    {!loadingReviews && !isInternetReachable && (
       <Overlay>
         <Message
           error
@@ -118,6 +123,7 @@ const Review = ({ demo = false, appleDemo = false, stopDemo } = {}) => {
     )}
 
     {
+      !loadingReviews && 
       isInternetReachable &&
       submitError &&
       (
@@ -170,202 +176,201 @@ const Review = ({ demo = false, appleDemo = false, stopDemo } = {}) => {
         </Overlay>
       )
     }
-    
-    {/** display srs stages toasts */}
-    <SrsStages stages={srsStages} />
 
-    <Page
-      style={[
-        styles.page,
-        isQueueClear && styles.pageNoReviews
-      ]}
-    >
-      <View style={styles.deckWrapper}>
+    {!loadingReviews && (
+      <Page
+        style={[
+          styles.page,
+          isQueueClear && styles.pageNoReviews
+        ]}
+      >
+        <View style={styles.deckWrapper}>
 
-        {/* render deck */}
-        {queue.length > 0 && (
-          <Deck
-            style={styles.deck}
-            cards={queue}
-            dismissCard={direction => {
-              submitAnswer(
-                // right direction means correct answer
-                direction === 'right',
-                // callback for when the submit answer causes
-                // the review to be completed
-                res => {
+          {/* render deck */}
+          {queue.length > 0 && (
+            <Deck
+              style={styles.deck}
+              cards={queue}
+              dismissCard={direction => {
+                submitAnswer(
+                  // right direction means correct answer
+                  direction === 'right',
+                  // callback for when the submit answer causes
+                  // the review to be completed
+                  res => {
 
-                const {
-                  review,
-                  incorrectMeanings,
-                  incorrectReadings,
-                } = res;
+                  const {
+                    review,
+                    incorrectMeanings,
+                    incorrectReadings,
+                  } = res;
 
-                // review was correct when there are
-                // no incorrect readings or meanings
-                const isCorrect = (
-                  !incorrectMeanings &&
-                  !incorrectReadings
-                );
-                
-                // increase srs stage if the answer was correct
-                if (isCorrect) {
-                  const currentStage = _.get(review, 'data.srs_stage');
-                  setSrsStages({ current: currentStage, next: currentStage + 1 })
-                }
+                  // review was correct when there are
+                  // no incorrect readings or meanings
+                  const isCorrect = (
+                    !incorrectMeanings &&
+                    !incorrectReadings
+                  );
+                  
+                  // increase srs stage if the answer was correct
+                  if (isCorrect) {
+                    const currentStage = _.get(review, 'data.srs_stage');
+                    setSrsStages({ current: currentStage, next: currentStage + 1 })
+                  }
 
-                // do not submit to wanikani on demo mode
-                if (demo) return;
+                  // do not submit to wanikani on demo mode
+                  if (demo) return;
 
-                // submit review
-                /*
-                submitReviewFn({
-                  subjectId: _.get(review, 'data.subject_id'),
-                  reviewId: review.id,
-                  incorrectMeanings,
-                  incorrectReadings,
+                  // submit review
+                  /*
+                  submitReviewFn({
+                    subjectId: _.get(review, 'data.subject_id'),
+                    reviewId: review.id,
+                    incorrectMeanings,
+                    incorrectReadings,
+                  });
+                  */
                 });
-                */
-              });
-            }}
-            renderCard={(item, props) => {
-              
-              // empty cards
-              if (!item) return <Card empty />
+              }}
+              renderCard={(item, props) => {
+                
+                // empty cards
+                if (!item) return <Card empty />
 
-              const { id, review, reviewType } = item;
-              const subjectId = _.get(review, 'data.subject_id');
-              const subject = _.get(subjectsDict, subjectId);
-              const subjectType = _.get(subject, 'object');
-              const {
-                question,
-                questionComponent,
-                answer,
-              } = extractSubject(subject, reviewType);
+                const { id, review, reviewType } = item;
+                const subjectId = _.get(review, 'data.subject_id');
+                const subject = _.get(subjectsDict, subjectId);
+                const subjectType = _.get(subject, 'object');
+                const {
+                  question,
+                  questionComponent,
+                  answer,
+                } = extractSubject(subject, reviewType);
 
-              return (
-                <Card
-                  key={id}
-                  deckProps={props}
-                  subjectType={subjectType}
-                  reviewType={reviewType}
-                  reviewQuestion={question}
-                  reviewQuestionComponent={questionComponent}
-                  reviewAnswer={answer}
-                />
-              )
-            }}
-          />
-        )}
+                return (
+                  <Card
+                    key={id}
+                    deckProps={props}
+                    subjectType={subjectType}
+                    reviewType={reviewType}
+                    reviewQuestion={question}
+                    reviewQuestionComponent={questionComponent}
+                    reviewAnswer={answer}
+                  />
+                )
+              }}
+            />
+          )}
 
-        {/* no reviews notice */}
-        {isQueueClear && (
-          <View style={styles.noReviewsContainer}>
-            <AntDesign name="smileo" size={32} color={theme.palette.white} />
-            <Text style={styles.noReviewsText}>Review queue clear!</Text>
-          </View>
-        )}
-          
-        {/* stats */}
-        {totalReviews > 0 && (
-          <TouchableWithoutFeedback
-            onPress={() => {
-              showActionSheetWithOptions({
-                options: [
-                  'Cancel',
-                  'Refresh',
-                  demo ? (appleDemo ? 'Logout' : 'Back to Main Menu') : 'Logout'
-                ],
-                destructiveButtonIndex: 2,
-              }, buttonIndex => {
-                if (buttonIndex === 1) {
-                  if (device('web')) {
-                    if (confirm('Half completed reviews will be lost. Are you sure ?')) {
-                      loadReviews()
+          {/* no reviews notice */}
+          {isQueueClear && (
+            <View style={styles.noReviewsContainer}>
+              <AntDesign name="smileo" size={32} color={theme.palette.white} />
+              <Text style={styles.noReviewsText}>Review queue clear!</Text>
+            </View>
+          )}
+            
+          {/* stats */}
+          {totalReviews > 0 && (
+            <TouchableWithoutFeedback
+              onPress={() => {
+                showActionSheetWithOptions({
+                  options: [
+                    'Cancel',
+                    'Refresh',
+                    demo ? (appleDemo ? 'Logout' : 'Back to Main Menu') : 'Logout'
+                  ],
+                  destructiveButtonIndex: 2,
+                }, buttonIndex => {
+                  if (buttonIndex === 1) {
+                    if (device('web')) {
+                      if (confirm('Half completed reviews will be lost. Are you sure ?')) {
+                        loadReviews()
+                      }
+                    }
+                    else {
+                      Alert.alert('Are you sure ?', 'Half completed reviews will be lost', [
+                      { text: 'Cancel', style: 'cancel' },
+                      { text: 'OK', onPress: () => loadReviews() },
+                    ])
                     }
                   }
-                  else {
-                    Alert.alert('Are you sure ?', 'Half completed reviews will be lost', [
-                    { text: 'Cancel', style: 'cancel' },
-                    { text: 'OK', onPress: () => loadReviews() },
-                  ])
+                  if (buttonIndex === 2) {
+                    if (demo) stopDemo();
+                    else logout();
                   }
-                }
-                if (buttonIndex === 2) {
-                  if (demo) stopDemo();
-                  else logout();
-                }
-              })
-            }}
-          >
-            <View style={[ styles.box, styles.bars ]}>
-              
-              {/* review bar */}
-              <View style={styles.barWrapper}>
-                <Text style={[ styles.barText, styles.barTextLabel, styles.barTextOpac, { marginRight: 8 } ]}>Reviews</Text>
-                <Bar
-                  style={styles.bar}
-                  values={[ _.get(stats, 'reviews.incorrectPercent', 0), _.get(stats, 'reviews.correctPercent', 0) ]}
-                  colors={[ theme.palette.red, theme.palette.green ]}
-                />
-                <Text style={[ styles.barText, { marginLeft: 8 } ]}>{_.get(stats, 'reviews.completed')}</Text>
-                {_.get(stats, 'reviews.unfinished') > 0 && (
-                  <Text style={[ styles.barText, styles.barTextOpac, { fontSize: 8, marginTop: -12 } ]}>{_.get(stats, 'reviews.unfinished')}</Text>
-                )}
-                <Text style={[ styles.barText, styles.barTextOpac, { marginLeft: 4, marginRight: 4 } ]}>of</Text>
-                <Text style={[ styles.barText ]}>{totalReviews}</Text>
-              </View>
+                })
+              }}
+            >
+              <View style={[ styles.box, styles.bars ]}>
+                
+                {/* review bar */}
+                <View style={styles.barWrapper}>
+                  <Text style={[ styles.barText, styles.barTextLabel, styles.barTextOpac, { marginRight: 8 } ]}>Reviews</Text>
+                  <Bar
+                    style={styles.bar}
+                    values={[ _.get(stats, 'reviews.incorrectPercent', 0), _.get(stats, 'reviews.correctPercent', 0) ]}
+                    colors={[ theme.palette.red, theme.palette.green ]}
+                  />
+                  <Text style={[ styles.barText, { marginLeft: 8 } ]}>{_.get(stats, 'reviews.completed')}</Text>
+                  {_.get(stats, 'reviews.unfinished') > 0 && (
+                    <Text style={[ styles.barText, styles.barTextOpac, { fontSize: 8, marginTop: -12 } ]}>{_.get(stats, 'reviews.unfinished')}</Text>
+                  )}
+                  <Text style={[ styles.barText, styles.barTextOpac, { marginLeft: 4, marginRight: 4 } ]}>of</Text>
+                  <Text style={[ styles.barText ]}>{totalReviews}</Text>
+                </View>
 
-              {/* card bar */}
-              <View style={[ styles.barWrapper, { marginTop: 4 } ]}>
-                <Text style={[ styles.barText, styles.barTextLabel, styles.barTextOpac, { marginRight: 8 } ]}>Cards</Text>
-                <Bar
-                  style={styles.bar}
-                  values={[ _.get(stats, 'cards.incorrectPercent', 0), _.get(stats, 'cards.correctPercent', 0) ]}
-                  colors={[ theme.palette.red, theme.palette.green ]}
-                />
-                <Text style={[ styles.barText, { marginLeft: 8 } ]}>{_.get(stats, 'cards.completed')}</Text>
-                <Text style={[ styles.barText, styles.barTextOpac, { marginLeft: 4, marginRight: 4 } ]}>of</Text>
-                <Text style={[ styles.barText ]}>{totalCards}</Text>
+                {/* card bar */}
+                <View style={[ styles.barWrapper, { marginTop: 4 } ]}>
+                  <Text style={[ styles.barText, styles.barTextLabel, styles.barTextOpac, { marginRight: 8 } ]}>Cards</Text>
+                  <Bar
+                    style={styles.bar}
+                    values={[ _.get(stats, 'cards.incorrectPercent', 0), _.get(stats, 'cards.correctPercent', 0) ]}
+                    colors={[ theme.palette.red, theme.palette.green ]}
+                  />
+                  <Text style={[ styles.barText, { marginLeft: 8 } ]}>{_.get(stats, 'cards.completed')}</Text>
+                  <Text style={[ styles.barText, styles.barTextOpac, { marginLeft: 4, marginRight: 4 } ]}>of</Text>
+                  <Text style={[ styles.barText ]}>{totalCards}</Text>
+                </View>
+                
               </View>
-              
-            </View>
-          </TouchableWithoutFeedback>
-        )}
+            </TouchableWithoutFeedback>
+          )}
 
-        {/* controls */}
-        {isQueueClear && (
-          <>
-            <Button
-              text="Refresh"
-              style={{ marginTop: 12 }}
-              iconLeft={<Ionicons name="md-refresh" size={24} color={theme.color.black} />}
-              onPress={() => loadReviews()}
-            />
-            {(!demo || (demo && appleDemo)) && (
+          {/* controls */}
+          {isQueueClear && (
+            <>
               <Button
-                text="Logout"
-                style={{ marginTop: 8, backgroundColor: 'transparent' }}
-                textStyle={{ color: theme.palette.white }}
-                onPress={() => {
-                  if (demo) stopDemo()
-                  else logout();
-                }}
+                text="Refresh"
+                style={{ marginTop: 12 }}
+                iconLeft={<Ionicons name="md-refresh" size={24} color={theme.color.black} />}
+                onPress={() => loadReviews()}
               />
-            )}
-            {(demo && !appleDemo) && (
-              <Button
-                text="Back to Main Menu"
-                style={{ marginTop: 8, backgroundColor: 'transparent' }}
-                textStyle={{ color: theme.palette.white }}
-                iconLeft={<AntDesign name="arrowleft" size={24} color={theme.palette.white} />}
-                onPress={() => stopDemo()}
-              />
-            )}
-          </>
-        )}
-      </View>
-    </Page>
+              {(!demo || (demo && appleDemo)) && (
+                <Button
+                  text="Logout"
+                  style={{ marginTop: 8, backgroundColor: 'transparent' }}
+                  textStyle={{ color: theme.palette.white }}
+                  onPress={() => {
+                    if (demo) stopDemo()
+                    else logout();
+                  }}
+                />
+              )}
+              {(demo && !appleDemo) && (
+                <Button
+                  text="Back to Main Menu"
+                  style={{ marginTop: 8, backgroundColor: 'transparent' }}
+                  textStyle={{ color: theme.palette.white }}
+                  iconLeft={<AntDesign name="arrowleft" size={24} color={theme.palette.white} />}
+                  onPress={() => stopDemo()}
+                />
+              )}
+            </>
+          )}
+        </View>
+      </Page>
+    )}
     </>
   )
 };

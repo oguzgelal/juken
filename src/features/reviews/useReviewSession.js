@@ -6,7 +6,7 @@ import { useState, useEffect, useMemo } from 'react';
 import _ from 'lodash';
 import { MEANING, RADICAL } from 'src/common/constants';
 import listToDict from 'src/utils/listToDict';
-import queueReviews from 'src/features/reviews/queueReviews';
+import queueReviews from 'src/features/reviews/utils/queueReviews';
 
 export default (reviews, subjects) => {
 
@@ -31,7 +31,6 @@ export default (reviews, subjects) => {
   // refresh &
   // reviews and subjects loaded
   useEffect(() => {
-    console.log('>', reviews, subjects);
     if (_.isNil(reviews) || _.isNil(subjects)) return;
 
     // reset stats

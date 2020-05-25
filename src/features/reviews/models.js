@@ -21,15 +21,15 @@ export const reviews = {
   loadAvailableDemo: thunk(async (action) => {
     await sleep(1000);
     action.saveReviews({
-      assignments: freeAssignments,
-      subjects: freeSubjects,
+      assignments: freeAssignments.slice(),
+      subjects: freeSubjects.slice(),
     })
   }),
 
   loadAvailable: thunk(async (action, { onEmpty }) => {
     try {
 
-      // get immediately available reviews
+      // get immediately available assignments
       const assignments = await collection({
         endpoint: 'assignments',
         method: GET,
@@ -38,13 +38,13 @@ export const reviews = {
         },
       });
 
-      // stop here if there are no immediate reviews
+      // stop here if there are no immediate assignments
       if (!assignments || assignments.length === 0) {
         onEmpty();
         return;
       }
 
-      // get subjects for these
+      // get subjects for these assignments
       const subjects = await collection({
         endpoint: 'subjects',
         method: GET,
@@ -56,6 +56,7 @@ export const reviews = {
         },
       });
 
+      // save assignments and subjects to state
       action.saveReviews({
         assignments,
         subjects,

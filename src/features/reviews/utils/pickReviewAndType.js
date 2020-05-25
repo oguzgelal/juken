@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import randomIndex from 'src/utils/randomIndex';
-import getReviewType from 'src/features/reviews/getReviewType';
+import getReviewType from 'src/features/reviews/utils/getReviewType';
 
 // pick a review and a review type at random
 export default (reviews, reviewTypesHistory) => {
