@@ -4,9 +4,7 @@ import { useStoreActions, useStoreState } from 'easy-peasy';
 export default demo => {
   const [ loading, setLoading ] = useState(true);
 
-  const loadReviewsMain = useStoreActions(actions => actions.reviews.loadAvailable);
-  const loadReviewsDemo = useStoreActions(actions => actions.reviews.loadAvailableDemo);
-  const loadReviews = demo ? loadReviewsDemo : loadReviewsMain;
+  const loadReviews = useStoreActions(actions => actions.reviews.loadAvailable);
 
   const assignments = useStoreState(state => state.reviews.assignments);
   const subjects = useStoreState(state => state.reviews.subjects);
@@ -14,6 +12,7 @@ export default demo => {
   const loadReviewsFn = () => {
     setLoading(true);
     loadReviews({
+      demo,
       onEmpty: () => {
         setLoading(false);
       }
@@ -22,7 +21,7 @@ export default demo => {
 
   // stop loading when assignments
   // and subjects are set
-  useEffect(() => { setLoading(false);}, [
+  useEffect(() => { setLoading(false); }, [
     assignments,
     subjects
   ]);

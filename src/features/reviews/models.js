@@ -1,32 +1,129 @@
-import { action, thunk } from 'easy-peasy';
-import { GET } from 'src/common/constants';
-import { collection } from 'src/features/wk/request';
+import _ from 'lodash';
+import { action, thunk, thunkOn } from 'easy-peasy';
+import { GET, POST } from 'src/common/constants';
+import { request, collection } from 'src/features/wk/request';
 import sleep from 'src/utils/test/sleep';
 import freeAssignments from 'src/mock/freeAssignments';
 import freeSubjects from 'src/mock/freeSubjects';
 
+// TODO: it's too late for Typescript, but maybe
+// integrate Flow to make this less painful.
+
+// reviewSubmission:
+// {
+//   reviewId,
+//   subjectId,
+//   incorrectMeanings,
+//   incorrectReadings,
+// }
+
 export const reviews = {
   assignments: [],
   subjects: [],
+  submissionQueue: [],
+  submissionErrors: [],
 
   /** actions */
 
   saveReviews: action((state, { assignments, subjects }) => {
     state.assignments = assignments;
     state.subjects = subjects;
+    state.submissionQueue = [];
+    state.submissionErrors = [];
+  }),
+
+  // add review to the submission queue
+  addToSubmissionQueue: action((state, reviewSubmission) => {
+    state.submissionQueue.unshift(reviewSubmission);
+  }),
+
+  // remove review from submission queue
+  removeFromSubmissionQueue: action((state, reviewSubmission) => {
+    const { reviewId } = reviewSubmission;
+    const ind = state.submissionQueue.map(s => s.reviewId).indexOf(reviewId);
+    if (ind !== -1) state.submissionQueue.splice(ind, 1);
+  }),
+
+  // add review to errors
+  addToSubmissionErrors: action((state, reviewSubmission) => {
+    const { reviewId } = reviewSubmission;
+    const ind = state.submissionErrors.map(s => s.reviewId).indexOf(reviewId);
+    if (ind === -1) state.submissionErrors.push(reviewSubmission);
+  }),
+
+  // remove review from errors
+  removeFromSubmissionErrors: action((state, reviewSubmission) => {
+    const { reviewId } = reviewSubmission;
+    const ind = state.submissionErrors.map(s => s.reviewId).indexOf(reviewId);
+    if (ind !== -1) state.submissionErrors.splice(ind, 1);
   }),
   
   /** thunks */
 
-  loadAvailableDemo: thunk(async (action) => {
-    await sleep(1000);
-    action.saveReviews({
-      assignments: freeAssignments.slice(),
-      subjects: freeSubjects.slice(),
-    });
+  // submit a review to wanikani
+  submitReview: thunk(async (actions, reviewSubmission) => {
+    try {
+      const {
+        reviewId,
+        // subjectId,
+        incorrectMeanings,
+        incorrectReadings,
+      } = reviewSubmission;
+  
+      const res = await request({
+        endpoint: 'reviews',
+        method: POST,
+        body: {
+          review: {
+            assignment_id: reviewId,
+            incorrect_meaning_answers: incorrectMeanings || 0,
+            incorrect_reading_answers: incorrectReadings || 0,
+          }
+        }
+      })
+  
+      const hasError = (
+        _.get(res, 'resources_updated.assignment.id') !== reviewId
+      );
+  
+      if (hasError) {
+        // if there was an error, add submission to errors list
+        actions.addToSubmissionErrors(reviewSubmission);
+      } else {
+        // otherwise remove from submission queue / errors list
+        actions.removeFromSubmissionQueue(reviewSubmission);
+        actions.removeFromSubmissionErrors(reviewSubmission);
+      }
+    }
+    catch(e) {
+      // request failed, add submission to errors list
+      actions.addToSubmissionErrors(reviewSubmission);
+    }
   }),
 
-  loadAvailable: thunk(async (action, { onEmpty }) => {
+  // trigger submit review when a review 
+  // is added to the submission queue
+  submitReviewFromQueue: thunkOn(
+    actions => actions.addToSubmissionQueue,
+    (actions, _, { getState }) => {
+      const state = getState();
+      const reviewSubmission = state.submissionQueue[0];
+      if (reviewSubmission) actions.submitReview(reviewSubmission);
+    }
+  ),
+
+  loadAvailable: thunk(async (action, { demo, onEmpty }) => {
+
+    if (demo) {
+      await sleep(1000);
+      action.saveReviews({
+        assignments: freeAssignments.slice(),
+        subjects: freeSubjects.slice(),
+      });
+
+      return;
+    }
+
     try {
 
       // get immediately available assignments

@@ -9,7 +9,7 @@ import {
   TouchableWithoutFeedback,
   ActivityIndicator,
 } from 'react-native';
-import { useStoreActions } from 'easy-peasy';
+import { useStoreActions, useStoreState } from 'easy-peasy';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import device from 'src/utils/device';
@@ -19,8 +19,8 @@ import Bar from 'src/components/Bar/Bar';
 import Card from 'src/components/Card/Card';
 import Deck from 'src/components/Deck/Deck';
 import Overlay from 'src/components/Overlay/Overlay';
-import Toast, { TYPES } from 'src/components/Toast/Toast';
 import SrsStages from 'src/components/Toast/SrsStages';
+// import Toast, { TYPES } from 'src/components/Toast/Toast';
 import Message from 'src/screens/Message/Message';
 import useLoadReviews from 'src/features/reviews/useLoadReviews';
 import useReviewSession from 'src/features/reviews/useReviewSession';
@@ -32,37 +32,19 @@ import extractSubject from 'src/utils/extractSubject';
 
 const Review = ({ demo = false, stopDemo } = {}) => {
   const { showActionSheetWithOptions } = useActionSheet();
-  const [ submitError, setSubmitError ] = useState(null);
   const [ srsStages, setSrsStages ] = useState({});
-  const isInternetReachable = useNetworkListener();
-  const resubmitSuccess = useRef(null);
+  // const isInternetReachable = useNetworkListener();
+  
+  const logout = useStoreActions(actions => actions.session.logout);
+  const addToSubmissionQueue = useStoreActions(actions => actions.reviews.addToSubmissionQueue);
+  const submissionQueue = useStoreState(state => state.reviews.submissionQueue);
+  const submissionErrors = useStoreState(state => state.reviews.submissionErrors);
 
   useScrollLock();
   useLeaveWarning();
 
-  /*
-  const [ submitReviewFn, submittingReview ] = useWk(submitReview, {
-    onSuccess: ({ isResubmitting }) => {
-      setSubmitError(null);
-      if (isResubmitting) {
-        resubmitSuccess.current.show('Success!')
-      }
-    },
-    onError: ({ objectToResubmitOnError } = {}) => {
-      const subjectId = _.get(objectToResubmitOnError, 'subjectId');
-      const subject = _.get(subjectsDict, subjectId);
-      const subjectType = _.get(subject, 'object');
-      const { characters, type } = extractSubject(subject, subjectType);
-      setSubmitError({
-        objectToResubmitOnError,
-        errSubjectCharacters: characters,
-        errSubjectType: type,
-      });
-    },
-  })
-  */
-  const submittingReview = false;
-  const logout = useStoreActions(actions => actions.session.logout);
+  console.log('submissionQueue', submissionQueue);
+  console.log('submissionErrors', submissionErrors);
 
   const {
     loadReviews,
@@ -83,93 +65,17 @@ const Review = ({ demo = false, stopDemo } = {}) => {
     subjects,
   );
   
-  const isQueueClear = queue.length === 0 && !loadingReviews;
+  const isQueueClear = !loadingReviews && queue.length === 0;
   
   return (
     <>
 
     {/** display srs stages toasts */}
     <SrsStages stages={srsStages} />
-    
-
-    {/** resubmission success */}
-    <Toast
-      ref={resubmitSuccess}
-      type={TYPES.SUCCESS}
-      position="top"
-    />
 
     {loadingReviews && (
       <Overlay>
         <Message loading />
-      </Overlay>
-    )}
-
-    {/** cannot connect to the internet view */}
-    {!loadingReviews && !isInternetReachable && (
-      <Overlay>
-        <Message
-          error
-          title="No Internet Connection"
-          style={styles.pageCover}
-          description={
-            "You can continue your reviews from where you're left off once your " +
-            "connection is back! Please do not close the app " +
-            (device('web') ? "or refresh the page " : "") + "to prevent from losing half finished " +
-            "reviews. Note that this does not effect the reviews you have submitted " +
-            "in this session so far."
-          }
-        />
-      </Overlay>
-    )}
-
-    {!loadingReviews && isInternetReachable && submitError && (
-      <Overlay>
-        <Message
-          icon={_.get(submitError, 'errSubjectCharacters')}
-          error={!!!_.get(submitError, 'errSubjectCharacters')}
-          title="Failed to Submit"
-          style={styles.pageCover}
-          description={
-            `We failed to submit ${_.get(submitError, 'errSubjectCharacters') || 'your last'} ${_.get(submitError, 'errSubjectType') || ''} review to WaniKani. ` +
-            (_.get(stats, 'reviews.completed') - 1 > 0 ? `${_.get(stats, 'reviews.completed')  - 1} reviews you completed were submitted successfully. ` : '') +
-            (_.get(stats, 'reviews.unfinished') > 0
-              ? (`${_.get(stats, 'reviews.unfinished')} half finished reviews will be lost if you close the app` + (device('web') ? " or refresh the page" : "") + '.')
-              : 'You have no half finished reviews so you will not lose any data. You can try again or safely close the app and continue later.'
-            )
-          }
-          ctas={[
-            {
-              id: 'err-btn-retry',
-              text: submittingReview ? 'Retrying...' : 'Retry',
-              style: { marginTop: 32 },
-              onPress: () => {
-                /*
-                submitReviewFn({
-                  resubmit: _.get(submitError, 'objectToResubmitOnError')
-                })
-                */
-              },
-              iconRight: submittingReview
-                ? <ActivityIndicator size={24} color={theme.palette.black} />
-                : null
-            },
-            {
-              id: 'err-btn-ignore',
-              text: 'Ignore',
-              style: {
-                marginTop: 4,
-                backgroundColor: 'transparent',
-              },
-              textStyle: {
-                color: theme.palette.white,
-              },
-              onPress: () => {
-                setSubmitError(null);
-              }
-            }
-          ]}
-        />
       </Overlay>
     )}
 
@@ -217,14 +123,13 @@ const Review = ({ demo = false, stopDemo } = {}) => {
                 if (demo) return;
 
                 // submit review
-                /*
-                submitReviewFn({
+                addToSubmissionQueue({
                   subjectId: _.get(review, 'data.subject_id'),
                   reviewId: review.id,
                   incorrectMeanings,
                   incorrectReadings,
                 });
-                */
+
               });
             }}
             renderCard={(item, props) => {

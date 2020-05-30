@@ -1,6 +1,8 @@
 import _ from 'lodash';
 import requestBase from 'src/features/request/request';
-// import store from 'src/features/store';
+
+// TODO: this creates a circular dependency
+import store from 'src/features/store';
 
 const BASE = 'https://api.wanikani.com/v2/';
 

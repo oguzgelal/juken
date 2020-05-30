@@ -1,4 +1,4 @@
-import { action, actionOn, computed, thunk } from 'easy-peasy';
+import { action, computed, thunk } from 'easy-peasy';
 import { GET } from 'src/common/constants';
 import { request } from 'src/features/wk/request';
 import setUserAnalytics from 'src/features/events/setUserAnalytics';
