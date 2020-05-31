@@ -13,7 +13,7 @@ const TopBar = ({
   leftOnPress,
   right,
   rightText,
-  rightButton,
+  rightOnPress,
 }) => {
   return (
     <View style={[ styles.wrapper, style ]}>
@@ -50,8 +50,8 @@ const TopBar = ({
 
       {/** right */}
       <TouchableOpacity
-        onPress={rightButton}
-        disabled={!rightButton}
+        onPress={rightOnPress}
+        disabled={!rightOnPress}
         style={[ styles.cell, styles.side, styles.right ]}
       >
         {!!right && right}
@@ -74,15 +74,15 @@ TopBar.propTypes = {
   
   center: PropTypes.any,
   centerText: PropTypes.string,
-  // centerOnPress: PropTypes.func,
+  centerOnPress: PropTypes.func,
 
   left: PropTypes.any,
   leftText: PropTypes.string,
-  // leftOnPress: PropTypes.func,
+  leftOnPress: PropTypes.func,
 
   right: PropTypes.any,
   rightText: PropTypes.string,
-  // rightOnPress: PropTypes.func,
+  rightOnPress: PropTypes.func,
 };
 
 const styles = StyleSheet.create({
