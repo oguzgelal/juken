@@ -16,6 +16,9 @@ const ReviewTopBar = ({
   loadReviews,
   submissionQueue,
   submissionErrors,
+  ignoreSubmissionErrors,
+  retrySubmission,
+  isQueueClear,
 }) => {
 
   const isInternetReachable = useNetworkListener();
@@ -26,20 +29,23 @@ const ReviewTopBar = ({
   const uploadQueue = submissionQueue.length;
   const uploadErrors = submissionErrors.length;
 
-  let badgeColor = null;
-  if (uploadSuccess) badgeColor = theme.palette.green;
-  if (uploadQueue > 0) badgeColor = 'rgba(0, 0, 0, .1)';
-  if (uploadErrors > 0) badgeColor = theme.palette.red;
+  let badgeColor = uploadFail
+    ? theme.palette.red
+    : 'rgba(0, 0, 0, .1)';
   
   let badgeIcon = null;
   if (uploadSuccess) badgeIcon = <AntDesign name="check" size={10} color="white" />;
   if (uploadQueue > 0) badgeIcon = <AntDesign name="arrowup" size={10} color="white" />;
 
+  let badgeText = null;
+  if (uploadQueue > 0) badgeText = uploadQueue;
+  if (uploadFail) badgeText = uploadErrors;
+
   return (
     <>
       <TopBar
         style={styles.wrapper}
-        centerText="Reviews"
+        centerText={isQueueClear ? '' : 'Reviews'}
         left={<Entypo name="menu" size={20} color="white" />}
         leftOnPress={() => {
           showActionSheetWithOptions({
@@ -74,31 +80,38 @@ const ReviewTopBar = ({
             )}
             <Badge
               style={{ backgroundColor: badgeColor }}
-              text={(uploadQueue > 0) ? uploadQueue : null}
+              text={badgeText}
               icon={badgeIcon}
             />
           </>
         }
-        rightOnPress={() => {
-          if (!uploadFail) {
-            dialog({ title: 'All reviews are submitted successfully!' });
-          } else {
-            showActionSheetWithOptions({
+        rightOnPress={!uploadFail ? null : () => {
+          showActionSheetWithOptions({
               options: [
                 'Cancel',
-                `Retry submitting ${uploadErrors} reviews`,
-                `Ignore ${uploadErrors} reviews`,
+                'Retry',
+                'Ignore',
               ],
               destructiveButtonIndex: 2,
-              title: `Unable to submit ${uploadErrors} reviews`,
+              title: `Failed to submit ${uploadErrors} review${uploadErrors === 1 ? '' : 's'}`,
               message: (
                 'You can retry submission after making sure your device ' +
-                'have an active internet connection. If you submitted the reviews ' +
+                'has an active internet connection. If you submitted the reviews ' +
                 'from another application, please use the Ignore button to dismiss ' +
                 'the errors.'
               ),
+            }, buttonIndex => {
+              if (buttonIndex === 1) {
+                retrySubmission();
+              } else if (buttonIndex === 2) {
+                dialog({
+                  webTitle: 'Unless you submitted your reviews elsewhere, your unsubmitted reviews will be lost. Are you sure ?',
+                  mobileTitle: 'Are you sure ?',
+                  mobileMessage: 'Unless you submitted your reviews elsewhere, your unsubmitted reviews will be lost.',
+                  onConfirm: ignoreSubmissionErrors
+                });
+              }
             })
-          }
         }}
       />
     </>
@@ -112,6 +125,9 @@ ReviewTopBar.propTypes = {
   loadReviews: PropTypes.func,
   submissionQueue: PropTypes.array,
   submissionErrors: PropTypes.array,
+  ignoreSubmissionErrors: PropTypes.func,
+  retrySubmission: PropTypes.func,
+  isQueueClear: PropTypes.bool,
 };
 
 const styles = StyleSheet.create({

@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { action, thunk, thunkOn } from 'easy-peasy';
-import { GET, POST } from 'src/common/constants';
+import { GET, POST, RETRY_BATCH_SIZE } from 'src/common/constants';
 import { request, collection } from 'src/features/wk/request';
 import sleep from 'src/utils/test/sleep';
 import freeAssignments from 'src/mock/freeAssignments';
@@ -26,7 +26,7 @@ export const reviews = {
 
   /** actions */
 
-  saveReviews: action((state, { assignments, subjects }) => {
+  _saveReviews: action((state, { assignments, subjects }) => {
     state.assignments = assignments;
     state.subjects = subjects;
     state.submissionQueue = [];
@@ -34,42 +34,101 @@ export const reviews = {
   }),
 
   // add review to the submission queue
-  addToSubmissionQueue: action((state, reviewSubmission) => {
+  _addToSubmissionQueue: action((state, reviewSubmission) => {
     state.submissionQueue.unshift(reviewSubmission);
   }),
 
   // remove review from submission queue
-  removeFromSubmissionQueue: action((state, reviewSubmission) => {
+  _removeFromSubmissionQueue: action((state, reviewSubmission) => {
     const { reviewId } = reviewSubmission;
     const ind = state.submissionQueue.map(s => s.reviewId).indexOf(reviewId);
     if (ind !== -1) state.submissionQueue.splice(ind, 1);
   }),
 
   // add review to errors
-  addToSubmissionErrors: action((state, reviewSubmission) => {
+  _addToSubmissionErrors: action((state, reviewSubmission) => {
     const { reviewId } = reviewSubmission;
     const ind = state.submissionErrors.map(s => s.reviewId).indexOf(reviewId);
     if (ind === -1) state.submissionErrors.push(reviewSubmission);
   }),
 
   // remove review from errors
-  removeFromSubmissionErrors: action((state, reviewSubmission) => {
+  _removeFromSubmissionErrors: action((state, reviewSubmission) => {
     const { reviewId } = reviewSubmission;
     const ind = state.submissionErrors.map(s => s.reviewId).indexOf(reviewId);
     if (ind !== -1) state.submissionErrors.splice(ind, 1);
   }),
+
+  // ignore everything in the submit queue + the errors
+  ignoreSubmissionErrors: action(state => {
+    state.submissionQueue = [];
+    state.submissionErrors = [];
+  }),
   
   /** thunks */
 
+  // call this when a review is queued for submission
+  submitReview: thunk((actions, reviewSubmission) => {
+    actions._addToSubmissionQueue(reviewSubmission);
+  }),
+
+  // success! remove from submission queue / errors list
+  _submitSuccess: thunk((actions, reviewSubmission) => {
+    actions._removeFromSubmissionQueue(reviewSubmission);
+    actions._removeFromSubmissionErrors(reviewSubmission);
+  }),
+
+  // error! add submission to errors list
+  _submitFail: thunk((actions, reviewSubmission) => {
+    actions._addToSubmissionErrors(reviewSubmission);
+  }),
+
+  // try submitting all submissions that has errored
+  // 1. pick received items the submission errors in state
+  // 2. split it into the retry batch size
+  // 3. send parallel requests for all items in the batch and await
+  // 4. if there are more items, self dispatch and pass remaining items 
+  // 5. base case: no more items to retry - do nothing
+  retrySubmission: thunk(async (actions, { items } = {}, { getState }) => {
+    const state = getState();
+    const currentErrors = items || state.submissionErrors;
+    const retry = currentErrors.slice(0, RETRY_BATCH_SIZE);
+    const retryNext = currentErrors.slice(RETRY_BATCH_SIZE);
+
+    // retry everything
+    await Promise.all(retry.map(reviewSubmission => (
+      new Promise(resolve => {
+        actions._submitReview({
+          reviewSubmission,
+          callback: resolve
+        })
+      })
+    )))
+
+    // if there are more items to retry, self dispatch
+    if (retryNext.length > 0) {
+      actions.retrySubmission({ items: retryNext });
+    }
+  }),
+
   // submit a review to wanikani
-  submitReview: thunk(async (actions, reviewSubmission) => {
+  _submitReview: thunk(async (actions, { reviewSubmission, callback }) => {
     try {
       const {
+        demo,
         reviewId,
         // subjectId,
         incorrectMeanings,
         incorrectReadings,
       } = reviewSubmission;
+
+      // submission from the demo
+      if (demo) {
+        await sleep(1000);
+        actions._submitSuccess(reviewSubmission);
+        if (typeof callback === 'function') callback();
+        return;
+      }
   
       const res = await request({
         endpoint: 'reviews',
@@ -88,35 +147,29 @@ export const reviews = {
       );
   
       if (hasError) {
-        // if there was an error, add submission to errors list
-        actions.addToSubmissionErrors(reviewSubmission);
+        actions._submitFail(reviewSubmission);
       } else {
-        // otherwise remove from submission queue / errors list
-        actions.removeFromSubmissionQueue(reviewSubmission);
-        actions.removeFromSubmissionErrors(reviewSubmission);
+        actions._submitSuccess(reviewSubmission);
       }
     }
     catch(e) {
-      // request failed, add submission to errors list
-      actions.addToSubmissionErrors(reviewSubmission);
+      actions._submitFail(reviewSubmission);
+    }
+
+    if (typeof callback === 'function') {
+      callback();
     }
   }),
 
   // trigger submit review when a review 
   // is added to the submission queue
-  submitReviewFromQueue: thunkOn(
-    actions => actions.addToSubmissionQueue,
-    async (actions, target, { getState }) => {
+  _submitReviewFromQueue: thunkOn(
+    actions => actions._addToSubmissionQueue,
+    async (actions, _, { getState }) => {
       const state = getState();
       const reviewSubmission = state.submissionQueue[0];
       if (!reviewSubmission) return;
-
-      if (_.get(target, 'payload.demo')) {
-        await sleep(1000);
-        actions.removeFromSubmissionQueue(reviewSubmission);
-      } else {
-        actions.submitReview(reviewSubmission);
-      }
+      actions._submitReview({ reviewSubmission });
     }
   ),
 
@@ -125,7 +178,7 @@ export const reviews = {
 
     if (demo) {
       await sleep(1000);
-      action.saveReviews({
+      action._saveReviews({
         assignments: freeAssignments.slice(),
         subjects: freeSubjects.slice(),
       });
@@ -163,7 +216,7 @@ export const reviews = {
       });
 
       // save assignments and subjects to state
-      action.saveReviews({
+      action._saveReviews({
         assignments,
         subjects,
       })

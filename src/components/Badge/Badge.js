@@ -19,7 +19,10 @@ Badge.propTypes = {
     PropTypes.array,
   ]),
   icon: PropTypes.any,
-  text: PropTypes.string,
+  text: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]),
 };
 
 const styles = StyleSheet.create({

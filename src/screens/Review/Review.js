@@ -1,14 +1,7 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import {
-  Alert,
-  StyleSheet,
-  View,
-  Text,
-  TouchableWithoutFeedback,
-  ActivityIndicator,
-} from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import { useStoreActions, useStoreState } from 'easy-peasy';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import device from 'src/utils/device';
@@ -33,12 +26,14 @@ const Review = ({ demo = false, stopDemo } = {}) => {
   const [ srsStages, setSrsStages ] = useState({});
   
   const logout = useStoreActions(actions => actions.session.logout);
-  const addToSubmissionQueue = useStoreActions(actions => actions.reviews.addToSubmissionQueue);
+  const submitReview = useStoreActions(actions => actions.reviews.submitReview);
+  const retrySubmission = useStoreActions(actions => actions.reviews.retrySubmission);
+  const ignoreSubmissionErrors = useStoreActions(actions => actions.reviews.ignoreSubmissionErrors);
   const submissionQueue = useStoreState(state => state.reviews.submissionQueue);
   const submissionErrors = useStoreState(state => state.reviews.submissionErrors);
 
   useScrollLock();
-  // useLeaveWarning();
+  useLeaveWarning();
 
   const {
     loadReviews,
@@ -90,6 +85,9 @@ const Review = ({ demo = false, stopDemo } = {}) => {
           loadReviews={loadReviews}
           submissionQueue={submissionQueue}
           submissionErrors={submissionErrors}
+          ignoreSubmissionErrors={ignoreSubmissionErrors}
+          retrySubmission={retrySubmission}
+          isQueueClear={isQueueClear}
         />
 
         {/* render deck */}
@@ -125,7 +123,7 @@ const Review = ({ demo = false, stopDemo } = {}) => {
                 }
 
                 // submit review
-                addToSubmissionQueue({
+                submitReview({
                   demo,
                   subjectId: _.get(review, 'data.subject_id'),
                   reviewId: review.id,
