@@ -32,15 +32,11 @@ const bg = {
   card: palette.white,
 };
 
-const padding = device({
-  base: {
-    body: 24,
-    card: 18,
-    touchable: 12,
-  },
-  web: { pageTop: 14 },
-  mobile: { pageTop: 4 },
-});
+const padding = {
+  body: 24,
+  card: 18,
+  touchable: 12,
+};
 
 const radius = {
   card: 10,
@@ -48,9 +44,7 @@ const radius = {
 };
 
 const height = device({
-  base: {
-    touchable: 52,
-  },
+  base: { touchable: 52, },
   web: { statusBar: 22 },
   mobile: { statusBar: 8 }
 });

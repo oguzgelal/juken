@@ -11,6 +11,7 @@ import freeSubjects from 'src/mock/freeSubjects';
 
 // reviewSubmission:
 // {
+//   demo,
 //   reviewId,
 //   subjectId,
 //   incorrectMeanings,
@@ -105,13 +106,21 @@ export const reviews = {
   // is added to the submission queue
   submitReviewFromQueue: thunkOn(
     actions => actions.addToSubmissionQueue,
-    (actions, _, { getState }) => {
+    async (actions, target, { getState }) => {
       const state = getState();
       const reviewSubmission = state.submissionQueue[0];
-      if (reviewSubmission) actions.submitReview(reviewSubmission);
+      if (!reviewSubmission) return;
+
+      if (_.get(target, 'payload.demo')) {
+        await sleep(1000);
+        actions.removeFromSubmissionQueue(reviewSubmission);
+      } else {
+        actions.submitReview(reviewSubmission);
+      }
     }
   ),
 
+  // load immediately available reviews
   loadAvailable: thunk(async (action, { demo, onEmpty }) => {
 
     if (demo) {

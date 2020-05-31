@@ -11,7 +11,6 @@ import {
 } from 'react-native';
 import { useStoreActions, useStoreState } from 'easy-peasy';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
-import { useActionSheet } from '@expo/react-native-action-sheet';
 import device from 'src/utils/device';
 import theme from 'src/common/theme';
 import Page from 'src/components/Page/Page';
@@ -26,14 +25,12 @@ import useLoadReviews from 'src/features/reviews/useLoadReviews';
 import useReviewSession from 'src/features/reviews/useReviewSession';
 import useScrollLock from 'src/hooks/useScrollLock';
 import useLeaveWarning from 'src/hooks/useLeaveWarning';
-import useNetworkListener from 'src/hooks/useNetworkListener';
 import Button from 'src/components/Button/Button';
 import extractSubject from 'src/utils/extractSubject';
+import ReviewTopBar from 'src/screens/Review/ReviewTopBar';
 
 const Review = ({ demo = false, stopDemo } = {}) => {
-  const { showActionSheetWithOptions } = useActionSheet();
   const [ srsStages, setSrsStages ] = useState({});
-  // const isInternetReachable = useNetworkListener();
   
   const logout = useStoreActions(actions => actions.session.logout);
   const addToSubmissionQueue = useStoreActions(actions => actions.reviews.addToSubmissionQueue);
@@ -41,10 +38,7 @@ const Review = ({ demo = false, stopDemo } = {}) => {
   const submissionErrors = useStoreState(state => state.reviews.submissionErrors);
 
   useScrollLock();
-  useLeaveWarning();
-
-  console.log('submissionQueue', submissionQueue);
-  console.log('submissionErrors', submissionErrors);
+  // useLeaveWarning();
 
   const {
     loadReviews,
@@ -85,7 +79,18 @@ const Review = ({ demo = false, stopDemo } = {}) => {
         isQueueClear && styles.pageNoReviews
       ]}
     >
+
       <View style={styles.deckWrapper}>
+
+        {/** top bar */}
+        <ReviewTopBar
+          demo={demo}
+          logout={logout}
+          stopDemo={stopDemo}
+          loadReviews={loadReviews}
+          submissionQueue={submissionQueue}
+          submissionErrors={submissionErrors}
+        />
 
         {/* render deck */}
         {queue.length > 0 && (
@@ -119,11 +124,9 @@ const Review = ({ demo = false, stopDemo } = {}) => {
                   setSrsStages({ current: currentStage, next: currentStage + 1 })
                 }
 
-                // do not submit to wanikani on demo mode
-                if (demo) return;
-
                 // submit review
                 addToSubmissionQueue({
+                  demo,
                   subjectId: _.get(review, 'data.subject_id'),
                   reviewId: review.id,
                   incorrectMeanings,
@@ -172,69 +175,38 @@ const Review = ({ demo = false, stopDemo } = {}) => {
           
         {/* stats */}
         {totalReviews > 0 && (
-          <TouchableWithoutFeedback
-            onPress={() => {
-              showActionSheetWithOptions({
-                options: [
-                  'Cancel',
-                  'Refresh',
-                  'Logout',
-                ],
-                destructiveButtonIndex: 2,
-              }, buttonIndex => {
-                if (buttonIndex === 1) {
-                  if (device('web')) {
-                    if (confirm('Half completed reviews will be lost. Are you sure ?')) {
-                      loadReviews()
-                    }
-                  }
-                  else {
-                    Alert.alert('Are you sure ?', 'Half completed reviews will be lost', [
-                    { text: 'Cancel', style: 'cancel' },
-                    { text: 'OK', onPress: () => loadReviews() },
-                  ])
-                  }
-                }
-                if (buttonIndex === 2) {
-                  if (demo) stopDemo();
-                  else logout();
-                }
-              })
-            }}
-          >
-            <View style={[ styles.box, styles.bars ]}>
-              
-              {/* review bar */}
-              <View style={styles.barWrapper}>
-                <Text style={[ styles.barText, styles.barTextLabel, styles.barTextOpac, { marginRight: 8 } ]}>Reviews</Text>
-                <Bar
-                  style={styles.bar}
-                  values={[ _.get(stats, 'reviews.incorrectPercent', 0), _.get(stats, 'reviews.correctPercent', 0) ]}
-                  colors={[ theme.palette.red, theme.palette.green ]}
-                />
-                <Text style={[ styles.barText, { marginLeft: 8 } ]}>{_.get(stats, 'reviews.completed')}</Text>
-                {_.get(stats, 'reviews.unfinished') > 0 && (
-                  <Text style={[ styles.barText, styles.barTextOpac, { fontSize: 8, marginTop: -12 } ]}>{_.get(stats, 'reviews.unfinished')}</Text>
-                )}
-                <Text style={[ styles.barText, styles.barTextOpac, { marginLeft: 4, marginRight: 4 } ]}>of</Text>
-                <Text style={[ styles.barText ]}>{totalReviews}</Text>
-              </View>
-
-              {/* card bar */}
-              <View style={[ styles.barWrapper, { marginTop: 4 } ]}>
-                <Text style={[ styles.barText, styles.barTextLabel, styles.barTextOpac, { marginRight: 8 } ]}>Cards</Text>
-                <Bar
-                  style={styles.bar}
-                  values={[ _.get(stats, 'cards.incorrectPercent', 0), _.get(stats, 'cards.correctPercent', 0) ]}
-                  colors={[ theme.palette.red, theme.palette.green ]}
-                />
-                <Text style={[ styles.barText, { marginLeft: 8 } ]}>{_.get(stats, 'cards.completed')}</Text>
-                <Text style={[ styles.barText, styles.barTextOpac, { marginLeft: 4, marginRight: 4 } ]}>of</Text>
-                <Text style={[ styles.barText ]}>{totalCards}</Text>
-              </View>
-              
+          <View style={[ styles.box, styles.bars ]}>
+            
+            {/* review bar */}
+            <View style={styles.barWrapper}>
+              <Text style={[ styles.barText, styles.barTextLabel, styles.barTextOpac, { marginRight: 8 } ]}>Reviews</Text>
+              <Bar
+                style={styles.bar}
+                values={[ _.get(stats, 'reviews.incorrectPercent', 0), _.get(stats, 'reviews.correctPercent', 0) ]}
+                colors={[ theme.palette.red, theme.palette.green ]}
+              />
+              <Text style={[ styles.barText, { marginLeft: 8 } ]}>{_.get(stats, 'reviews.completed')}</Text>
+              {_.get(stats, 'reviews.unfinished') > 0 && (
+                <Text style={[ styles.barText, styles.barTextOpac, { fontSize: 8, marginTop: -12 } ]}>{_.get(stats, 'reviews.unfinished')}</Text>
+              )}
+              <Text style={[ styles.barText, styles.barTextOpac, { marginLeft: 4, marginRight: 4 } ]}>of</Text>
+              <Text style={[ styles.barText ]}>{totalReviews}</Text>
             </View>
-          </TouchableWithoutFeedback>
+
+            {/* card bar */}
+            <View style={[ styles.barWrapper, { marginTop: 4 } ]}>
+              <Text style={[ styles.barText, styles.barTextLabel, styles.barTextOpac, { marginRight: 8 } ]}>Cards</Text>
+              <Bar
+                style={styles.bar}
+                values={[ _.get(stats, 'cards.incorrectPercent', 0), _.get(stats, 'cards.correctPercent', 0) ]}
+                colors={[ theme.palette.red, theme.palette.green ]}
+              />
+              <Text style={[ styles.barText, { marginLeft: 8 } ]}>{_.get(stats, 'cards.completed')}</Text>
+              <Text style={[ styles.barText, styles.barTextOpac, { marginLeft: 4, marginRight: 4 } ]}>of</Text>
+              <Text style={[ styles.barText ]}>{totalCards}</Text>
+            </View>
+            
+          </View>
         )}
 
         {/* controls */}
@@ -352,7 +324,7 @@ const styles = StyleSheet.create({
   },
   barTextOpac: {
     opacity: 0.3,
-  },
+  }
 })
 
 export default Review;
