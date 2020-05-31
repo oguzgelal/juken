@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo "Pre-commit hook running..."
+echo "Pre-push hook running..."
 
 if grep 'prevent_push' -R src
 then
