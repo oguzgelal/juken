@@ -1,8 +1,8 @@
 import _ from 'lodash';
 import randomId from 'src/utils/randomId';
 
-import pickReviewAndType from 'src/features/reviews/pickReviewAndType';
-import adjustQueue from 'src/features/reviews/adjustQueue';
+import pickReviewAndType from 'src/features/reviews/utils/pickReviewAndType';
+import adjustQueue from 'src/features/reviews/utils/adjustQueue';
 
 // pick multiple reviews from the list, respecting the
 // removed items from the list from the previous loop

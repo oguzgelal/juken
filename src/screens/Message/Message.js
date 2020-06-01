@@ -20,6 +20,7 @@ const Message = ({
   center,
   ctas = [],
 }) => (
+
   <Page
     style={[
       styles.page,
@@ -39,10 +40,10 @@ const Message = ({
     {/** error icon */}
     {error && (
       <AntDesign
-          name="frowno"
-          size={52}
-          color={theme.palette.white}
-        />
+        name="frowno"
+        size={52}
+        color={theme.palette.white}
+      />
     )}
 
     {/** custom icon */}
@@ -70,7 +71,8 @@ const Message = ({
           styles.width,
           styles.description,
           center && styles.center,
-        ]}>
+        ]}
+      >
         {description}
       </Text>
     )}

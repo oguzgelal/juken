@@ -1,27 +1,26 @@
 import React, { useState, useEffect } from 'react';
-
+import { useStoreState, useStoreRehydrated } from 'easy-peasy';
 import _ from 'lodash';
-
-import { select } from 'src/features/wk/state';
 import Review from 'src/screens/Review/Review';
 import Login from 'src/screens/Login/Login';
-
+import Message from 'src/screens/Message/Message';
 import initEvents from 'src/features/events/initEvents';
 import logEvent from 'src/features/events/logEvent';
 import setUserAnalytics from 'src/features/events/setUserAnalytics';
 
 export default () => {
 
-  const apiKey = select(r => r.API_KEY);
-  const user = select(r => r.USER);
+  const rehydrated = useStoreRehydrated();
+  const user = useStoreState(state => state.session.user);
+  const token = useStoreState(state => state.session.token);
 
   const [ demo, setDemo ] = useState(false);
-  const [ appleDemo, setAppleDemo ] = useState(false);
 
   useEffect(() => {
-
     initEvents();
 
+    // identify and log
+    // user if logged in
     if (user) {
       setUserAnalytics(user, () => {
         logEvent('juken_Load', {
@@ -31,32 +30,38 @@ export default () => {
     } else {
       logEvent('juken_Load')
     }
-    
   }, [])
 
+  // store being rehydrated
+  if (!rehydrated) {
+    return (
+      <Message loading />
+    )
+  }
+
+  // demo mode
   if (demo) {
     return (
       <Review
         demo
-        appleDemo={appleDemo}
         stopDemo={() => {
           setDemo(false);
-          setAppleDemo(false);
         }}
       />
     );
   }
 
-  if (!apiKey) {
+  // not logged in
+  if (!token) {
     return (
       <Login
-        startDemo={apple => {
-          if (apple) setAppleDemo(true);
+        startDemo={() => {
           setDemo(true)
         }}
       />
     );
   }
 
+  // logged in
   return <Review />;
 };

@@ -1,7 +1,8 @@
 import _ from 'lodash';
-import resource, { r } from 'src/utils/resource';
 import requestBase from 'src/features/request/request';
-import { store } from 'src/features/store';
+
+// TODO: this creates a circular dependency
+import store from 'src/features/store';
 
 const BASE = 'https://api.wanikani.com/v2/';
 
@@ -15,9 +16,8 @@ export const request = async opts => {
     method,
     nextUrl,
   } = opts;
-  
-  const state = store.getState();
-  const useApiKey = apiKey || resource.get(state)([ 'wk', r.API_KEY ]);
+
+  const useApiKey = apiKey || store.getState().session.token;
   const finalUrl = nextUrl || `${BASE}${endpoint}`;
 
   // make the request

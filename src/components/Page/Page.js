@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { media } from 'src/utils/device';
 import theme from 'src/common/theme';
@@ -63,7 +63,10 @@ const Page = ({
 
 Page.propTypes = {
   children: PropTypes.any,
-  style: PropTypes.object,
+  style: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.array,
+  ]),
 };
 
 const styles = StyleSheet.create({
