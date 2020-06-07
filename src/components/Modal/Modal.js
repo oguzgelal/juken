@@ -8,9 +8,15 @@ import device from 'src/utils/device';
 import Page from 'src/components/Page/Page';
 import TopBar from 'src/components/TopBar/TopBar';
 
-const ModalComp = ({ visible, children, close, contentStyle }) => {
+const ModalComp = ({
+  visible,
+  children,
+  close,
+  closeAnimation,
+  contentStyle,
+}) => {
 
-  if (!visible) return null;
+  if (!closeAnimation && !visible) return null;
 
   const topBar = (
     <TopBar
@@ -77,10 +83,15 @@ const ModalComp = ({ visible, children, close, contentStyle }) => {
 };
 
 ModalComp.propTypes = {
+  children: PropTypes.any,
   visible: PropTypes.bool,
   close: PropTypes.func,
-  children: PropTypes.any,
+  closeAnimation: PropTypes.bool,
 };
+
+ModalComp.defaultProps = {
+  closeAnimation: true,
+}
 
 const styles = StyleSheet.create({
   webModalStyle: device({

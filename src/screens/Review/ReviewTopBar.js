@@ -28,6 +28,7 @@ const ReviewTopBar = ({
   const isInternetReachable = useNetworkListener();
   const { showActionSheetWithOptions } = useActionSheet();
   const [ menuOpen, setMenuOpen ] = useState(false);
+  const [ menuCloseAnim, setMenuCloseAnim ] = useState(true);
 
   const uploadSuccess = submissionQueue.length === 0;
   const uploadFail = submissionErrors.length > 0;
@@ -50,7 +51,11 @@ const ReviewTopBar = ({
     <>
 
       {/** review menu */}
-      <Modal visible={menuOpen} close={() => setMenuOpen(false)}>
+      <Modal
+        visible={menuOpen}
+        closeAnimation={menuCloseAnim}
+        close={() => setMenuOpen(false)}
+      >
         <List style={{ paddingTop: 12 }}>
           <ListItem
             icon={<SimpleLineIcons name="refresh" size={18} color="black" />}
@@ -61,8 +66,12 @@ const ReviewTopBar = ({
                 mobileTitle: 'Are you sure ?',
                 mobileMessage: 'Half completed reviews will be lost',
                 onConfirm: () => {
+                  setMenuCloseAnim(false);
                   setMenuOpen(false);
                   loadReviews();
+                  setTimeout(() => {
+                    setMenuCloseAnim(true);
+                  })
                 }
               });
             }}
