@@ -24,7 +24,6 @@ import ReviewTopBar from 'src/screens/Review/ReviewTopBar';
 
 const Review = ({ demo = false, stopDemo } = {}) => {
   const [ srsStages, setSrsStages ] = useState({});
-  
   const logout = useStoreActions(actions => actions.session.logout);
   const submitReview = useStoreActions(actions => actions.reviews.submitReview);
   const retrySubmission = useStoreActions(actions => actions.reviews.retrySubmission);

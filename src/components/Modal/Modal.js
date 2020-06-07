@@ -1,19 +1,29 @@
 import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View, ScrollView, TouchableOpacity, Modal } from 'react-native';
+import { StyleSheet, View, ScrollView, TouchableOpacity, Modal, Text } from 'react-native';
 import { AntDesign } from '@expo/vector-icons'; 
 import RNModal from 'react-native-modal';
 import theme from 'src/common/theme';
 import device from 'src/utils/device';
 import Page from 'src/components/Page/Page';
+import TopBar from 'src/components/TopBar/TopBar';
 
-const ModalComp = ({ visible, children, close }) => {
+const ModalComp = ({ visible, children, close, contentStyle }) => {
 
-  const closeButton = (
-    <TouchableOpacity onPress={close} style={styles.closeButton}>
-      <AntDesign name="close" size={22} color={device('web') ? 'white' : 'black'} />
-    </TouchableOpacity>
-  );
+  if (!visible) return null;
+
+  const topBar = (
+    <TopBar
+      rightOnPress={close}
+      right={(
+        <AntDesign
+          name="close"
+          color="black"
+          size={22}
+        />
+      )}
+    />
+  )
 
   if (device('web')) {
     return !visible ? null : (
@@ -22,10 +32,16 @@ const ModalComp = ({ visible, children, close }) => {
         style={styles.webModalStyle}
       >
         <View style={styles.wrapper}>
-          {closeButton}
-          <ScrollView>
-            <Page>
-              <View style={styles.contents}>
+          <ScrollView style={{ minHeight: '100%' }}>
+            <Page center style={{ minHeight: '100vh' }}>
+
+              {/** heading */}
+              <View style={styles.heading}>
+                {topBar}
+              </View>
+
+              {/** contents */}
+              <View style={[ styles.contents, contentStyle ]}>
                 {children}
               </View>
             </Page>
@@ -40,14 +56,19 @@ const ModalComp = ({ visible, children, close }) => {
       isVisible={visible}
       onBackButtonPress={close}
       onBackdropPress={close}
+      useNativeDriver={false}
+      hideModalContentWhileAnimating={true}
       propagateSwipe
-      useNativeDriver
     >
       <View style={styles.wrapper}>
         
-        {closeButton}
-
-        <ScrollView style={styles.contents}>
+        {/** heading */}
+        <View style={styles.heading}>
+          {topBar}
+        </View>
+        
+        {/** contents */}
+        <ScrollView style={[ styles.contents, contentStyle ]}>
           {children}
         </ScrollView>
       </View>
@@ -82,8 +103,7 @@ const styles = StyleSheet.create({
       padding: 0,
     },
     mobile: {
-      maxHeight: '84%',
-      marginBottom: '-16%'
+      maxHeight: '85%',
     },
     web: {
       height: '100%',
@@ -91,21 +111,29 @@ const styles = StyleSheet.create({
     }
   }),
 
-  contents: {
-    padding: 22,
-    height: '100%',
+  heading: {
+    height: 52,
+    width: '100%',
     backgroundColor: theme.palette.white,
-    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderTopLeftRadius: 12,
+    borderTopRightRadius: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: theme.palette.gray,
+    paddingLeft: 12,
+    paddingRight: 12,
   },
 
-  closeButton: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 12,
-    right: 12,
-    width: 22,
-    height: 22,
-  }
+  contents: {
+    flexGrow: 1,
+    height: '100%',
+    backgroundColor: theme.palette.lightGray,
+    borderRadius: 12,
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: 0,
+    overflow: 'hidden',
+  },
 })
 
 export default ModalComp;
