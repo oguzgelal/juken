@@ -2,11 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View, Text } from 'react-native';
 import Item from 'src/components/List/Item';
-import device from 'src/utils/device';
+import theme from 'src/common/theme';
 
-const ListItem = ({ text, textStyle, icon, ...props }) => {
-  const isWeb = device('web');
-
+const ListItem = ({
+  title,
+  titleStyle,
+  description,
+  icon,
+  ...props
+}) => {
   return (
     <Item
       {...props}
@@ -14,7 +18,12 @@ const ListItem = ({ text, textStyle, icon, ...props }) => {
       left={(
         <View style={styles.mobileLeftWrapper}>
           <View style={styles.icon}>{icon}</View>
-          <Text style={textStyle}>{text}</Text>
+          <View style={styles.textWrapper}>
+            <Text style={titleStyle}>{title}</Text>
+            {description && (
+              <Text style={styles.descriptionStyle}>{description}</Text>
+            )}
+          </View>
         </View>
       )}
     />
@@ -23,8 +32,8 @@ const ListItem = ({ text, textStyle, icon, ...props }) => {
 
 ListItem.propTypes = {
   icon: PropTypes.any,
-  text: PropTypes.string,
-  textStyle: PropTypes.oneOfType([
+  title: PropTypes.string,
+  titleStyle: PropTypes.oneOfType([
     PropTypes.object,
     PropTypes.array,
   ]),
@@ -49,6 +58,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'whitesmoke',
     borderRadius: 8,
   },
+  textWrapper: {
+    width: '80%',
+  },
+  descriptionStyle: {
+    fontSize: 11,
+    color: 'rgba(0, 0, 0, .3)',
+  }
 })
 
 export default ListItem;
