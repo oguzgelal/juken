@@ -5,6 +5,7 @@ import theme from 'src/common/theme';
 
 const TopBar = ({
   style,
+  textStyle,
   center,
   centerText,
   centerOnPress,
@@ -28,7 +29,7 @@ const TopBar = ({
         {!!leftText && (
           <Text
             children={leftText}
-            style={[ styles.text, styles.leftText ]}
+            style={[ styles.text, styles.leftText, textStyle ]}
           />
         )}
       </TouchableOpacity>
@@ -43,7 +44,7 @@ const TopBar = ({
         {!!centerText && (
           <Text
             children={centerText}
-            style={[ styles.text, styles.centerText ]}
+            style={[ styles.text, styles.centerText, textStyle ]}
           />
         )}
       </TouchableOpacity>
@@ -58,7 +59,7 @@ const TopBar = ({
         {!!rightText && (
           <Text
             children={rightText}
-            style={[ styles.text, styles.rightText ]}
+            style={[ styles.text, styles.rightText, textStyle ]}
           />
         )}
       </TouchableOpacity>

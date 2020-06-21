@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { StyleSheet, View, Text } from 'react-native';
 import { useStoreActions, useStoreState } from 'easy-peasy';
-import { AntDesign, Ionicons } from '@expo/vector-icons';
+import { SimpleLineIcons, AntDesign, Ionicons } from '@expo/vector-icons';
 import device from 'src/utils/device';
 import theme from 'src/common/theme';
 import Page from 'src/components/Page/Page';
@@ -21,9 +21,14 @@ import useLeaveWarning from 'src/hooks/useLeaveWarning';
 import Button from 'src/components/Button/Button';
 import extractSubject from 'src/utils/extractSubject';
 import ReviewTopBar from 'src/screens/Review/ReviewTopBar';
+import ReviewMenu from 'src/screens/Review/ReviewMenu';
 
 const Review = ({ demo = false, stopDemo } = {}) => {
   const [ srsStages, setSrsStages ] = useState({});
+  const [ menuOpen, setMenuOpen ] = useState(false);
+
+  // only ask unfinished reviews
+  const [ wrapUpMode, setWrapUpMode ] = useState(false);
   
   const logout = useStoreActions(actions => actions.session.logout);
   const submitReview = useStoreActions(actions => actions.reviews.submitReview);
@@ -35,6 +40,7 @@ const Review = ({ demo = false, stopDemo } = {}) => {
   useScrollLock();
   useLeaveWarning();
 
+  // load reviews
   const {
     loadReviews,
     loadingReviews,
@@ -42,18 +48,31 @@ const Review = ({ demo = false, stopDemo } = {}) => {
     subjects,
   } = useLoadReviews(demo);
 
+  // manage review session
   const {
-    queue,
+    queue: _queue,
     submitAnswer,
     subjectsDict,
     totalCards,
     totalReviews,
     stats,
+    unfinishedReviews,
   } = useReviewSession(
     reviews,
     subjects,
   );
   
+  // process queue
+  const queue = useMemo(() => {
+    return _queue
+      // wrap up mode filter
+      .filter(i => wrapUpMode ? _.get(unfinishedReviews, i.review.id) : true)
+  }, [
+      _queue,
+      wrapUpMode,
+    ]);
+
+  // are all queue items asked
   const isQueueClear = !loadingReviews && queue.length === 0;
   
   return (
@@ -82,12 +101,24 @@ const Review = ({ demo = false, stopDemo } = {}) => {
           demo={demo}
           logout={logout}
           stopDemo={stopDemo}
-          loadReviews={loadReviews}
           submissionQueue={submissionQueue}
           submissionErrors={submissionErrors}
           ignoreSubmissionErrors={ignoreSubmissionErrors}
           retrySubmission={retrySubmission}
           isQueueClear={isQueueClear}
+          setMenuOpen={setMenuOpen}
+        />
+
+        {/** menu */}
+        <ReviewMenu
+          menuOpen={menuOpen}
+          setMenuOpen={setMenuOpen}
+          demo={demo}
+          logout={logout}
+          stopDemo={stopDemo}
+          loadReviews={loadReviews}
+          wrapUpMode={wrapUpMode}
+          setWrapUpMode={setWrapUpMode}
         />
 
         {/* render deck */}
@@ -97,6 +128,9 @@ const Review = ({ demo = false, stopDemo } = {}) => {
             cards={queue}
             dismissCard={direction => {
               submitAnswer(
+                // item that was submitted: the top item
+                // of the processed queue list
+                queue.slice(0, 1)[0],
                 // right direction means correct answer
                 direction === 'right',
                 // callback for when the submit answer causes
@@ -167,7 +201,14 @@ const Review = ({ demo = false, stopDemo } = {}) => {
         {isQueueClear && (
           <View style={styles.noReviewsContainer}>
             <AntDesign name="smileo" size={32} color={theme.palette.white} />
-            <Text style={styles.noReviewsText}>Review queue clear!</Text>
+            {!wrapUpMode && <Text style={styles.noReviewsText}>Review queue clear!</Text>}
+            {wrapUpMode && <Text style={styles.noReviewsText}>Wrap-up queue clear!</Text>}
+            {wrapUpMode && (
+              <Text style={styles.noReviewsDesc}>
+                You can now end your review session
+              </Text>
+            )}
+            
           </View>
         )}
           
@@ -210,12 +251,23 @@ const Review = ({ demo = false, stopDemo } = {}) => {
         {/* controls */}
         {isQueueClear && (
           <>
-            <Button
-              text="Refresh"
-              style={{ marginTop: 12 }}
-              iconLeft={<Ionicons name="md-refresh" size={24} color={theme.color.black} />}
-              onPress={() => loadReviews()}
-            />
+            <View style={{ height: 6 }} />
+            {wrapUpMode && (
+              <Button
+                text="Disable Wrap-up Mode"
+                style={{ marginTop: 8 }}
+                iconLeft={<SimpleLineIcons name="clock" size={18} color={theme.color.black} />}
+                onPress={() => setWrapUpMode(false)}
+              />
+            )}
+            {!wrapUpMode && (
+              <Button
+                text="Refresh"
+                style={{ marginTop: 8 }}
+                iconLeft={<SimpleLineIcons name="refresh" size={18} color={theme.color.black} />}
+                onPress={() => loadReviews()}
+              />
+            )}
             <Button
               text="Logout"
               style={{ marginTop: 8, backgroundColor: 'transparent' }}
@@ -265,6 +317,12 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     letterSpacing: 2,
     marginTop: 12,
+    color: theme.palette.white,
+  },
+  noReviewsDesc: {
+    fontSize: 13,
+    fontWeight: '500',
+    marginTop: 6,
     color: theme.palette.white,
   },
   deckWrapper: {

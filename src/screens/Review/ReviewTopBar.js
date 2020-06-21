@@ -5,22 +5,20 @@ import { Entypo, AntDesign, Feather } from '@expo/vector-icons';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import useNetworkListener from 'src/hooks/useNetworkListener';
 import TopBar from 'src/components/TopBar/TopBar';
+
 import Badge from 'src/components/Badge/Badge';
 import theme from 'src/common/theme';
 import dialog from 'src/utils/dialog';
 
 const ReviewTopBar = ({
-  demo,
-  logout,
-  stopDemo,
-  loadReviews,
   submissionQueue,
   submissionErrors,
   ignoreSubmissionErrors,
   retrySubmission,
   isQueueClear,
+  setMenuOpen,
 }) => {
-
+  
   const isInternetReachable = useNetworkListener();
   const { showActionSheetWithOptions } = useActionSheet();
 
@@ -43,33 +41,13 @@ const ReviewTopBar = ({
 
   return (
     <>
+
+      {/** top bar */}
       <TopBar
         style={styles.wrapper}
         centerText={isQueueClear ? '' : 'Reviews'}
         left={<Entypo name="menu" size={20} color="white" />}
-        leftOnPress={() => {
-          showActionSheetWithOptions({
-            options: [
-              'Cancel',
-              'Refresh',
-              'Logout',
-            ],
-            destructiveButtonIndex: 2,
-          }, buttonIndex => {
-            if (buttonIndex === 1) {
-              dialog({
-                webTitle: 'Half completed reviews will be lost. Are you sure ?',
-                mobileTitle: 'Are you sure ?',
-                mobileMessage: 'Half completed reviews will be lost',
-                onConfirm: loadReviews
-              });
-            }
-            if (buttonIndex === 2) {
-              if (demo) stopDemo();
-              else logout();
-            }
-          })
-        }}
+        leftOnPress={() => setMenuOpen(true)}
         right={
           <>
             {!isInternetReachable && (
@@ -119,15 +97,12 @@ const ReviewTopBar = ({
 };
 
 ReviewTopBar.propTypes = {
-  demo: PropTypes.bool,
-  stopDemo: PropTypes.func,
-  logout: PropTypes.func,
-  loadReviews: PropTypes.func,
   submissionQueue: PropTypes.array,
   submissionErrors: PropTypes.array,
   ignoreSubmissionErrors: PropTypes.func,
   retrySubmission: PropTypes.func,
   isQueueClear: PropTypes.bool,
+  setMenuOpen: PropTypes.func,
 };
 
 const styles = StyleSheet.create({

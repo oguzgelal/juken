@@ -6,6 +6,7 @@ import { media } from 'src/utils/device';
 import theme from 'src/common/theme';
 
 const Page = ({
+  center,
   children,
   style,
 }) => {
@@ -26,19 +27,19 @@ const Page = ({
   
   if (desktop) {
     pTop = '4%';
-    pBottom = '2.5%';
+    pBottom = center ? '4%' : '2.5%';
     pLeft = '32%';
     pRight = '32%';
   }
   if (tablet) {
     pTop = '6%';
-    pBottom = '4%';
+    pBottom = center ? '6%' : '4%';
     pLeft = '22%';
     pRight = '22%';
   }
   if (mobile) {
     pTop = '8%';
-    pBottom = '6%';
+    pBottom = center ? '8%' : '6%';
     pLeft = '8%';
     pRight = '8%';
   }
@@ -62,6 +63,7 @@ const Page = ({
 };
 
 Page.propTypes = {
+  center: PropTypes.bool, // center content: top and bottom padding equal
   children: PropTypes.any,
   style: PropTypes.oneOfType([
     PropTypes.object,
