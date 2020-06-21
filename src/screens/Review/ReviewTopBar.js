@@ -4,10 +4,9 @@ import { StyleSheet } from 'react-native';
 import { SimpleLineIcons, Entypo, AntDesign, Feather, Ionicons } from '@expo/vector-icons'; 
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import useNetworkListener from 'src/hooks/useNetworkListener';
+import ReviewMenu from 'src/screens/Review/ReviewMenu';
 import TopBar from 'src/components/TopBar/TopBar';
 import Modal from 'src/components/Modal/Modal';
-import List from 'src/components/List/List';
-import ListItem from 'src/components/List/ListItem';
 
 import Badge from 'src/components/Badge/Badge';
 import theme from 'src/common/theme';
@@ -56,61 +55,7 @@ const ReviewTopBar = ({
         closeAnimation={menuCloseAnim}
         close={() => setMenuOpen(false)}
       >
-        <List title="Session">
-          <ListItem
-            icon={<SimpleLineIcons name="refresh" size={18} color="black" />}
-            title="Refresh"
-            onPress={() => {
-              dialog({
-                webTitle: 'Half completed reviews will be lost. Are you sure ?',
-                mobileTitle: 'Are you sure ?',
-                mobileMessage: 'Half completed reviews will be lost',
-                onConfirm: () => {
-                  setMenuCloseAnim(false);
-                  setMenuOpen(false);
-                  loadReviews();
-                  setTimeout(() => {
-                    setMenuCloseAnim(true);
-                  })
-                }
-              });
-            }}
-          />
-          <ListItem
-            icon={<Ionicons name="ios-timer" size={18} color='black' />}
-            title="Wrap Up"
-            description="Bring unfinished review pairs to the top"
-          />
-          <ListItem
-            icon={<AntDesign name="logout" size={18} color='red' />}
-            title="Log Out"
-            titleStyle={{ color: 'red' }}
-            onPress={() => {
-              setMenuOpen(false);
-              if (demo) stopDemo();
-              else logout();
-            }}
-          />
-        </List>
-        
-        <List title="General">
-          <ListItem
-            icon={<Ionicons name="ios-cog" size={18} color='black' />}
-            title="Settings"
-          />
-          <ListItem
-            icon={<SimpleLineIcons name="bubbles" size={18} color='black' />}
-            title="Feedback"
-          />
-          <ListItem
-            icon={<Ionicons name="ios-bug" size={18} color='black' />}
-            title="Report Issues"
-          />
-          <ListItem
-            icon={<AntDesign name="github" size={18} color='black' />}
-            title="Source Code"
-          />
-        </List>
+        <ReviewMenu />
       </Modal>
 
       {/** top bar */}
