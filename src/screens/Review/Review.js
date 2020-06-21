@@ -21,9 +21,12 @@ import useLeaveWarning from 'src/hooks/useLeaveWarning';
 import Button from 'src/components/Button/Button';
 import extractSubject from 'src/utils/extractSubject';
 import ReviewTopBar from 'src/screens/Review/ReviewTopBar';
+import ReviewMenu from 'src/screens/Review/ReviewMenu';
 
 const Review = ({ demo = false, stopDemo } = {}) => {
   const [ srsStages, setSrsStages ] = useState({});
+  const [ menuOpen, setMenuOpen ] = useState(false);
+  
   const logout = useStoreActions(actions => actions.session.logout);
   const submitReview = useStoreActions(actions => actions.reviews.submitReview);
   const retrySubmission = useStoreActions(actions => actions.reviews.retrySubmission);
@@ -81,12 +84,22 @@ const Review = ({ demo = false, stopDemo } = {}) => {
           demo={demo}
           logout={logout}
           stopDemo={stopDemo}
-          loadReviews={loadReviews}
           submissionQueue={submissionQueue}
           submissionErrors={submissionErrors}
           ignoreSubmissionErrors={ignoreSubmissionErrors}
           retrySubmission={retrySubmission}
           isQueueClear={isQueueClear}
+          setMenuOpen={setMenuOpen}
+        />
+
+        {/** menu */}
+        <ReviewMenu
+          menuOpen={menuOpen}
+          setMenuOpen={setMenuOpen}
+          demo={demo}
+          logout={logout}
+          stopDemo={stopDemo}
+          loadReviews={loadReviews}
         />
 
         {/* render deck */}

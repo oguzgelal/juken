@@ -8,6 +8,9 @@ import device from 'src/utils/device';
 import Page from 'src/components/Page/Page';
 import TopBar from 'src/components/TopBar/TopBar';
 
+export const DURATION = 300;
+export const DURATION_SAFE = DURATION + 100;
+
 const ModalComp = ({
   visible,
   children,
@@ -65,6 +68,11 @@ const ModalComp = ({
       useNativeDriver={false}
       hideModalContentWhileAnimating={true}
       propagateSwipe
+      animationInTiming={DURATION}
+      animationOutTiming={DURATION}
+      backdropTransitionInTiming={DURATION}
+      backdropTransitionOutTiming={0}
+
     >
       <View style={styles.wrapper}>
         

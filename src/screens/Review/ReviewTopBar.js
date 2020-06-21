@@ -1,33 +1,26 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet } from 'react-native';
-import { SimpleLineIcons, Entypo, AntDesign, Feather, Ionicons } from '@expo/vector-icons'; 
+import { Entypo, AntDesign, Feather } from '@expo/vector-icons'; 
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import useNetworkListener from 'src/hooks/useNetworkListener';
-import ReviewMenu from 'src/screens/Review/ReviewMenu';
 import TopBar from 'src/components/TopBar/TopBar';
-import Modal from 'src/components/Modal/Modal';
 
 import Badge from 'src/components/Badge/Badge';
 import theme from 'src/common/theme';
 import dialog from 'src/utils/dialog';
 
 const ReviewTopBar = ({
-  demo,
-  logout,
-  stopDemo,
-  loadReviews,
   submissionQueue,
   submissionErrors,
   ignoreSubmissionErrors,
   retrySubmission,
   isQueueClear,
+  setMenuOpen,
 }) => {
   
   const isInternetReachable = useNetworkListener();
   const { showActionSheetWithOptions } = useActionSheet();
-  const [ menuOpen, setMenuOpen ] = useState(false);
-  const [ menuCloseAnim, setMenuCloseAnim ] = useState(true);
 
   const uploadSuccess = submissionQueue.length === 0;
   const uploadFail = submissionErrors.length > 0;
@@ -48,15 +41,6 @@ const ReviewTopBar = ({
 
   return (
     <>
-
-      {/** review menu */}
-      <Modal
-        visible={menuOpen}
-        closeAnimation={menuCloseAnim}
-        close={() => setMenuOpen(false)}
-      >
-        <ReviewMenu />
-      </Modal>
 
       {/** top bar */}
       <TopBar
@@ -113,16 +97,12 @@ const ReviewTopBar = ({
 };
 
 ReviewTopBar.propTypes = {
-  demo: PropTypes.bool,
-  stopDemo: PropTypes.func,
-  logout: PropTypes.func,
-  loadReviews: PropTypes.func,
-  loadingReviews: PropTypes.bool,
   submissionQueue: PropTypes.array,
   submissionErrors: PropTypes.array,
   ignoreSubmissionErrors: PropTypes.func,
   retrySubmission: PropTypes.func,
   isQueueClear: PropTypes.bool,
+  setMenuOpen: PropTypes.func,
 };
 
 const styles = StyleSheet.create({
