@@ -13,6 +13,8 @@ const ReviewMenu = ({
   loadReviews,
   menuOpen,
   setMenuOpen,
+  wrapUpMode,
+  setWrapUpMode,
 }) => {
   
   return (
@@ -45,10 +47,16 @@ const ReviewMenu = ({
               },
               {
                 id: 'ses-wrap',
-                title: 'Wrap Up',
-                subtitle: 'Bring unfinished review pairs to the top',
+                title: 'Wrap-Up Mode',
+                subtitle: 'Ask only reviews with unfinished pairs',
                 leftIcon: <SimpleLineIcons name="clock" size={18} color="black" />,
-                onPress: () => {},
+                switch: {
+                  value: wrapUpMode,
+                  onValueChange: () => {
+                    setWrapUpMode(!wrapUpMode);
+                    setMenuOpen(false);
+                  },
+                }
               },
               {
                 id: 'ses-logout',
@@ -107,6 +115,9 @@ ReviewMenu.propTypes = {
   loadReviews: PropTypes.func,
   menuOpen: PropTypes.bool,
   setMenuOpen: PropTypes.func,
+  // settings
+  wrapUpMode: PropTypes.bool,
+  setWrapUpMode: PropTypes.func,
 };
 
 const styles = StyleSheet.create({

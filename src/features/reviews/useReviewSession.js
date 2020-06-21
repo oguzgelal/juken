@@ -113,8 +113,7 @@ export default (reviews, subjects) => {
   ]);
 
   // submit answer for the top of the queue item
-  const submitAnswer = (correct, onReviewComplete) => {
-    const queueItem = queue.slice(0, 1)[0];
+  const submitAnswer = (queueItem, correct, onReviewComplete) => {
     const { id, review, reviewType } = queueItem;
     const reviewId = _.get(review, 'id');
     const subjectId = _.get(review, 'data.subject_id');

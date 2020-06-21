@@ -9,9 +9,10 @@ const ListItemComponent = props => {
     <ListItem
       {...props}
       leftIcon={!props.leftIcon ? null : <View style={styles.icon}>{props.leftIcon}</View>}
-      rightIcon={!props.leftIcon ? null : <View style={styles.icon}>{props.rightIcon}</View>}
+      rightIcon={!props.rightIcon ? null : <View style={styles.icon}>{props.rightIcon}</View>}
       titleStyle={styles.title}
       subtitleStyle={styles.subtitle}
+      rightContentContainerStyle={styles.rightContent}
     />
   )
 };
