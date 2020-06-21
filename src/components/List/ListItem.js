@@ -1,70 +1,37 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View, Text } from 'react-native';
-import Item from 'src/components/List/Item';
-import theme from 'src/common/theme';
+import { ListItem } from 'react-native-elements';
+import device from 'src/utils/device';
 
-const ListItem = ({
-  title,
-  titleStyle,
-  description,
-  icon,
-  ...props
-}) => {
+const ListItemComponent = props => {
   return (
-    <Item
+    <ListItem
       {...props}
-      style={styles.wrapper}
-      left={(
-        <View style={styles.mobileLeftWrapper}>
-          <View style={styles.icon}>{icon}</View>
-          <View style={styles.textWrapper}>
-            <Text style={titleStyle}>{title}</Text>
-            {description && (
-              <Text style={styles.descriptionStyle}>{description}</Text>
-            )}
-          </View>
-        </View>
-      )}
+      leftIcon={!props.leftIcon ? null : <View style={styles.icon}>{props.leftIcon}</View>}
+      rightIcon={!props.leftIcon ? null : <View style={styles.icon}>{props.rightIcon}</View>}
+      titleStyle={styles.title}
+      subtitleStyle={styles.subtitle}
     />
   )
 };
 
-ListItem.propTypes = {
-  icon: PropTypes.any,
-  title: PropTypes.string,
-  titleStyle: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.array,
-  ]),
+ListItemComponent.propTypes = {
 };
 
 const styles = StyleSheet.create({
-  wrapper: {
-    alignItems: 'center',
-    justifyContent: 'center',
+  icon: device({
+    web: { width: 32 },
+    mobile: { width: 20 }
+  }),
+  title: {
+    fontSize: 17,
   },
-  mobileLeftWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  icon: {
-    width: 32,
-    height: 32,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 18,
-    backgroundColor: 'whitesmoke',
-    borderRadius: 8,
-  },
-  textWrapper: {
-    width: '80%',
-  },
-  descriptionStyle: {
+  subtitle: {
     fontSize: 11,
+    marginTop: 2,
     color: 'rgba(0, 0, 0, .3)',
   }
 })
 
-export default ListItem;
+export default ListItemComponent;
