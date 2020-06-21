@@ -32,8 +32,7 @@ const Review = ({ demo = false, stopDemo } = {}) => {
   const submissionErrors = useStoreState(state => state.reviews.submissionErrors);
 
   useScrollLock();
-  // prevent_push
-  // useLeaveWarning();
+  useLeaveWarning();
 
   const {
     loadReviews,
