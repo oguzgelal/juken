@@ -177,7 +177,7 @@ export const reviews = {
   loadAvailable: thunk(async (action, { demo, onEmpty }) => {
 
     if (demo) {
-      await sleep(1000);
+      await sleep(200);
       action._saveReviews({
         assignments: freeAssignments.slice(),
         subjects: freeSubjects.slice(),

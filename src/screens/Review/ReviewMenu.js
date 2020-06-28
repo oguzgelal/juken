@@ -25,7 +25,7 @@ const ReviewMenu = ({
       <List
         lists={[
           {
-            title: 'Session',
+            title: 'Review',
             items: [
               {
                 id: 'ses-refresh',
@@ -57,16 +57,6 @@ const ReviewMenu = ({
                     setMenuOpen(false);
                   },
                 }
-              },
-              {
-                id: 'ses-logout',
-                title: 'Log Out',
-                leftIcon: <SimpleLineIcons name="logout" size={18} color="red" />,
-                onPress: () => {
-                  setMenuOpen(false);
-                  if (demo) stopDemo();
-                  else logout();
-                },
               }
             ],
           },
@@ -100,6 +90,16 @@ const ReviewMenu = ({
                 leftIcon: <SimpleLineIcons name="social-github" size={18} color="black" />,
                 onPress: () => {},
               },
+              {
+                id: 'gen-logout',
+                title: 'Log Out',
+                leftIcon: <SimpleLineIcons name="logout" size={18} color="red" />,
+                onPress: () => {
+                  setMenuOpen(false);
+                  if (demo) stopDemo();
+                  else logout();
+                },
+              }
             ]
           }
         ]}

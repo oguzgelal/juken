@@ -166,8 +166,23 @@ export default (reviews, subjects) => {
       }))
     }
 
-    // remove item from the top of the list
-    const newQueue = queue.slice(1);
+    // removing reviewed item from the queue (and requeueing):
+    // the queue might be filtered (ie. with wrap up mode) so
+    // we can't assume the reviewed item is at zero index. we
+    // need to find the reviewed item in the queue
+
+    // find index of the removed item
+    const reviewedQueueItemIndex = queue.findIndex(i => (
+      i.id === id &&
+      i.reviewType === reviewType
+    ));
+
+    // this shouldn't happen
+    if (reviewedQueueItemIndex === -1) return;
+
+    // remove item from the the list
+    const newQueue = queue.slice();
+    newQueue.splice(reviewedQueueItemIndex, 1);
     
     // if answer was incorrect, put the item back
     // into the queue randomly
