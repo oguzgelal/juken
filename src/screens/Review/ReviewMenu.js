@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
+import * as WebBrowser from 'expo-web-browser';
 import PropTypes from 'prop-types';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { SimpleLineIcons } from '@expo/vector-icons'; 
 import List from 'src/components/List/List';
 import Modal, { DURATION_SAFE } from 'src/components/Modal/Modal';
@@ -25,7 +26,7 @@ const ReviewMenu = ({
       <List
         lists={[
           {
-            title: 'Session',
+            title: 'Review',
             items: [
               {
                 id: 'ses-refresh',
@@ -57,16 +58,6 @@ const ReviewMenu = ({
                     setMenuOpen(false);
                   },
                 }
-              },
-              {
-                id: 'ses-logout',
-                title: 'Log Out',
-                leftIcon: <SimpleLineIcons name="logout" size={18} color="red" />,
-                onPress: () => {
-                  setMenuOpen(false);
-                  if (demo) stopDemo();
-                  else logout();
-                },
               }
             ],
           },
@@ -86,24 +77,41 @@ const ReviewMenu = ({
                 id: 'gen-fb',
                 title: 'Feedback',
                 leftIcon: <SimpleLineIcons name="bubble" size={18} color="black" />,
-                onPress: () => {},
+                onPress: async () => {
+                  await WebBrowser.openBrowserAsync('https://github.com/oguzgelal/juken')
+                },
               },
               {
                 id: 'gen-bugs',
                 title: 'Report Issues',
                 leftIcon: <SimpleLineIcons name="ghost" size={18} color="black" />,
-                onPress: () => {},
+                onPress: async () => {
+                  await WebBrowser.openBrowserAsync('https://github.com/oguzgelal/juken')
+                },
               },
               {
                 id: 'gen-code',
                 title: 'Source Code',
                 leftIcon: <SimpleLineIcons name="social-github" size={18} color="black" />,
-                onPress: () => {},
+                onPress: async () => {
+                  await WebBrowser.openBrowserAsync('https://github.com/oguzgelal/juken')
+                },
               },
+              {
+                id: 'gen-logout',
+                title: 'Log Out',
+                leftIcon: <SimpleLineIcons name="logout" size={18} color="red" />,
+                onPress: () => {
+                  setMenuOpen(false);
+                  if (demo) stopDemo();
+                  else logout();
+                },
+              }
             ]
           }
         ]}
       />
+      <View style={{ height: 32 }} />
     </Modal>
   )
 };

@@ -5,6 +5,11 @@ export default () => {
   useEffect(() => {
 
     if (device('web')) {
+
+      // no warnings on development mode
+      const loc = window.location.href || '';
+      if (loc.indexOf('localhost')) return;
+
       window.onbeforeunload = () => {
         return (
           'Unfinished reviews will be lost, ' +

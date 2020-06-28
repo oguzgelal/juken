@@ -63,14 +63,14 @@ const Review = ({ demo = false, stopDemo } = {}) => {
   );
   
   // process queue
-  const queue = useMemo(() => {
-    return _queue
-      // wrap up mode filter
-      .filter(i => wrapUpMode ? _.get(unfinishedReviews, i.review.id) : true)
-  }, [
-      _queue,
-      wrapUpMode,
-    ]);
+  const queue = useMemo(() => _queue
+    // wrap up mode filter
+    .filter(i => wrapUpMode ? _.get(unfinishedReviews, i.review.id) : true)
+  , [
+    _queue,
+    wrapUpMode,
+    unfinishedReviews,
+  ])
 
   // are all queue items asked
   const isQueueClear = !loadingReviews && queue.length === 0;
@@ -137,35 +137,35 @@ const Review = ({ demo = false, stopDemo } = {}) => {
                 // the review to be completed
                 res => {
 
-                const {
-                  review,
-                  incorrectMeanings,
-                  incorrectReadings,
-                } = res;
+                  const {
+                    review,
+                    incorrectMeanings,
+                    incorrectReadings,
+                  } = res;
 
-                // review was correct when there are
-                // no incorrect readings or meanings
-                const isCorrect = (
-                  !incorrectMeanings &&
-                  !incorrectReadings
-                );
-                
-                // increase srs stage if the answer was correct
-                if (isCorrect) {
-                  const currentStage = _.get(review, 'data.srs_stage');
-                  setSrsStages({ current: currentStage, next: currentStage + 1 })
+                  // review was correct when there are
+                  // no incorrect readings or meanings
+                  const isCorrect = (
+                    !incorrectMeanings &&
+                    !incorrectReadings
+                  );
+                  
+                  // increase srs stage if the answer was correct
+                  if (isCorrect) {
+                    const currentStage = _.get(review, 'data.srs_stage');
+                    setSrsStages({ current: currentStage, next: currentStage + 1 })
+                  }
+
+                  // submit review
+                  submitReview({
+                    demo,
+                    subjectId: _.get(review, 'data.subject_id'),
+                    reviewId: review.id,
+                    incorrectMeanings,
+                    incorrectReadings,
+                  });
                 }
-
-                // submit review
-                submitReview({
-                  demo,
-                  subjectId: _.get(review, 'data.subject_id'),
-                  reviewId: review.id,
-                  incorrectMeanings,
-                  incorrectReadings,
-                });
-
-              });
+              );
             }}
             renderCard={(item, props) => {
               
