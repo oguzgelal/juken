@@ -63,13 +63,14 @@ const Review = ({ demo = false, stopDemo } = {}) => {
   );
   
   // process queue
-  const queue = _queue
+  const queue = useMemo(() => _queue
     // wrap up mode filter
     .filter(i => wrapUpMode ? _.get(unfinishedReviews, i.review.id) : true)
-
-  console.log('_queue', _queue);
-  console.log('queue', queue);
-  console.log('unfinishedReviews', unfinishedReviews);
+  , [
+    _queue,
+    wrapUpMode,
+    unfinishedReviews,
+  ])
 
   // are all queue items asked
   const isQueueClear = !loadingReviews && queue.length === 0;
