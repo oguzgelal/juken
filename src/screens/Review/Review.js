@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { StyleSheet, View, Text } from 'react-native';
@@ -62,27 +62,14 @@ const Review = ({ demo = false, stopDemo } = {}) => {
     subjects,
   );
 
-  useEffect(() => {
-    console.log(`updated (${queue.length}) \n`, queue.map(i => `${i.id} ${i.reviewType}`).join('\n'));
-  }, [queue])
-  
-
-  // TODO: bug. Steps to reproduce:
-  // 1. swipe right until two unfinished reviews
-  // 2. enable wrap up mode
-  // 3. last item in wrap up mode doesn't get registered
-  // 4. it remains in the queue
-  // --- seems like only happens on mobile, doesn't happen in browser
-
-  // TODO: seems like it works only when you remove the zero index item of queue
-  
-  // process queue
-  const queueFiltered = queue
-    // wrap up mode filter
-    .filter(i => wrapUpMode ? !_.isNil(_.get(unfinishedReviews, i.review.id)) : true)
-    // .filter((_, i) => i !== 0)
-    // .filter(i => true)
-  console.log('rendered', queue.length, queueFiltered.length);
+  const queueFiltered = useMemo(() => (
+    queue
+      // wrap up mode filter
+      .filter(i => wrapUpMode ? !_.isNil(_.get(unfinishedReviews, i.review.id)) : true)
+  ), [
+    queue,
+    wrapUpMode,
+  ])
 
   // are all queue items asked
   const isQueueClear = !loadingReviews && queueFiltered.length === 0;
