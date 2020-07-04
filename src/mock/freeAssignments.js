@@ -55,6 +55,7 @@ export default [
       "srs_stage": 8,
     }
   },
+  /*
   {
     "id": 8,
     "data": {
@@ -79,4 +80,5 @@ export default [
       "srs_stage": 4,
     }
   },
+  */
 ];

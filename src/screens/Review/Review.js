@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { StyleSheet, View, Text } from 'react-native';
@@ -50,7 +50,7 @@ const Review = ({ demo = false, stopDemo } = {}) => {
 
   // manage review session
   const {
-    queue: _queue,
+    queue,
     submitAnswer,
     subjectsDict,
     totalCards,
@@ -61,19 +61,18 @@ const Review = ({ demo = false, stopDemo } = {}) => {
     reviews,
     subjects,
   );
-  
-  // process queue
-  const queue = useMemo(() => _queue
-    // wrap up mode filter
-    .filter(i => wrapUpMode ? _.get(unfinishedReviews, i.review.id) : true)
-  , [
-    _queue,
+
+  const queueFiltered = useMemo(() => (
+    queue
+      // wrap up mode filter
+      .filter(i => wrapUpMode ? !_.isNil(_.get(unfinishedReviews, i.review.id)) : true)
+  ), [
+    queue,
     wrapUpMode,
-    unfinishedReviews,
   ])
 
   // are all queue items asked
-  const isQueueClear = !loadingReviews && queue.length === 0;
+  const isQueueClear = !loadingReviews && queueFiltered.length === 0;
   
   return (
     <>
@@ -122,15 +121,15 @@ const Review = ({ demo = false, stopDemo } = {}) => {
         />
 
         {/* render deck */}
-        {queue.length > 0 && (
+        {queueFiltered.length > 0 && (
           <Deck
             style={styles.deck}
-            cards={queue}
+            cards={queueFiltered}
             dismissCard={direction => {
               submitAnswer(
                 // item that was submitted: the top item
                 // of the processed queue list
-                queue.slice(0, 1)[0],
+                queueFiltered[0],
                 // right direction means correct answer
                 direction === 'right',
                 // callback for when the submit answer causes
@@ -184,7 +183,7 @@ const Review = ({ demo = false, stopDemo } = {}) => {
 
               return (
                 <Card
-                  key={id}
+                  key={`${id}_${reviewType}`}
                   deckProps={props}
                   subjectType={subjectType}
                   reviewType={reviewType}
