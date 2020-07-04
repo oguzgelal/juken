@@ -108,6 +108,7 @@ export default (reviews, subjects) => {
   }, [
     completedCards,
     completedReviews,
+    unfinishedReviews,
     incorrectCards,
     incorrectReviews,
   ]);
@@ -137,7 +138,8 @@ export default (reviews, subjects) => {
       setUnfinishedReviews(newUnfinishedReviews)
 
       // a card is surely complete when answered correctly
-      setCompletedCards(Object.assign({}, completedCards, { [id]: true }));
+      const newCompletedCards = Object.assign({}, completedCards, { [id]: true });
+      setCompletedCards(newCompletedCards);
     }
 
     if (!correct) {
@@ -152,12 +154,10 @@ export default (reviews, subjects) => {
     if (isReviewCompleted) {
 
       if (typeof onReviewComplete === 'function') {
-        const incorrectMeaningAnswers = incorrectMeanings[reviewId];
-        const incorrectReadingAnswers = incorrectReadings[reviewId];
         onReviewComplete({
           review,
-          incorrectMeanings: incorrectMeaningAnswers,
-          incorrectReadings: incorrectReadingAnswers,
+          incorrectMeanings: incorrectMeanings[reviewId],
+          incorrectReadings: incorrectReadings[reviewId],
         })
       }
       
@@ -172,17 +172,10 @@ export default (reviews, subjects) => {
     // need to find the reviewed item in the queue
 
     // find index of the removed item
-    const reviewedQueueItemIndex = queue.findIndex(i => (
+    const newQueue = queue.filter(i => !(
       i.id === id &&
       i.reviewType === reviewType
     ));
-
-    // this shouldn't happen
-    if (reviewedQueueItemIndex === -1) return;
-
-    // remove item from the the list
-    const newQueue = queue.slice();
-    newQueue.splice(reviewedQueueItemIndex, 1);
     
     // if answer was incorrect, put the item back
     // into the queue randomly
@@ -201,7 +194,7 @@ export default (reviews, subjects) => {
     }
     
     // set the new queue
-    setQueue(newQueue || []);
+    setQueue(newQueue);
   }
 
   return {
@@ -219,5 +212,4 @@ export default (reviews, subjects) => {
     incorrectMeanings,
     incorrectReadings,
   }
-
 }

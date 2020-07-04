@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { StyleSheet, View, Text } from 'react-native';
@@ -50,7 +50,7 @@ const Review = ({ demo = false, stopDemo } = {}) => {
 
   // manage review session
   const {
-    queue: _queue,
+    queue,
     submitAnswer,
     subjectsDict,
     totalCards,
@@ -61,19 +61,31 @@ const Review = ({ demo = false, stopDemo } = {}) => {
     reviews,
     subjects,
   );
+
+  useEffect(() => {
+    console.log(`updated (${queue.length}) \n`, queue.map(i => `${i.id} ${i.reviewType}`).join('\n'));
+  }, [queue])
+  
+
+  // TODO: bug. Steps to reproduce:
+  // 1. swipe right until two unfinished reviews
+  // 2. enable wrap up mode
+  // 3. last item in wrap up mode doesn't get registered
+  // 4. it remains in the queue
+  // --- seems like only happens on mobile, doesn't happen in browser
+
+  // TODO: seems like it works only when you remove the zero index item of queue
   
   // process queue
-  const queue = useMemo(() => _queue
+  const queueFiltered = queue
     // wrap up mode filter
-    .filter(i => wrapUpMode ? _.get(unfinishedReviews, i.review.id) : true)
-  , [
-    _queue,
-    wrapUpMode,
-    unfinishedReviews,
-  ])
+    .filter(i => wrapUpMode ? !_.isNil(_.get(unfinishedReviews, i.review.id)) : true)
+    // .filter((_, i) => i !== 0)
+    // .filter(i => true)
+  console.log('rendered', queue.length, queueFiltered.length);
 
   // are all queue items asked
-  const isQueueClear = !loadingReviews && queue.length === 0;
+  const isQueueClear = !loadingReviews && queueFiltered.length === 0;
   
   return (
     <>
@@ -122,15 +134,15 @@ const Review = ({ demo = false, stopDemo } = {}) => {
         />
 
         {/* render deck */}
-        {queue.length > 0 && (
+        {queueFiltered.length > 0 && (
           <Deck
             style={styles.deck}
-            cards={queue}
+            cards={queueFiltered}
             dismissCard={direction => {
               submitAnswer(
                 // item that was submitted: the top item
                 // of the processed queue list
-                queue.slice(0, 1)[0],
+                queueFiltered[0],
                 // right direction means correct answer
                 direction === 'right',
                 // callback for when the submit answer causes
@@ -184,7 +196,7 @@ const Review = ({ demo = false, stopDemo } = {}) => {
 
               return (
                 <Card
-                  key={id}
+                  key={`${id}_${reviewType}`}
                   deckProps={props}
                   subjectType={subjectType}
                   reviewType={reviewType}
