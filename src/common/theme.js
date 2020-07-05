@@ -9,6 +9,7 @@ const palette = {
   yellow: 'rgb(250, 191, 79)',
   gray: 'rgb(224, 224, 224)',
   lightGray: 'rgb(245, 245, 245)',
+  darkGray: 'rgb(204, 204, 204)',
 }
 
 const color = {

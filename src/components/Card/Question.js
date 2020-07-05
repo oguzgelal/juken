@@ -2,13 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, Text, View } from 'react-native';
 import theme from 'src/common/theme';
-import {
-  KANJI,
-  RADICAL,
-  VOCAB,
-  READING,
-  TERMINOLOGY,
-} from 'src/common/constants';
+import Subject from 'src/components/Subject/Subject';
+import { READING, TERMINOLOGY } from 'src/common/constants';
 
 const Question = ({
   subjectType,
@@ -22,14 +17,10 @@ const Question = ({
     
     {/* question */}
     <View style={styles.question}>
-      <Text
-        style={[
-          styles.questionText,
-          styles[subjectType]
-        ]}
-      >
-        {question || questionComponent}
-      </Text>
+      <Subject
+        subjectCharacters={question || questionComponent}
+        subjectType={subjectType}
+      />
     </View>
 
     {/* separator */}
@@ -73,11 +64,6 @@ const styles = StyleSheet.create({
   question: {
     padding: 8,
   },
-  questionText: {
-    textAlign: 'center',
-    fontWeight: 'bold',
-    fontSize: 52,
-  },
   separator: {
     width: '50%',
     margin: 'auto',
@@ -102,9 +88,6 @@ const styles = StyleSheet.create({
   answerTextLarge: {
     fontSize: 20
   },
-  [KANJI]: { color: theme.color.kanji },
-  [RADICAL]: { color: theme.color.radical },
-  [VOCAB]: { color: theme.color.vocab },
 })
 
 export default Question;

@@ -4,6 +4,10 @@ import device from 'src/utils/device';
 
 export default () => {
   if (device('web') && !apps.length) {
+    
+    if (!process.env.FIREBASE_API_KEY) return;
+    if (!process.env.FIREBASE_PROJECT_ID) return;
+
     initializeApp({
       apiKey: process.env.FIREBASE_API_KEY,
       authDomain: process.env.FIREBASE_AUTH_DOMAIN,

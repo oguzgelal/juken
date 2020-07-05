@@ -15,11 +15,8 @@ const ModalComp = ({
   visible,
   children,
   close,
-  closeAnimation,
   contentStyle,
 }) => {
-
-  if (!closeAnimation && !visible) return null;
 
   const topBar = (
     <TopBar
@@ -94,11 +91,9 @@ ModalComp.propTypes = {
   children: PropTypes.any,
   visible: PropTypes.bool,
   close: PropTypes.func,
-  closeAnimation: PropTypes.bool,
 };
 
 ModalComp.defaultProps = {
-  closeAnimation: true,
 }
 
 const styles = StyleSheet.create({

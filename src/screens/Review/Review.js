@@ -22,6 +22,7 @@ import Button from 'src/components/Button/Button';
 import extractSubject from 'src/utils/extractSubject';
 import ReviewTopBar from 'src/screens/Review/ReviewTopBar';
 import ReviewMenu from 'src/screens/Review/ReviewMenu';
+import SubjectDetailsModal from 'src/screens/SubjectDetails/SubjectDetailsModal';
 
 const Review = ({ demo = false, stopDemo } = {}) => {
   const [ srsStages, setSrsStages ] = useState({});
@@ -62,10 +63,13 @@ const Review = ({ demo = false, stopDemo } = {}) => {
     subjects,
   );
 
+  // TODO: refactor
   const queueFiltered = useMemo(() => (
-    queue
-      // wrap up mode filter
-      .filter(i => wrapUpMode ? !_.isNil(_.get(unfinishedReviews, i.review.id)) : true)
+    // wrap up mode filter
+    queue.filter(i => wrapUpMode
+      ? !_.isNil(_.get(unfinishedReviews, i.review.id))
+      : true
+    )
   ), [
     queue,
     wrapUpMode,
@@ -76,6 +80,12 @@ const Review = ({ demo = false, stopDemo } = {}) => {
   
   return (
     <>
+
+    {/** subject details modal */}
+    <SubjectDetailsModal
+      visible={true}
+      close={() => {}}
+    />
 
     {/** display srs stages toasts */}
     <SrsStages stages={srsStages} />
