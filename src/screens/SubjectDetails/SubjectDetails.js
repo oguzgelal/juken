@@ -72,33 +72,6 @@ const SubjectDetails = (/**{ subject }**/) => {
         />
       </View>
 
-      {/** reading */}
-      <View style={styles.section}>
-        <Collapsible
-          title="Reading"
-          contents={(
-            <View>
-              <SubjectSectionAnswers
-                answers={subjectReadings}
-                renderMain={item => item.reading}
-              />
-              {subjectReadingMnemonic && (
-                <>
-                <Text style={[styles.sectionRow, styles.sectionSubTitle]}>Mnemonic</Text>
-                <Text style={[styles.sectionRow, styles.sectionText]}>{subjectReadingMnemonic}</Text>
-                </>
-              )}
-              {subjectReadingHint && (
-                <>
-                <Text style={[styles.sectionRow, styles.sectionSubTitle]}>Hint</Text>
-                <Text style={[styles.sectionRow, styles.sectionText]}>{subjectReadingHint}</Text>
-                </>
-              )}
-            </View>
-          )}
-        />
-      </View>
-
       {/** meaning */}
       <View style={styles.section}>
         <Collapsible
@@ -119,6 +92,33 @@ const SubjectDetails = (/**{ subject }**/) => {
                 <>
                 <Text style={[styles.sectionRow, styles.sectionSubTitle]}>Hint</Text>
                 <Text style={[styles.sectionRow, styles.sectionText]}>{subjectMeaningHint}</Text>
+                </>
+              )}
+            </View>
+          )}
+        />
+      </View>
+
+      {/** reading */}
+      <View style={styles.section}>
+        <Collapsible
+          title="Reading"
+          contents={(
+            <View>
+              <SubjectSectionAnswers
+                answers={subjectReadings}
+                renderMain={item => item.reading}
+              />
+              {subjectReadingMnemonic && (
+                <>
+                <Text style={[styles.sectionRow, styles.sectionSubTitle]}>Mnemonic</Text>
+                <Text style={[styles.sectionRow, styles.sectionText]}>{subjectReadingMnemonic}</Text>
+                </>
+              )}
+              {subjectReadingHint && (
+                <>
+                <Text style={[styles.sectionRow, styles.sectionSubTitle]}>Hint</Text>
+                <Text style={[styles.sectionRow, styles.sectionText]}>{subjectReadingHint}</Text>
                 </>
               )}
             </View>

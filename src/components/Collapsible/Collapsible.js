@@ -12,10 +12,11 @@ const Collapsible = ({
   const [ collapsed, setCollapsed ] = useState(initialCollapsedValue);
 
   return (
-  <TouchableOpacity onClick={() => setCollapsed(!collapsed)}>
+  
     <View style={styles.wrapper}>
       
       {/* header row */}
+      <TouchableOpacity onPress={() => setCollapsed(!collapsed)}>
       <View
         style={[
           styles.header,
@@ -28,6 +29,7 @@ const Collapsible = ({
           {title}
         </Text>
       </View>
+      </TouchableOpacity>
       
       {/* contents */}
       {!collapsed && (
@@ -37,7 +39,7 @@ const Collapsible = ({
       )}
 
     </View>
-  </TouchableOpacity>
+  
 )
 };
 
