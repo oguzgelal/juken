@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import { StyleSheet, Text, View } from 'react-native';
 import Radical from 'src/components/Radical/Radical';
 import Subject from 'src/components/Subject/Subject';
+import TextWithMarkups from 'src/components/TextWithMarkups/TextWithMarkups';
 import Collapsible from 'src/components/Collapsible/Collapsible';
 import theme from 'src/common/theme';
 import freeSubjects from 'src/mock/freeSubjects';
@@ -13,6 +14,7 @@ import {
   RADICAL,
   VOCAB,
   READING,
+  MEANING,
   TERMINOLOGY,
 } from 'src/common/constants';
 
@@ -84,14 +86,20 @@ const SubjectDetails = (/**{ subject }**/) => {
               />
               {subjectMeaningMnemonic && (
                 <>
-                <Text style={[styles.sectionRow, styles.sectionSubTitle]}>Mnemonic</Text>
-                <Text style={[styles.sectionRow, styles.sectionText]}>{subjectMeaningMnemonic}</Text>
+                  <Text style={[styles.sectionRow, styles.sectionSubTitle]}>Mnemonic</Text>
+                  <TextWithMarkups
+                    text={subjectMeaningMnemonic}
+                    style={[styles.sectionRow, styles.sectionText]}
+                  />
                 </>
               )}
               {subjectMeaningHint && (
                 <>
-                <Text style={[styles.sectionRow, styles.sectionSubTitle]}>Hint</Text>
-                <Text style={[styles.sectionRow, styles.sectionText]}>{subjectMeaningHint}</Text>
+                  <Text style={[styles.sectionRow, styles.sectionSubTitle]}>Hint</Text>
+                  <TextWithMarkups
+                    text={subjectMeaningHint}
+                    style={[styles.sectionRow, styles.sectionText]}
+                  />
                 </>
               )}
             </View>
@@ -111,14 +119,20 @@ const SubjectDetails = (/**{ subject }**/) => {
               />
               {subjectReadingMnemonic && (
                 <>
-                <Text style={[styles.sectionRow, styles.sectionSubTitle]}>Mnemonic</Text>
-                <Text style={[styles.sectionRow, styles.sectionText]}>{subjectReadingMnemonic}</Text>
+                  <Text style={[styles.sectionRow, styles.sectionSubTitle]}>Mnemonic</Text>
+                  <TextWithMarkups
+                    text={subjectReadingMnemonic}
+                    style={[styles.sectionRow, styles.sectionText]}
+                  />
                 </>
               )}
               {subjectReadingHint && (
                 <>
-                <Text style={[styles.sectionRow, styles.sectionSubTitle]}>Hint</Text>
-                <Text style={[styles.sectionRow, styles.sectionText]}>{subjectReadingHint}</Text>
+                  <Text style={[styles.sectionRow, styles.sectionSubTitle]}>Hint</Text>
+                  <TextWithMarkups
+                    text={subjectReadingHint}
+                    style={[styles.sectionRow, styles.sectionText]}
+                  />
                 </>
               )}
             </View>
