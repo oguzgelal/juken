@@ -32,6 +32,7 @@ const Deck = ({
   cards = [],
   renderCard,
   dismissCard,
+  allowSkipping
 }) => {
   
   // dynamic window size
@@ -46,7 +47,7 @@ const Deck = ({
   // control dismiss of the top card
   const useDismiss = direction => {
     setRevealed(false);
-    setSwipeLock(true);
+    setSwipeLock(!allowSkipping);
     dismissCard(direction);
   }
 
@@ -109,7 +110,7 @@ const Deck = ({
     event: 'keydown',
     handler: e => {
       if (e.code === 'Space' && !revealed) useReveal();
-      if (swipeLock) return;
+      if (!allowSkipping && swipeLock) return;
       if (e.key === 'ArrowLeft' || e.code === 'ArrowLeft') triggerSwipeLeft();
       if (e.key === 'ArrowRight' || e.code === 'ArrowRight') triggerSwipeRight();
     }
@@ -133,7 +134,7 @@ const Deck = ({
         const [topCurrent, topNext] = [getTop(i), getTop(i - 1)];
         const [opCurrent, opNext] = [getOpacity(i), getOpacity(i - 1)];
         const [scCurrent, scNext] = [getScale(i), getScale(i - 1)];
-        const panHandlers = (freezeSwipe || swipeLock) ? {} : panResponder.panHandlers;
+        const panHandlers = (!allowSkipping && (freezeSwipe || swipeLock)) ? {} : panResponder.panHandlers;
 
         const dynamicStyles = {
           zIndex: baseZIndex + (cards.length - i),
