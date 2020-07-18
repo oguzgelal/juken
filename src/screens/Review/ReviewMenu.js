@@ -17,7 +17,9 @@ const ReviewMenu = ({
   wrapUpMode,
   setWrapUpMode,
   quickMode,
-  setQuickMode
+  setQuickMode,
+  skipMode,
+  setSkipMode
 }) => {
   
   return (
@@ -70,6 +72,18 @@ const ReviewMenu = ({
                   value: quickMode,
                   onValueChange: () => {
                     setQuickMode(!quickMode);
+                  },
+                }
+              },
+              {
+                id: 'ses-skip',
+                title: 'Allow answer skipping',
+                subtitle: 'Allows you to answer just by dragging the card! Use wisely!',
+                leftIcon: <SimpleLineIcons name="control-forward" size={18} color="black" />,
+                switch: {
+                  value: skipMode,
+                  onValueChange: () => {
+                    setSkipMode(!skipMode);
                   },
                 }
               }
@@ -140,6 +154,10 @@ ReviewMenu.propTypes = {
   // settings
   wrapUpMode: PropTypes.bool,
   setWrapUpMode: PropTypes.func,
+  quickMode: PropTypes.bool,
+  setQuickMode: PropTypes.func,
+  skipMode: PropTypes.bool,
+  setSkipMode: PropTypes.func,
 };
 
 const styles = StyleSheet.create({

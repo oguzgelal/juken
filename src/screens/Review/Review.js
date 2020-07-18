@@ -33,6 +33,9 @@ const Review = ({ demo = false, stopDemo } = {}) => {
   // Allow skipping the tap to wait to access new reviews
   const [ quickMode, setQuickMode ] = useState(false);
 
+  // Allow skipping the tap to wait to access new reviews
+  const [ skipMode, setSkipMode ] = useState(false);
+
   const logout = useStoreActions(actions => actions.session.logout);
   const submitReview = useStoreActions(actions => actions.reviews.submitReview);
   const retrySubmission = useStoreActions(actions => actions.reviews.retrySubmission);
@@ -123,6 +126,8 @@ const Review = ({ demo = false, stopDemo } = {}) => {
           setWrapUpMode={setWrapUpMode}
           quickMode={quickMode}
           setQuickMode={setQuickMode}
+          skipMode={skipMode}
+          setSkipMode={setSkipMode}
         />
 
         {/* render deck */}
@@ -199,6 +204,7 @@ const Review = ({ demo = false, stopDemo } = {}) => {
                 />
               )
             }}
+            allowSkipping={skipMode}
           />
         )}
 
