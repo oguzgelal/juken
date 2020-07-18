@@ -100,6 +100,26 @@ If you find a bug in Juken, reporting it would be much appreciated. You can head
 <img src="https://user-images.githubusercontent.com/2817993/82118683-8b305f80-9781-11ea-9a74-633421342a80.PNG" width="320" />
 
 
+## Contributors ✨
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/asutekku"><img src="https://avatars2.githubusercontent.com/u/6080627" width="100px;" alt=""/><br /><sub><b>Aku Mäkelä</b></sub></a><br />
+    <a href="https://github.com/oguzgelal/juken/commits?author=asutekku" title="Commits">📖</a>
+    <a href="https://github.com/oguzgelal/juken/pulls?q=is%3Apr+author%3Aasutekku" title="Pull Requests">👀</a>
+   </td>
+  </tr>
+</table>
+
+<!-- markdownlint-enable -->
+<!-- prettier-ignore-end -->
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+
+
 ## Further Contact
 
 If you like to contact me direcly, you can do so by sending an email to [o.gelal77@gmail.com](mailto:o.gelal77@gmail.com).
