@@ -2,7 +2,7 @@ import React from 'react';
 import * as WebBrowser from 'expo-web-browser';
 import PropTypes from 'prop-types';
 import { StyleSheet, View } from 'react-native';
-import { SimpleLineIcons } from '@expo/vector-icons'; 
+import { SimpleLineIcons } from '@expo/vector-icons';
 import List from 'src/components/List/List';
 import Modal, { DURATION_SAFE } from 'src/components/Modal/Modal';
 import dialog from 'src/utils/dialog';
@@ -16,6 +16,10 @@ const ReviewMenu = ({
   setMenuOpen,
   wrapUpMode,
   setWrapUpMode,
+  quickMode,
+  setQuickMode,
+  skipMode,
+  setSkipMode
 }) => {
   
   return (
@@ -56,6 +60,30 @@ const ReviewMenu = ({
                   onValueChange: () => {
                     setWrapUpMode(!wrapUpMode);
                     setMenuOpen(false);
+                  },
+                }
+              },
+              {
+                id: 'ses-quick',
+                title: 'Quick Reveal',
+                subtitle: 'Show the right answer just by tapping the card',
+                leftIcon: <SimpleLineIcons name="energy" size={18} color="black" />,
+                switch: {
+                  value: quickMode,
+                  onValueChange: () => {
+                    setQuickMode(!quickMode);
+                  },
+                }
+              },
+              {
+                id: 'ses-skip',
+                title: 'Allow answer skipping',
+                subtitle: 'Allows you to answer just by dragging the card! Use wisely!',
+                leftIcon: <SimpleLineIcons name="control-forward" size={18} color="black" />,
+                switch: {
+                  value: skipMode,
+                  onValueChange: () => {
+                    setSkipMode(!skipMode);
                   },
                 }
               }
@@ -126,6 +154,10 @@ ReviewMenu.propTypes = {
   // settings
   wrapUpMode: PropTypes.bool,
   setWrapUpMode: PropTypes.func,
+  quickMode: PropTypes.bool,
+  setQuickMode: PropTypes.func,
+  skipMode: PropTypes.bool,
+  setSkipMode: PropTypes.func,
 };
 
 const styles = StyleSheet.create({

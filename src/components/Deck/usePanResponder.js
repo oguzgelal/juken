@@ -53,7 +53,10 @@ export default ({
   const panResponder = useMemo(() => {
 
     return PanResponder.create({
-      onStartShouldSetPanResponder: () => true,
+      // Allow tapping and dragging on the same element
+      onMoveShouldSetPanResponder: (evt, gestureState) => {
+        return Math.abs(gestureState.dx) >= 1 || Math.abs(gestureState.dy) >= 1
+      },
 
       // control how card moves while being dragged
       onPanResponderMove: (_, gestureState) => {

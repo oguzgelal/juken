@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View } from 'react-native';
+import {StyleSheet, TouchableOpacity, TouchableWithoutFeedback, View} from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import theme from 'src/common/theme';
 import device from 'src/utils/device';
@@ -10,6 +10,7 @@ import CardCover from 'src/components/Card/CardCover';
 import CardHeader from 'src/components/Card/CardHeader';
 import Question from 'src/components/Card/Question';
 import LongPressButton from 'src/components/Button/LongPressButton';
+import Touchable from "react-native-web/dist/exports/Touchable";
 
 const DirectionLeftIcon = () => (
   <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
@@ -25,6 +26,9 @@ const DirectionRightIcon = () => (
   </View>
 );
 
+const ConditionalWrapper = ({ condition, wrapper, children }) =>
+    condition ? wrapper(children) : children;
+
 const Card = ({
   empty,
   deckProps = {},
@@ -33,6 +37,7 @@ const Card = ({
   reviewQuestion,
   reviewQuestionComponent,
   reviewAnswer,
+  quickMode
 }) => {
 
   const {
@@ -49,7 +54,6 @@ const Card = ({
 
   return (
     <View style={styles.wrapper}>
-      
       {/* red / green cover */}
       {isFirstCard && (
         <CardCover
@@ -59,39 +63,44 @@ const Card = ({
 
       {/* card contents */}
       <View style={styles.container}>
-
-        {/* top header */}
-        <CardHeader
-          leftIcon={revealed ? <DirectionLeftIcon /> : null}
-          rightIcon={revealed ? <DirectionRightIcon /> : null}
-          centerText={revealed
-            ? (device('web') ? 'Arrow Keys' : 'Swipe')
-            : (TERMINOLOGY[subjectType] || '')
-          }
-        />
-
-        {/* question and question statement */}
-        <Question 
-          revealed={revealed}
-          answer={reviewAnswer}
-          question={reviewQuestion}
-          questionComponent={reviewQuestionComponent}
-          reviewType={reviewType}
-          subjectType={subjectType}
-        />
-
-        {/* reveal button */}
-        <View style={{ height: 52 }}>
-          {!revealed && (
-            <LongPressButton
-              text="Reveal"
-              flashText={`Press and Hold${device('web') ? ' / Spacebar' : ''}`}
-              onComplete={reveal}
+          {/* top header */}
+          <CardHeader
+            leftIcon={revealed ? <DirectionLeftIcon /> : null}
+            rightIcon={revealed ? <DirectionRightIcon /> : null}
+            centerText={revealed
+              ? (device('web') ? 'Arrow Keys' : 'Swipe')
+              : (TERMINOLOGY[subjectType] || '')
+            }
+          />
+        {/* Use the TouchableWithoutFeedback only when the card is not revealed and quickmode is on */}
+        <ConditionalWrapper
+            condition={!revealed && quickMode}
+            wrapper={children => <TouchableWithoutFeedback onPress={reveal}>{children}</TouchableWithoutFeedback>}>
+          <View style={{height: "100%"}}>
+            {/* question and question statement */}
+            <Question
+                revealed={revealed}
+                answer={reviewAnswer}
+                question={reviewQuestion}
+                questionComponent={reviewQuestionComponent}
+                reviewType={reviewType}
+                subjectType={subjectType}
             />
-          )}
-        </View>
+
+            {/* reveal button */}
+            <View style={{height: 52}}>
+              {!revealed && !quickMode && (
+                  <LongPressButton
+                      text="Reveal"
+                      flashText={`Press and Hold${device('web') ? ' / Spacebar' : ''}`}
+                      onComplete={reveal}
+                  />
+              )}
+            </View>
+          </View>
+        </ConditionalWrapper>
       </View>
-      
+
     </View>
   );
 };
@@ -104,6 +113,7 @@ Card.propTypes = {
   reviewQuestion: PropTypes.string,
   reviewQuestionComponent: PropTypes.any,
   reviewAnswer: PropTypes.string,
+  quickMode: PropTypes.bool,
 };
 
 const styles = StyleSheet.create({
@@ -122,7 +132,6 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     padding: theme.padding.card,
   }
-  
 })
 
 export default Card;
