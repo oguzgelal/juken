@@ -1,6 +1,6 @@
-export const VERSION = '2';
-export const IOS_VERSION = '2';
-export const ANDROID_VERSION = 7;
+export const VERSION = '3';
+export const IOS_VERSION = '3';
+export const ANDROID_VERSION = 8;
 
 export default {
   name: "Juken",
