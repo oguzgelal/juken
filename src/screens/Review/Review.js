@@ -23,6 +23,7 @@ import Button from 'src/components/Button/Button';
 import extractSubject from 'src/utils/extractSubject';
 import ReviewTopBar from 'src/screens/Review/ReviewTopBar';
 import ReviewMenu from 'src/screens/Review/ReviewMenu';
+import { SKIP_MODE, QUICK_MODE } from 'src/common/constants';
 
 const Review = ({ demo = false, stopDemo } = {}) => {
   const [ srsStages, setSrsStages ] = useState({});
@@ -31,18 +32,20 @@ const Review = ({ demo = false, stopDemo } = {}) => {
   // only ask unfinished reviews
   const [ wrapUpMode, setWrapUpMode ] = useState(false);
 
-  // Allow skipping the tap to wait to access new reviews
-  const [ quickMode, setQuickMode ] = useState(false);
-
-  // Allow skipping the tap to wait to access new reviews
-  const [ skipMode, setSkipMode ] = useState(false);
-
   const logout = useStoreActions(actions => actions.session.logout);
   const submitReview = useStoreActions(actions => actions.reviews.submitReview);
   const retrySubmission = useStoreActions(actions => actions.reviews.retrySubmission);
   const ignoreSubmissionErrors = useStoreActions(actions => actions.reviews.ignoreSubmissionErrors);
   const submissionQueue = useStoreState(state => state.reviews.submissionQueue);
   const submissionErrors = useStoreState(state => state.reviews.submissionErrors);
+  const userSettings = useStoreState(state => state.session.userSettings);
+
+  // Allow answering without revealing
+  const skipMode = _.get(userSettings, SKIP_MODE);
+  
+  // Tap anywhere on the card to reveal
+  const quickMode = _.get(userSettings, QUICK_MODE);
+  
   const colorScheme = useColorScheme();
   const iconcolor = colorScheme === 'light' ? "black":"white";
 
@@ -128,10 +131,6 @@ const Review = ({ demo = false, stopDemo } = {}) => {
           loadReviews={loadReviews}
           wrapUpMode={wrapUpMode}
           setWrapUpMode={setWrapUpMode}
-          quickMode={quickMode}
-          setQuickMode={setQuickMode}
-          skipMode={skipMode}
-          setSkipMode={setSkipMode}
         />
 
         {/* render deck */}
@@ -139,6 +138,7 @@ const Review = ({ demo = false, stopDemo } = {}) => {
           <Deck
             style={styles.deck}
             cards={queueFiltered}
+            allowSkipping={skipMode}
             dismissCard={direction => {
               submitAnswer(
                 // item that was submitted: the top item
@@ -208,7 +208,6 @@ const Review = ({ demo = false, stopDemo } = {}) => {
                 />
               )
             }}
-            allowSkipping={skipMode}
           />
         )}
 

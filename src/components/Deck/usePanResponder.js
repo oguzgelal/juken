@@ -55,7 +55,8 @@ export default ({
     return PanResponder.create({
       // Allow tapping and dragging on the same element
       onMoveShouldSetPanResponder: (evt, gestureState) => {
-        return Math.abs(gestureState.dx) >= 1 || Math.abs(gestureState.dy) >= 1
+        // 30 is large enough of a value that the user can move their finger a bit without dragging the card
+        return Math.abs(gestureState.dx) >= 30 || Math.abs(gestureState.dy) >= 30
       },
 
       // control how card moves while being dragged

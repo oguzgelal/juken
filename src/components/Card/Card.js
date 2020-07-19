@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import {StyleSheet, TouchableOpacity, TouchableWithoutFeedback, View} from 'react-native';
+import {StyleSheet, TouchableWithoutFeedback, View} from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import theme from 'src/common/theme';
 import device from 'src/utils/device';
@@ -12,6 +12,7 @@ import CardHeader from 'src/components/Card/CardHeader';
 import Question from 'src/components/Card/Question';
 import LongPressButton from 'src/components/Button/LongPressButton';
 import Touchable from "react-native-web/dist/exports/Touchable";
+import * as Haptics from "expo-haptics";
 
 const DirectionLeftIcon = () => (
   <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
@@ -54,6 +55,14 @@ const Card = ({
     return <View style={[styles.wrapper, colorScheme === 'light' ? null : styles.wrapper_dark]}/>;
   }
 
+  const onCardPressed = () =>{
+    // Medium haptic feedback feels the best
+    if (device('mobile')) {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium)
+    }
+    reveal()
+  }
+
   return (
     <View style={[styles.wrapper, colorScheme === 'light' ? null : styles.wrapper_dark]}>
       {/* red / green cover */}
@@ -77,7 +86,7 @@ const Card = ({
         {/* Use the TouchableWithoutFeedback only when the card is not revealed and quickmode is on */}
         <ConditionalWrapper
             condition={!revealed && quickMode}
-            wrapper={children => <TouchableWithoutFeedback onPress={reveal}>{children}</TouchableWithoutFeedback>}>
+            wrapper={children => <TouchableWithoutFeedback onPress={onCardPressed}>{children}</TouchableWithoutFeedback>}>
           <View style={{height: "100%"}}>
             {/* question and question statement */}
             <Question
