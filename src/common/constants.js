@@ -14,6 +14,10 @@ export const MASTER = 'master';
 export const ENLIGHTENED = 'enlightened';
 export const BURNED = 'burned';
 
+export const DEMO_TOKEN = 'DEMO_TOKEN';
+export const SKIP_MODE = 'SKIP_MODE';
+export const QUICK_MODE = 'QUICK_MODE';
+
 export const TERMINOLOGY = {
   
   // subject types

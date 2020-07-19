@@ -1,5 +1,5 @@
 import { action, computed, thunk } from 'easy-peasy';
-import { GET } from 'src/common/constants';
+import { GET, DEMO_TOKEN } from 'src/common/constants';
 import { request } from 'src/features/wk/request';
 import setUserAnalytics from 'src/features/events/setUserAnalytics';
 
@@ -16,8 +16,9 @@ export const session = {
   }),
 
   saveSetting: action((state, { key, value }) => {
-    if (!state.token) return;
-    if (!state.settings[state.token]) state.settings[token] = {};
+    const token = state.token || DEMO_TOKEN;
+    const currentSettings = state.settings[token];
+    if (!currentSettings) state.settings[token] = {};
     state.settings[token][key] = value;
   }),
 
@@ -29,7 +30,8 @@ export const session = {
   /** computed */
 
   userSettings: computed(state => {
-    return state.settings[state.token]
+    const token = state.token || DEMO_TOKEN;
+    return state.settings[token]
   }),
 
   /** thunks */
