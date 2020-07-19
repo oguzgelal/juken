@@ -20,6 +20,7 @@ const ReviewMenu = ({
   menuOpen,
   setMenuOpen,
   wrapUpMode,
+  setWrapUpMode,
 }) => {
 
   const colorScheme = useColorScheme();
