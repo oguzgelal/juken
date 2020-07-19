@@ -45,5 +45,4 @@ export const collection = async (opts = {}, col = []) => {
   return next
     ? await collection({ ...opts, nextUrl: next, }, data)
     : data;
-
 }
