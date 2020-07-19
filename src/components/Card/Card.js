@@ -58,7 +58,7 @@ const Card = ({
   const onCardPressed = () =>{
     // Medium haptic feedback feels the best
     if (device('mobile')) {
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium)
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy)
     }
     reveal()
   }
