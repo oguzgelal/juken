@@ -4,12 +4,13 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { useStoreState, useStoreActions } from 'easy-peasy';
 import { StyleSheet, View } from 'react-native';
+import useColorScheme from 'src/hooks/useColorScheme';
 import { SimpleLineIcons } from '@expo/vector-icons';
 import List from 'src/components/List/List';
 import Modal, { DURATION_SAFE } from 'src/components/Modal/Modal';
 import dialog from 'src/utils/dialog';
-import { useColorScheme } from 'react-native-appearance';
-import { SKIP_MODE, QUICK_MODE } from 'src/common/constants';
+import { isWeb } from 'src/utils/device';
+import { SKIP_MODE, QUICK_MODE, DARK_MODE } from 'src/common/constants';
 
 const ReviewMenu = ({
   demo,
@@ -20,12 +21,14 @@ const ReviewMenu = ({
   setMenuOpen,
   wrapUpMode,
 }) => {
+
   const colorScheme = useColorScheme();
   const iconcolor = colorScheme === 'light' ? "black":"white";
   const saveSetting = useStoreActions(actions => actions.session.saveSetting);
   const userSettings = useStoreState(state => state.session.userSettings);
   const skipMode = _.get(userSettings, SKIP_MODE);
   const quickMode = _.get(userSettings, QUICK_MODE);
+  const darkMode = _.get(userSettings, DARK_MODE);
   
   return (
     <Modal
@@ -89,6 +92,21 @@ const ReviewMenu = ({
                   value: skipMode,
                   onValueChange: () => {
                     saveSetting({ key: SKIP_MODE, value: !skipMode });
+                  },
+                }
+              },
+              {
+                id: 'ses-dark',
+                title: 'Dark Mode',
+                subtitle: isWeb() ? null : (darkMode
+                  ? 'Disable to use system default'
+                  : null
+                ),
+                leftIcon: <SimpleLineIcons name="bulb" size={18} color={iconcolor} />,
+                switch: {
+                  value: darkMode,
+                  onValueChange: () => {
+                    saveSetting({ key: DARK_MODE, value: !darkMode });
                   },
                 }
               }

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, TextInput } from 'react-native';
 import theme from 'src/common/theme';
-import { useColorScheme } from 'react-native-appearance';
+import useColorScheme from 'src/hooks/useColorScheme';
 
 const TextInputComponent = ({ style, ...props } = {}) => {
   const colorScheme = useColorScheme();

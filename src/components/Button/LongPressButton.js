@@ -5,7 +5,8 @@ import theme from 'src/common/theme';
 import run from 'src/utils/run';
 import * as sharedStyles from 'src/components/Button/sharedStyles';
 import * as Haptics from 'expo-haptics';
-import { useColorScheme } from 'react-native-appearance';
+import useColorScheme from 'src/hooks/useColorScheme';
+
 
 import {
   StyleSheet,

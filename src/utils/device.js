@@ -3,7 +3,7 @@ import { Platform } from 'react-native';
 import { useMediaQuery } from 'react-responsive'
 
 // desktop environments
-const isWeb = () => {
+export const isWeb = () => {
   return (
     Platform.OS === 'web' ||
     Platform.OS === 'macos' ||
@@ -12,7 +12,7 @@ const isWeb = () => {
 }
 
 // native mobile environments
-const isMobile = () => {
+export const isMobile = () => {
   return (
     Platform.OS === 'ios' ||
     Platform.OS === 'android'
@@ -20,7 +20,7 @@ const isMobile = () => {
 }
 
 // check custom platform
-const isPlatform = query => {
+export const isPlatform = query => {
   return Platform.OS === query;
 }
 

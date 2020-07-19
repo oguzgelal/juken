@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, Animated } from 'react-native';
 import theme from 'src/common/theme';
 import device from 'src/utils/device';
 import { AntDesign } from '@expo/vector-icons';
-import { useColorScheme } from "react-native-appearance";
+import useColorScheme from 'src/hooks/useColorScheme';;
 
 const iconSize = 38;
 

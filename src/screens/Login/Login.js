@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import * as WebBrowser from 'expo-web-browser';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import { useStoreActions, useStoreState } from 'easy-peasy';
-import { useColorScheme } from 'react-native-appearance';
+import useColorScheme from 'src/hooks/useColorScheme';
 // import Modal from 'src/components/Modal/Modal';
 // import List from 'src/components/List/List';
 // import ListItem from 'src/components/List/ListItem';

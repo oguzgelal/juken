@@ -7,7 +7,7 @@ import theme from 'src/common/theme';
 import device from 'src/utils/device';
 import Page from 'src/components/Page/Page';
 import TopBar from 'src/components/TopBar/TopBar';
-import { useColorScheme } from "react-native-appearance";
+import useColorScheme from 'src/hooks/useColorScheme';;
 
 export const DURATION = 300;
 export const DURATION_SAFE = DURATION + 100;
