@@ -16,6 +16,14 @@ export const wrapper = device({
   }
 });
 
+export const wrapper_dark = {
+  backgroundColor: theme.palette_dark.mediumGray,
+};
+
+export const wrapper_darkest = {
+  backgroundColor: theme.palette_dark.gray,
+};
+
 export const container = {
   width: '100%',
   height: '100%',
@@ -29,4 +37,8 @@ export const text = {
   fontWeight: '700',
   color: theme.palette.black,
   zIndex: 1,
+};
+
+export const text_dark = {
+  color: theme.palette.white,
 };

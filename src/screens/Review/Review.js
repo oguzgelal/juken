@@ -12,6 +12,7 @@ import Card from 'src/components/Card/Card';
 import Deck from 'src/components/Deck/Deck';
 import Overlay from 'src/components/Overlay/Overlay';
 import SrsStages from 'src/components/Toast/SrsStages';
+import { useColorScheme } from 'react-native-appearance';
 // import Toast, { TYPES } from 'src/components/Toast/Toast';
 import Message from 'src/screens/Message/Message';
 import useLoadReviews from 'src/features/reviews/useLoadReviews';
@@ -44,6 +45,9 @@ const Review = ({ demo = false, stopDemo } = {}) => {
   
   // Tap anywhere on the card to reveal
   const quickMode = _.get(userSettings, QUICK_MODE);
+  
+  const colorScheme = useColorScheme();
+  const iconcolor = colorScheme === 'light' ? "black":"white";
 
   useScrollLock();
   useLeaveWarning();
@@ -81,7 +85,7 @@ const Review = ({ demo = false, stopDemo } = {}) => {
 
   // are all queue items asked
   const isQueueClear = !loadingReviews && queueFiltered.length === 0;
-  
+
   return (
     <>
 
@@ -97,7 +101,8 @@ const Review = ({ demo = false, stopDemo } = {}) => {
     <Page
       style={[
         styles.page,
-        isQueueClear && styles.pageNoReviews
+        colorScheme === 'light' ? null: styles.page_dark,
+        isQueueClear && (colorScheme === 'light' && isQueueClear ? styles.pageNoReviews : styles.pageNoReviews_dark)
       ]}
     >
 
@@ -157,7 +162,7 @@ const Review = ({ demo = false, stopDemo } = {}) => {
                     !incorrectMeanings &&
                     !incorrectReadings
                   );
-                  
+
                   // increase srs stage if the answer was correct
                   if (isCorrect) {
                     const currentStage = _.get(review, 'data.srs_stage');
@@ -176,7 +181,7 @@ const Review = ({ demo = false, stopDemo } = {}) => {
               );
             }}
             renderCard={(item, props) => {
-              
+
               // empty cards
               if (!item) return <Card empty />
 
@@ -217,43 +222,43 @@ const Review = ({ demo = false, stopDemo } = {}) => {
                 You can now end your review session
               </Text>
             )}
-            
+
           </View>
         )}
-          
+
         {/* stats */}
         {totalReviews > 0 && (
-          <View style={[ styles.box, styles.bars ]}>
-            
+          <View style={[ styles.box, colorScheme === "light" ? null :styles.box_dark, styles.bars ]}>
+
             {/* review bar */}
             <View style={styles.barWrapper}>
-              <Text style={[ styles.barText, styles.barTextLabel, styles.barTextOpac, { marginRight: 8 } ]}>Reviews</Text>
+              <Text style={[ styles.barText, colorScheme === "light" ? null : styles.barTextDark, styles.barTextLabel, { marginRight: 8 } ]}>Reviews</Text>
               <Bar
-                style={styles.bar}
+                style={[styles.bar, colorScheme === "light" ? null : styles.bar_dark]}
                 values={[ _.get(stats, 'reviews.incorrectPercent', 0), _.get(stats, 'reviews.correctPercent', 0) ]}
-                colors={[ theme.palette.red, theme.palette.green ]}
+                colors={colorScheme === "light" ? [ theme.palette.red, theme.palette.green] : [ theme.palette_dark.red, theme.palette_dark.green]}
               />
-              <Text style={[ styles.barText, { marginLeft: 8 } ]}>{_.get(stats, 'reviews.completed')}</Text>
+              <Text style={[ styles.barText, colorScheme === "light" ? null : styles.barTextDark, { marginLeft: 8 } ]}>{_.get(stats, 'reviews.completed')}</Text>
               {_.get(stats, 'reviews.unfinished') > 0 && (
-                <Text style={[ styles.barText, styles.barTextOpac, { fontSize: 8, marginTop: -12 } ]}>{_.get(stats, 'reviews.unfinished')}</Text>
+              <Text style={[ styles.barText, colorScheme === "light" ? null : styles.barTextDark, styles.barTextOpac, { fontSize: 8, marginTop: -12 } ]}>{_.get(stats, 'reviews.unfinished')}</Text>
               )}
-              <Text style={[ styles.barText, styles.barTextOpac, { marginLeft: 4, marginRight: 4 } ]}>of</Text>
-              <Text style={[ styles.barText ]}>{totalReviews}</Text>
+              <Text style={[ styles.barText, colorScheme === "light" ? null : styles.barTextDark, styles.barTextOpac, { marginLeft: 4, marginRight: 4 } ]}>of</Text>
+              <Text style={[ styles.barText, colorScheme === "light" ? null : styles.barTextDark ]}>{totalReviews}</Text>
             </View>
 
             {/* card bar */}
             <View style={[ styles.barWrapper, { marginTop: 4 } ]}>
-              <Text style={[ styles.barText, styles.barTextLabel, styles.barTextOpac, { marginRight: 8 } ]}>Cards</Text>
+              <Text style={[ styles.barText, colorScheme === "light" ? null : styles.barTextDark, styles.barTextLabel, { marginRight: 8 } ]}>Cards</Text>
               <Bar
-                style={styles.bar}
+                style={[styles.bar,colorScheme === "light" ? null : styles.bar_dark]}
                 values={[ _.get(stats, 'cards.incorrectPercent', 0), _.get(stats, 'cards.correctPercent', 0) ]}
-                colors={[ theme.palette.red, theme.palette.green ]}
+                colors={colorScheme === "light" ? [ theme.palette.red, theme.palette.green] : [ theme.palette_dark.red, theme.palette_dark.green]}
               />
-              <Text style={[ styles.barText, { marginLeft: 8 } ]}>{_.get(stats, 'cards.completed')}</Text>
-              <Text style={[ styles.barText, styles.barTextOpac, { marginLeft: 4, marginRight: 4 } ]}>of</Text>
-              <Text style={[ styles.barText ]}>{totalCards}</Text>
+              <Text style={[ styles.barText, colorScheme === "light" ? null : styles.barTextDark, { marginLeft: 8 } ]}>{_.get(stats, 'cards.completed')}</Text>
+              <Text style={[ styles.barText, colorScheme === "light" ? null : styles.barTextDark, styles.barTextOpac, { marginLeft: 4, marginRight: 4 } ]}>of</Text>
+              <Text style={[ styles.barText, colorScheme === "light" ? null : styles.barTextDark ]}>{totalCards}</Text>
             </View>
-            
+
           </View>
         )}
 
@@ -265,7 +270,7 @@ const Review = ({ demo = false, stopDemo } = {}) => {
               <Button
                 text="Disable Wrap-up Mode"
                 style={{ marginTop: 8 }}
-                iconLeft={<SimpleLineIcons name="clock" size={18} color={theme.color.black} />}
+                iconLeft={<SimpleLineIcons name="clock" size={18} color={iconcolor} />}
                 onPress={() => setWrapUpMode(false)}
               />
             )}
@@ -273,7 +278,7 @@ const Review = ({ demo = false, stopDemo } = {}) => {
               <Button
                 text="Refresh"
                 style={{ marginTop: 8 }}
-                iconLeft={<SimpleLineIcons name="refresh" size={18} color={theme.color.black} />}
+                iconLeft={<SimpleLineIcons name="refresh" size={18} color={iconcolor} />}
                 onPress={() => loadReviews()}
               />
             )}
@@ -308,8 +313,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  page_dark: {
+    backgroundColor: theme.bg_dark.body,
+  },
   pageNoReviews: {
     backgroundColor: theme.palette.green,
+  },
+  pageNoReviews_dark: {
+    backgroundColor: theme.palette_dark.green,
   },
   pageCover: device({
     web: { backgroundColor: 'rgba(0, 0, 0, .9)' },
@@ -356,6 +367,9 @@ const styles = StyleSheet.create({
     padding: theme.padding.card,
     borderRadius: theme.radius.card,
   },
+  box_dark : {
+    backgroundColor: theme.palette_dark.gray,
+  },
   bars: device({
     base: {
       flexShrink: 0,
@@ -378,11 +392,17 @@ const styles = StyleSheet.create({
     flexShrink: 1,
     backgroundColor: 'rgba(0, 0, 0, .1)',
   },
+  bar_dark : {
+    backgroundColor: theme.palette_dark.mediumGray
+  },
   barText: {
     fontSize: 10,
     fontWeight: '700',
     lineHeight: 12,
     color: theme.palette.black,
+  },
+  barTextDark: {
+    color: theme.palette.lightGray,
   },
   barTextLabel: {
     width: 45,

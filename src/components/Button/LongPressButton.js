@@ -5,6 +5,7 @@ import theme from 'src/common/theme';
 import run from 'src/utils/run';
 import * as sharedStyles from 'src/components/Button/sharedStyles';
 import * as Haptics from 'expo-haptics';
+import { useColorScheme } from 'react-native-appearance';
 
 import {
   StyleSheet,
@@ -30,6 +31,7 @@ const LongPressButton = ({
   // create ref to hold touch value
   const touchPercent = useRef(new Animated.Value(0)).current;
   const textFlash = useRef(new Animated.Value(0)).current;
+  const colorScheme = useColorScheme();
 
   // control pressing state of the button
   const [ done, setDone ] = useState(false);
@@ -89,7 +91,7 @@ const LongPressButton = ({
   })
 
   return (
-    <View style={styles.wrapper}>
+    <View style={[styles.wrapper,colorScheme === 'light' ? null: styles.wrapper_dark]}>
       <TouchableWithoutFeedback
         onPressIn={() => { if (!done) setPressing(true) }}
         onPressOut={() => { if (!done) setPressing(false) }}
@@ -116,13 +118,13 @@ const LongPressButton = ({
         }}
       >
         <View style={{ height: '100%' }}>
-          <Animated.View style={[ styles.bar, { width: barWidth }]} />
+          <Animated.View style={[ styles.bar,colorScheme === 'light' ? null : styles.bar_dark, { width: barWidth }]} />
           <View style={styles.container}>
             <Animated.View style={[styles.textWrapper, { opacity: textOpacity }]}>
-              <Text style={styles.text}>{text}</Text>
+              <Text style={[styles.text, colorScheme === 'light' ? null : styles.text_dark]}>{text}</Text>
             </Animated.View>
             <Animated.View style={[styles.textWrapper, { opacity: textFlashOpacity }]}>
-              <Text style={styles.text}>{flashText}</Text>
+              <Text style={[styles.text, colorScheme === 'light' ? null : styles.text_dark]}>{flashText}</Text>
             </Animated.View>
           </View>
         </View>
@@ -155,8 +157,10 @@ LongPressButton.propTypes = {
 
 const styles = StyleSheet.create({
   wrapper: sharedStyles.wrapper,
+  wrapper_dark: sharedStyles.wrapper_dark,
   container: sharedStyles.container,
   text: sharedStyles.text,
+  text_dark: sharedStyles.text_dark,
   bar: {
     position: 'absolute',
     top: 0,
@@ -164,6 +168,9 @@ const styles = StyleSheet.create({
     backgroundColor: theme.palette.yellow,
     height: '100%',
     zIndex: 0,
+  },
+  bar_dark: {
+    backgroundColor: theme.palette_dark.yellow,
   },
   textWrapper: {
     position: 'absolute',

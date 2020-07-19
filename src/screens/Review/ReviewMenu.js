@@ -8,6 +8,7 @@ import { SimpleLineIcons } from '@expo/vector-icons';
 import List from 'src/components/List/List';
 import Modal, { DURATION_SAFE } from 'src/components/Modal/Modal';
 import dialog from 'src/utils/dialog';
+import { useColorScheme } from 'react-native-appearance';
 import { SKIP_MODE, QUICK_MODE } from 'src/common/constants';
 
 const ReviewMenu = ({
@@ -19,7 +20,8 @@ const ReviewMenu = ({
   setMenuOpen,
   wrapUpMode,
 }) => {
-
+  const colorScheme = useColorScheme();
+  const iconcolor = colorScheme === 'light' ? "black":"white";
   const saveSetting = useStoreActions(actions => actions.session.saveSetting);
   const userSettings = useStoreState(state => state.session.userSettings);
   const skipMode = _.get(userSettings, SKIP_MODE);
@@ -38,7 +40,7 @@ const ReviewMenu = ({
               {
                 id: 'ses-refresh',
                 title: 'Refresh',
-                leftIcon: <SimpleLineIcons name="refresh" size={18} color="black" />,
+                leftIcon: <SimpleLineIcons name="refresh" size={18} color={iconcolor} />,
                 onPress: () => {
                   dialog({
                     webTitle: 'Half completed reviews will be lost. Are you sure ?',
@@ -57,7 +59,7 @@ const ReviewMenu = ({
                 id: 'ses-wrap',
                 title: 'Wrap-Up Mode',
                 subtitle: 'Ask only reviews with unfinished pairs',
-                leftIcon: <SimpleLineIcons name="clock" size={18} color="black" />,
+                leftIcon: <SimpleLineIcons name="clock" size={18} color={iconcolor} />,
                 switch: {
                   value: wrapUpMode,
                   onValueChange: () => {
@@ -70,7 +72,7 @@ const ReviewMenu = ({
                 id: 'ses-quick',
                 title: 'Quick Reveal',
                 subtitle: 'Reveal by tapping anywhere on the card',
-                leftIcon: <SimpleLineIcons name="energy" size={18} color="black" />,
+                leftIcon: <SimpleLineIcons name="energy" size={18} color={iconcolor} />,
                 switch: {
                   value: quickMode,
                   onValueChange: () => {
@@ -80,9 +82,9 @@ const ReviewMenu = ({
               },
               {
                 id: 'ses-skip',
-                title: 'Answer Without Revealing',
+                title: 'Allow answer skipping',
                 subtitle: 'Allows you to answer without revealing. Use wisely!',
-                leftIcon: <SimpleLineIcons name="control-forward" size={18} color="black" />,
+                leftIcon: <SimpleLineIcons name="control-forward" size={18} color={iconcolor} />,
                 switch: {
                   value: skipMode,
                   onValueChange: () => {
@@ -107,7 +109,7 @@ const ReviewMenu = ({
               {
                 id: 'gen-fb',
                 title: 'Feedback',
-                leftIcon: <SimpleLineIcons name="bubble" size={18} color="black" />,
+                leftIcon: <SimpleLineIcons name="bubble" size={18} color={iconcolor} />,
                 onPress: async () => {
                   await WebBrowser.openBrowserAsync('https://github.com/oguzgelal/juken')
                 },
@@ -115,7 +117,7 @@ const ReviewMenu = ({
               {
                 id: 'gen-bugs',
                 title: 'Report Issues',
-                leftIcon: <SimpleLineIcons name="ghost" size={18} color="black" />,
+                leftIcon: <SimpleLineIcons name="ghost" size={18} color={iconcolor} />,
                 onPress: async () => {
                   await WebBrowser.openBrowserAsync('https://github.com/oguzgelal/juken')
                 },
@@ -123,7 +125,7 @@ const ReviewMenu = ({
               {
                 id: 'gen-code',
                 title: 'Source Code',
-                leftIcon: <SimpleLineIcons name="social-github" size={18} color="black" />,
+                leftIcon: <SimpleLineIcons name="social-github" size={18} color={iconcolor} />,
                 onPress: async () => {
                   await WebBrowser.openBrowserAsync('https://github.com/oguzgelal/juken')
                 },

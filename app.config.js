@@ -6,6 +6,7 @@ export default {
   name: "Juken",
   slug: "juken",
   privacy: "public",
+  userInterfaceStyle: "automatic",
   platforms: [
     "ios",
     "android",
@@ -31,6 +32,7 @@ export default {
     bundleIdentifier: process.env.BUNDLE_ID,
     googleServicesFile: "./GoogleService-Info.plist",
     buildNumber: IOS_VERSION,
+    userInterfaceStyle: "automatic",
   },
   android: {
     package: process.env.PACKAGE,
@@ -38,7 +40,8 @@ export default {
     "versionCode": ANDROID_VERSION,
     permissions: [
       "VIBRATE"
-    ]
+    ],
+    userInterfaceStyle: "automatic",
   },
   web: {
     config: {

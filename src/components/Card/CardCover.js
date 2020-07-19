@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, Animated } from 'react-native';
 import theme from 'src/common/theme';
 import device from 'src/utils/device';
 import { AntDesign } from '@expo/vector-icons';
+import { useColorScheme } from "react-native-appearance";
 
 const iconSize = 38;
 
@@ -12,10 +13,11 @@ const CardCover = ({ getClearInterpolation }) => {
   const coverOpacity = getClearInterpolation('x', [1, 0, 1]);
   const iconSmileOpacity = getClearInterpolation('x', [0, 0, 1]);
   const iconFrownOpacity = getClearInterpolation('x', [1, 0, 0]);
+  const colorScheme = useColorScheme();
   const coverBackground = getClearInterpolation('x', [
-    theme.color.incorrect,
-    theme.bg.card,
-    theme.color.correct
+    colorScheme === "light" ? theme.color.incorrect : theme.color_dark.incorrect,
+    colorScheme === "light" ? theme.bg.card : theme.bg_dark.card,
+    colorScheme === "light" ? theme.color.correct : theme.color_dark.correct
   ]);
 
   return (

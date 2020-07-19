@@ -2,16 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, TextInput } from 'react-native';
 import theme from 'src/common/theme';
+import { useColorScheme } from 'react-native-appearance';
 
-const TextInputComponent = ({ style, ...props } = {}) => (
-  <TextInput
+const TextInputComponent = ({ style, ...props } = {}) => {
+  const colorScheme = useColorScheme();
+  return <TextInput
     style={[
       styles.wrapper,
+      colorScheme === "light" ? null : styles.wrapper_dark,
       ...(Array.isArray(style) ? style : [style])
     ]}
     {...props}
   />
-);
+};
 
 TextInputComponent.propTypes = {
   style: PropTypes.oneOfType([
@@ -26,6 +29,10 @@ const styles = StyleSheet.create({
     backgroundColor: theme.palette.white,
     borderRadius: theme.radius.touchable,
     padding: theme.padding.touchable,
+  },
+  wrapper_dark: {
+    backgroundColor: theme.palette_dark.gray,
+    color: theme.palette_dark.white
   }
 })
 
