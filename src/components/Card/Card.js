@@ -5,7 +5,7 @@ import { AntDesign } from '@expo/vector-icons';
 import theme from 'src/common/theme';
 import device from 'src/utils/device';
 import { TERMINOLOGY } from 'src/common/constants';
-import { useColorScheme } from 'react-native-appearance';
+import useColorScheme from 'src/hooks/useColorScheme';
 
 import CardCover from 'src/components/Card/CardCover';
 import CardHeader from 'src/components/Card/CardHeader';

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View, Text, FlatList } from 'react-native';
 import theme from 'src/common/theme';
-import { useColorScheme } from 'react-native-appearance';
+import useColorScheme from 'src/hooks/useColorScheme';
 
 const ListWrapper = ({ style, title, children }) => {
 

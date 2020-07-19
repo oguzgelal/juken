@@ -9,7 +9,7 @@ import {
   READING,
   TERMINOLOGY,
 } from 'src/common/constants';
-import { useColorScheme } from "react-native-appearance";
+import useColorScheme from 'src/hooks/useColorScheme';;
 
 const Question = ({
   subjectType,

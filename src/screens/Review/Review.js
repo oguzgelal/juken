@@ -12,7 +12,7 @@ import Card from 'src/components/Card/Card';
 import Deck from 'src/components/Deck/Deck';
 import Overlay from 'src/components/Overlay/Overlay';
 import SrsStages from 'src/components/Toast/SrsStages';
-import { useColorScheme } from 'react-native-appearance';
+import useColorScheme from 'src/hooks/useColorScheme';
 // import Toast, { TYPES } from 'src/components/Toast/Toast';
 import Message from 'src/screens/Message/Message';
 import useLoadReviews from 'src/features/reviews/useLoadReviews';

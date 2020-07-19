@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import * as sharedStyles from 'src/components/Button/sharedStyles';
-import { useColorScheme } from "react-native-appearance";
+import useColorScheme from 'src/hooks/useColorScheme';;
+
 
 const Button = ({ iconLeft, iconRight, text, onPress, style, textStyle }) => {
   const colorScheme = useColorScheme();

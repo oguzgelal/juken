@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { StyleSheet, View, Text } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import device from 'src/utils/device';
-import { useColorScheme } from "react-native-appearance";
+import useColorScheme from 'src/hooks/useColorScheme';;
 import theme from 'src/common/theme';
 
 const ListItemComponent = props => {
