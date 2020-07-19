@@ -1,11 +1,14 @@
 import React from 'react';
 import * as WebBrowser from 'expo-web-browser';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
+import { useStoreState, useStoreActions } from 'easy-peasy';
 import { StyleSheet, View } from 'react-native';
 import { SimpleLineIcons } from '@expo/vector-icons';
 import List from 'src/components/List/List';
 import Modal, { DURATION_SAFE } from 'src/components/Modal/Modal';
 import dialog from 'src/utils/dialog';
+import { SKIP_MODE, QUICK_MODE } from 'src/common/constants';
 
 const ReviewMenu = ({
   demo,
@@ -15,12 +18,12 @@ const ReviewMenu = ({
   menuOpen,
   setMenuOpen,
   wrapUpMode,
-  setWrapUpMode,
-  quickMode,
-  setQuickMode,
-  skipMode,
-  setSkipMode
 }) => {
+
+  const saveSetting = useStoreActions(actions => actions.session.saveSetting);
+  const userSettings = useStoreState(state => state.session.userSettings);
+  const skipMode = _.get(userSettings, SKIP_MODE);
+  const quickMode = _.get(userSettings, QUICK_MODE);
   
   return (
     <Modal
@@ -66,24 +69,24 @@ const ReviewMenu = ({
               {
                 id: 'ses-quick',
                 title: 'Quick Reveal',
-                subtitle: 'Show the right answer just by tapping the card',
+                subtitle: 'Reveal by tapping anywhere on the card',
                 leftIcon: <SimpleLineIcons name="energy" size={18} color="black" />,
                 switch: {
                   value: quickMode,
                   onValueChange: () => {
-                    setQuickMode(!quickMode);
+                    saveSetting({ key: QUICK_MODE, value: !quickMode });
                   },
                 }
               },
               {
                 id: 'ses-skip',
-                title: 'Allow answer skipping',
-                subtitle: 'Allows you to answer just by dragging the card! Use wisely!',
+                title: 'Answer Without Revealing',
+                subtitle: 'Allows you to answer without revealing. Use wisely!',
                 leftIcon: <SimpleLineIcons name="control-forward" size={18} color="black" />,
                 switch: {
                   value: skipMode,
                   onValueChange: () => {
-                    setSkipMode(!skipMode);
+                    saveSetting({ key: SKIP_MODE, value: !skipMode });
                   },
                 }
               }
