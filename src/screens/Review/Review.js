@@ -23,11 +23,8 @@ import Button from 'src/components/Button/Button';
 import extractSubject from 'src/utils/extractSubject';
 import ReviewTopBar from 'src/screens/Review/ReviewTopBar';
 import ReviewMenu from 'src/screens/Review/ReviewMenu';
-<<<<<<< HEAD
 import SubjectDetailsModal from 'src/screens/SubjectDetails/SubjectDetailsModal';
-=======
 import { SKIP_MODE, QUICK_MODE } from 'src/common/constants';
->>>>>>> master
 
 const Review = ({ demo = false, stopDemo } = {}) => {
   const [ srsStages, setSrsStages ] = useState({});
