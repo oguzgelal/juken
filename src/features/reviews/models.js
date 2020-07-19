@@ -5,6 +5,7 @@ import { request, collection } from 'src/features/wk/request';
 import sleep from 'src/utils/test/sleep';
 import freeAssignments from 'src/mock/freeAssignments';
 import freeSubjects from 'src/mock/freeSubjects';
+import toChunks from 'src/utils/toChunks';
 
 // TODO: it's too late for Typescript, but maybe
 // integrate Flow to make this less painful.
@@ -203,17 +204,35 @@ export const reviews = {
         return;
       }
 
-      // get subjects for these assignments
-      const subjects = await collection({
-        endpoint: 'subjects',
-        method: GET,
-        params: {
-          ids: assignments
-            .map(r => _.get(r, 'data.subject_id'))
-            .filter(Boolean)
-            .join(',')
-        },
-      });
+      /**
+       * Note: WaniKani api's pagination limit for subjects is
+       * 1000, however browser fails to load 1000 items at once,
+       * so spread subject ids into chunks of 500 and send requests
+       * in parallel
+       */
+
+      // get all ids to fetch
+      const subjectIds = assignments
+        .map(r => _.get(r, 'data.subject_id'))
+        .filter(Boolean);
+      
+      // spread ids into chunks and request them in parallel
+      const chunks = await Promise.all(
+        toChunks(subjectIds, 500).map(chunk => {
+          return request({
+            endpoint: 'subjects',
+            method: GET,
+            params: {
+              ids: chunk.join(',')
+            }
+          })
+        })
+      );
+
+      // combine chunks that was fetched
+      const subjects = chunks
+        .map(c => c.data)
+        .flat();
 
       // save assignments and subjects to state
       action._saveReviews({
