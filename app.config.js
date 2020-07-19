@@ -1,5 +1,5 @@
-export const VERSION = '1.0.4';
-export const IOS_VERSION = '1.0.4';
+export const VERSION = '2';
+export const IOS_VERSION = '2';
 export const ANDROID_VERSION = 6;
 
 export default {
