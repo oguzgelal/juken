@@ -77,7 +77,7 @@ const ReviewMenu = ({
               },
               {
                 id: 'ses-skip',
-                title: 'Allow answer skipping',
+                title: 'Allow answering without flipping',
                 subtitle: 'Allows you to answer just by dragging the card! Use wisely!',
                 leftIcon: <SimpleLineIcons name="control-forward" size={18} color="black" />,
                 switch: {
