@@ -23,7 +23,7 @@ const ReviewMenu = ({
   setSkipMode
 }) => {
   const colorScheme = useColorScheme();
-  const iconcolor = colorScheme === 'light' ? "black":"white"
+  const iconcolor = colorScheme === 'light' ? "black":"white";
   return (
     <Modal
       visible={menuOpen}

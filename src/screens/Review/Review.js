@@ -44,6 +44,7 @@ const Review = ({ demo = false, stopDemo } = {}) => {
   const submissionQueue = useStoreState(state => state.reviews.submissionQueue);
   const submissionErrors = useStoreState(state => state.reviews.submissionErrors);
   const colorScheme = useColorScheme();
+  const iconcolor = colorScheme === 'light' ? "black":"white";
 
   useScrollLock();
   useLeaveWarning();
@@ -232,7 +233,7 @@ const Review = ({ demo = false, stopDemo } = {}) => {
 
             {/* review bar */}
             <View style={styles.barWrapper}>
-              <Text style={[ styles.barText, colorScheme === "light" ? null : styles.barTextDark, styles.barTextLabel, styles.barTextOpac, { marginRight: 8 } ]}>Reviews</Text>
+              <Text style={[ styles.barText, colorScheme === "light" ? null : styles.barTextDark, styles.barTextLabel, { marginRight: 8 } ]}>Reviews</Text>
               <Bar
                 style={[styles.bar, colorScheme === "light" ? null : styles.bar_dark]}
                 values={[ _.get(stats, 'reviews.incorrectPercent', 0), _.get(stats, 'reviews.correctPercent', 0) ]}
@@ -248,7 +249,7 @@ const Review = ({ demo = false, stopDemo } = {}) => {
 
             {/* card bar */}
             <View style={[ styles.barWrapper, { marginTop: 4 } ]}>
-              <Text style={[ styles.barText, colorScheme === "light" ? null : styles.barTextDark, styles.barTextLabel, styles.barTextOpac, { marginRight: 8 } ]}>Cards</Text>
+              <Text style={[ styles.barText, colorScheme === "light" ? null : styles.barTextDark, styles.barTextLabel, { marginRight: 8 } ]}>Cards</Text>
               <Bar
                 style={[styles.bar,colorScheme === "light" ? null : styles.bar_dark]}
                 values={[ _.get(stats, 'cards.incorrectPercent', 0), _.get(stats, 'cards.correctPercent', 0) ]}
@@ -270,7 +271,7 @@ const Review = ({ demo = false, stopDemo } = {}) => {
               <Button
                 text="Disable Wrap-up Mode"
                 style={{ marginTop: 8 }}
-                iconLeft={<SimpleLineIcons name="clock" size={18} color={theme.color.black} />}
+                iconLeft={<SimpleLineIcons name="clock" size={18} color={iconcolor} />}
                 onPress={() => setWrapUpMode(false)}
               />
             )}
@@ -278,7 +279,7 @@ const Review = ({ demo = false, stopDemo } = {}) => {
               <Button
                 text="Refresh"
                 style={{ marginTop: 8 }}
-                iconLeft={<SimpleLineIcons name="refresh" size={18} color={theme.color.black} />}
+                iconLeft={<SimpleLineIcons name="refresh" size={18} color={iconcolor} />}
                 onPress={() => loadReviews()}
               />
             )}
@@ -402,7 +403,7 @@ const styles = StyleSheet.create({
     color: theme.palette.black,
   },
   barTextDark: {
-    color: theme.palette_dark.lightGray,
+    color: theme.palette.lightGray,
   },
   barTextLabel: {
     width: 45,
