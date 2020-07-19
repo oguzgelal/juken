@@ -85,7 +85,7 @@ const ReviewMenu = ({
               },
               {
                 id: 'ses-skip',
-                title: 'Allow answer skipping',
+                title: 'Answer Without Revealing',
                 subtitle: 'Allows you to answer without revealing. Use wisely!',
                 leftIcon: <SimpleLineIcons name="control-forward" size={18} color={iconcolor} />,
                 switch: {
