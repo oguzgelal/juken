@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import * as WebBrowser from 'expo-web-browser';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import { useStoreActions, useStoreState } from 'easy-peasy';
+import { useColorScheme } from 'react-native-appearance';
 // import Modal from 'src/components/Modal/Modal';
 // import List from 'src/components/List/List';
 // import ListItem from 'src/components/List/ListItem';
@@ -30,13 +31,14 @@ import Button from 'src/components/Button/Button';
 import TextInput from 'src/components/Input/TextInput';
 import Toast, { TYPES } from 'src/components/Toast/Toast';
 import device from 'src/utils/device';
-import theme from 'src/common/theme';
+import theme from './../../common/theme';
 
 const Login = ({ startDemo }) => {
   const [ token, setToken ] = useState('');
   const failed = useRef(null);
   const empty = useRef(null);
   const { showActionSheetWithOptions } = useActionSheet();
+  const colorScheme = useColorScheme();
 
   const login = useStoreActions(actions => actions.session.login);
   const loginLoading = useStoreState(state => state.loadings.login);
@@ -49,21 +51,21 @@ const Login = ({ startDemo }) => {
       }}
     >
 
-      <View style={styles.page}>
-        
+      <View style={[styles.page, colorScheme === 'light' ? null : styles.page_dark]}>
+
         {/* toasts */}
         <Toast ref={failed} type={TYPES.ERROR} />
         <Toast ref={empty} type={TYPES.WARNING} />
 
         {/* page */}
-        <Page style={styles.page}>
+        <Page style={[styles.page, colorScheme === 'light' ? null : styles.page_dark]}>
           <KeyboardAvoidingView
             style={styles.container}
             behavior={device('ios') ? 'padding' : 'height'}
           >
             <View style={styles.imageWrapper}>
               <Image source={require('./logo.png')} style={styles.imageIcon} />
-              <Image source={require('./wa2.png')} style={styles.imageText} /> 
+              <Image source={require('./wa2.png')} style={styles.imageText} />
             </View>
 
             <TextInput
@@ -75,11 +77,11 @@ const Login = ({ startDemo }) => {
             {/* login button */}
             <Button
               style={{ marginTop: 8 }}
-              textStyle={{ color: theme.palette.black }}
+              textStyle={{ color: colorScheme === "light" ? theme.palette.black: theme.palette_dark.lightGray }}
               text={loginLoading ? 'Logging in...' : 'Login'}
               iconRight={
                 loginLoading
-                  ? <ActivityIndicator size={24} color={theme.palette.black} />
+                  ? <ActivityIndicator size={24} color={colorScheme === "light" ? theme.palette.black: theme.palette_dark.lightGray} />
                   : <AntDesign name="arrowright" size={24} color={theme.palette.black} />
               }
               disabled={loginLoading}
@@ -136,7 +138,7 @@ const Login = ({ startDemo }) => {
                 <View style={styles.or}>
                   <Text style={styles.orText}>-or-</Text>
                 </View>
-                
+
                 {/* demo button */}
                 <Button
                   text="Demo"
@@ -153,7 +155,7 @@ const Login = ({ startDemo }) => {
                     await WebBrowser.openBrowserAsync('https://github.com/oguzgelal/juken')
                   }}
                 />
-                
+
                 {/* source code button */}
                 <Button
                   style={{
@@ -171,7 +173,7 @@ const Login = ({ startDemo }) => {
                 />
               </>
             )}
-            
+
           </KeyboardAvoidingView>
         </Page>
       </View>
@@ -198,6 +200,9 @@ const styles = StyleSheet.create({
       cursor: 'default',
     }
   }),
+  page_dark: {
+      backgroundColor: theme.bg_dark.body,
+  },
   container: {
     width: '100%',
   },
@@ -215,7 +220,6 @@ const styles = StyleSheet.create({
     marginBottom: 18,
   },
   imageText: {
-    width: 'auto',
     width: 160,
     height: 48.85,
     margin: 'auto',

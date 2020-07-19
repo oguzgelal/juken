@@ -1,12 +1,13 @@
 import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View, ScrollView, TouchableOpacity, Modal, Text } from 'react-native';
-import { AntDesign } from '@expo/vector-icons'; 
+import { AntDesign } from '@expo/vector-icons';
 import RNModal from 'react-native-modal';
 import theme from 'src/common/theme';
 import device from 'src/utils/device';
 import Page from 'src/components/Page/Page';
 import TopBar from 'src/components/TopBar/TopBar';
+import { useColorScheme } from "react-native-appearance";
 
 export const DURATION = 300;
 export const DURATION_SAFE = DURATION + 100;
@@ -21,13 +22,15 @@ const ModalComp = ({
 
   if (!closeAnimation && !visible) return null;
 
+  const colorScheme = useColorScheme();
+
   const topBar = (
     <TopBar
       rightOnPress={close}
       right={(
         <AntDesign
           name="close"
-          color="black"
+          color={colorScheme === "light" ? "black": "white"}
           size={22}
         />
       )}
@@ -38,19 +41,19 @@ const ModalComp = ({
     return !visible ? null : (
       <Modal
         transparent
-        style={styles.webModalStyle}
+        style={[styles.webModalStyle, colorScheme === 'light' ? null : styles.webModalStyle_dark]}
       >
-        <View style={styles.wrapper}>
-          <ScrollView style={{ minHeight: '100%' }}>
-            <Page center style={{ minHeight: '100vh' }}>
+        <View style={[styles.wrapper, colorScheme === 'light' ? null : styles.wrapper_dark]}>
+          <ScrollView style={{minHeight: '100%'}}>
+            <Page center style={{minHeight: '100vh'}}>
 
               {/** heading */}
-              <View style={styles.heading}>
+              <View style={[styles.heading, colorScheme === 'light' ? null : styles.heading_dark]}>
                 {topBar}
               </View>
 
               {/** contents */}
-              <View style={[ styles.contents, contentStyle ]}>
+              <View style={[styles.contents, colorScheme === 'light' ? null : styles.contents_dark, contentStyle]}>
                 {children}
               </View>
             </Page>
@@ -74,15 +77,15 @@ const ModalComp = ({
       backdropTransitionOutTiming={0}
 
     >
-      <View style={styles.wrapper}>
-        
+      <View style={[styles.wrapper, colorScheme === 'light' ? null : styles.wrapper_dark]}>
+
         {/** heading */}
-        <View style={styles.heading}>
+        <View style={[styles.heading, colorScheme === 'light' ? null : styles.heading_dark]}>
           {topBar}
         </View>
-        
+
         {/** contents */}
-        <ScrollView style={[ styles.contents, contentStyle ]}>
+        <ScrollView style={[ styles.contents, colorScheme === 'light' ? null : styles.contents_dark, contentStyle ]}>
           {children}
         </ScrollView>
       </View>
@@ -116,6 +119,10 @@ const styles = StyleSheet.create({
     }
   }),
 
+  webModalStyle_dark : {
+    backgroundColor: theme.palette_dark.black,
+  },
+
   wrapper: device({
     base: {
       position: 'relative',
@@ -129,6 +136,10 @@ const styles = StyleSheet.create({
       backgroundColor: 'rgba(0, 0, 0, .8)',
     }
   }),
+
+  wrapper_dark : {
+    backgroundColor: theme.palette_dark.black,
+  },
 
   heading: {
     height: 52,
@@ -144,6 +155,11 @@ const styles = StyleSheet.create({
     paddingRight: 12,
   },
 
+  heading_dark : {
+    backgroundColor: theme.palette_dark.gray,
+    borderBottomColor: theme.palette_dark.black,
+  },
+
   contents: {
     flexGrow: 1,
     height: '100%',
@@ -152,6 +168,9 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 0,
     borderTopRightRadius: 0,
     overflow: 'hidden',
+  },
+  contents_dark: {
+    backgroundColor: theme.palette_dark.black,
   },
 })
 

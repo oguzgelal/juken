@@ -9,6 +9,7 @@ import {
   READING,
   TERMINOLOGY,
 } from 'src/common/constants';
+import { useColorScheme } from "react-native-appearance";
 
 const Question = ({
   subjectType,
@@ -17,43 +18,46 @@ const Question = ({
   questionComponent,
   answer,
   revealed,
-}) => (
-  <View style={[ styles.wrapper ]}>
-    
-    {/* question */}
-    <View style={styles.question}>
-      <Text
-        style={[
-          styles.questionText,
-          styles[subjectType]
-        ]}
-      >
-        {question || questionComponent}
-      </Text>
-    </View>
+}) => {
+  const colorScheme = useColorScheme();
+  return (
+    <View style={[styles.wrapper]}>
 
-    {/* separator */}
-    <View style={styles.separator} />
-    
-    {/* answer */}
-    <View style={styles.answer}>
-      <Text
-        style={[
-          styles.answerText,
-          (
-            revealed &&
-            reviewType === READING &&
-            styles.answerTextLarge
-          ),
-        ]}
-      >
-        {revealed && answer}
-        {!revealed && TERMINOLOGY[reviewType]}
-      </Text>
-    </View>
+      {/* question */}
+      <View style={styles.question}>
+        <Text
+          style={[
+            styles.questionText,
+            styles[subjectType]
+          ]}
+        >
+          {question || questionComponent}
+        </Text>
+      </View>
 
-  </View>
-);
+      {/* separator */}
+      <View style={[styles.separator, colorScheme === "light" ? null : styles.separator_dark]}/>
+
+      {/* answer */}
+      <View style={styles.answer}>
+        <Text
+          style={[
+            styles.answerText,colorScheme === "light" ? null : styles.answerText_Dark,
+            (
+              revealed &&
+              reviewType === READING &&
+              styles.answerTextLarge
+            ),
+          ]}
+        >
+          {revealed && answer}
+          {!revealed && TERMINOLOGY[reviewType]}
+        </Text>
+      </View>
+
+    </View>
+  );
+};
 
 Question.propTypes = {
   reviewType: PropTypes.string,
@@ -86,6 +90,9 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     marginTop: 0
   },
+  separator_dark : {
+    backgroundColor: theme.palette_dark.lightGray,
+  },
   answer: {
     minHeight: 28,
     flexGrow: 0,
@@ -98,6 +105,9 @@ const styles = StyleSheet.create({
     color: theme.palette.black,
     fontSize: 16,
     fontWeight: '700',
+  },
+  answerText_Dark: {
+    color: theme.palette_dark.lightGray,
   },
   answerTextLarge: {
     fontSize: 20

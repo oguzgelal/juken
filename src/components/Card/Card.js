@@ -5,6 +5,7 @@ import { AntDesign } from '@expo/vector-icons';
 import theme from 'src/common/theme';
 import device from 'src/utils/device';
 import { TERMINOLOGY } from 'src/common/constants';
+import { useColorScheme } from 'react-native-appearance';
 
 import CardCover from 'src/components/Card/CardCover';
 import CardHeader from 'src/components/Card/CardHeader';
@@ -47,13 +48,14 @@ const Card = ({
     getClearInterpolation,
   } = deckProps;
 
+  const colorScheme = useColorScheme();
   // empty card
   if (empty) {
-    return <View style={styles.wrapper} />;
+    return <View style={[styles.wrapper, colorScheme === 'light' ? null : styles.wrapper_dark]}/>;
   }
 
   return (
-    <View style={styles.wrapper}>
+    <View style={[styles.wrapper, colorScheme === 'light' ? null : styles.wrapper_dark]}>
       {/* red / green cover */}
       {isFirstCard && (
         <CardCover
@@ -127,6 +129,11 @@ const styles = StyleSheet.create({
     web: {
       userSelect: 'none',
     },
+  }),
+  wrapper_dark: device({
+    base: {
+      backgroundColor: theme.bg_dark.card,
+    }
   }),
   container: {
     flexGrow: 1,

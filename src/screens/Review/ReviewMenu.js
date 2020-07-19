@@ -6,6 +6,7 @@ import { SimpleLineIcons } from '@expo/vector-icons';
 import List from 'src/components/List/List';
 import Modal, { DURATION_SAFE } from 'src/components/Modal/Modal';
 import dialog from 'src/utils/dialog';
+import { useColorScheme } from 'react-native-appearance';
 
 const ReviewMenu = ({
   demo,
@@ -21,7 +22,8 @@ const ReviewMenu = ({
   skipMode,
   setSkipMode
 }) => {
-  
+  const colorScheme = useColorScheme();
+  const iconcolor = colorScheme === 'light' ? "black":"white"
   return (
     <Modal
       visible={menuOpen}
@@ -35,7 +37,7 @@ const ReviewMenu = ({
               {
                 id: 'ses-refresh',
                 title: 'Refresh',
-                leftIcon: <SimpleLineIcons name="refresh" size={18} color="black" />,
+                leftIcon: <SimpleLineIcons name="refresh" size={18} color={iconcolor} />,
                 onPress: () => {
                   dialog({
                     webTitle: 'Half completed reviews will be lost. Are you sure ?',
@@ -54,7 +56,7 @@ const ReviewMenu = ({
                 id: 'ses-wrap',
                 title: 'Wrap-Up Mode',
                 subtitle: 'Ask only reviews with unfinished pairs',
-                leftIcon: <SimpleLineIcons name="clock" size={18} color="black" />,
+                leftIcon: <SimpleLineIcons name="clock" size={18} color={iconcolor} />,
                 switch: {
                   value: wrapUpMode,
                   onValueChange: () => {
@@ -67,7 +69,7 @@ const ReviewMenu = ({
                 id: 'ses-quick',
                 title: 'Quick Reveal',
                 subtitle: 'Show the right answer just by tapping the card',
-                leftIcon: <SimpleLineIcons name="energy" size={18} color="black" />,
+                leftIcon: <SimpleLineIcons name="energy" size={18} color={iconcolor} />,
                 switch: {
                   value: quickMode,
                   onValueChange: () => {
@@ -79,7 +81,7 @@ const ReviewMenu = ({
                 id: 'ses-skip',
                 title: 'Allow answer skipping',
                 subtitle: 'Allows you to answer just by dragging the card! Use wisely!',
-                leftIcon: <SimpleLineIcons name="control-forward" size={18} color="black" />,
+                leftIcon: <SimpleLineIcons name="control-forward" size={18} color={iconcolor} />,
                 switch: {
                   value: skipMode,
                   onValueChange: () => {
@@ -104,7 +106,7 @@ const ReviewMenu = ({
               {
                 id: 'gen-fb',
                 title: 'Feedback',
-                leftIcon: <SimpleLineIcons name="bubble" size={18} color="black" />,
+                leftIcon: <SimpleLineIcons name="bubble" size={18} color={iconcolor} />,
                 onPress: async () => {
                   await WebBrowser.openBrowserAsync('https://github.com/oguzgelal/juken')
                 },
@@ -112,7 +114,7 @@ const ReviewMenu = ({
               {
                 id: 'gen-bugs',
                 title: 'Report Issues',
-                leftIcon: <SimpleLineIcons name="ghost" size={18} color="black" />,
+                leftIcon: <SimpleLineIcons name="ghost" size={18} color={iconcolor} />,
                 onPress: async () => {
                   await WebBrowser.openBrowserAsync('https://github.com/oguzgelal/juken')
                 },
@@ -120,7 +122,7 @@ const ReviewMenu = ({
               {
                 id: 'gen-code',
                 title: 'Source Code',
-                leftIcon: <SimpleLineIcons name="social-github" size={18} color="black" />,
+                leftIcon: <SimpleLineIcons name="social-github" size={18} color={iconcolor} />,
                 onPress: async () => {
                   await WebBrowser.openBrowserAsync('https://github.com/oguzgelal/juken')
                 },
