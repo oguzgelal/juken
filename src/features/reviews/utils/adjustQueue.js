@@ -82,17 +82,5 @@ const adjustSubjectPairDistances = (queue,
 }
 
 export default adjustQueue = (queue, backToBackMode = false, meaningFirst = false) => {
-  const result = adjustSubjectPairDistances(queue, 0, backToBackMode, meaningFirst);
-  if (backToBackMode) {
-    let msg = "adjusted queue of length " + result.length + ":";
-    let lastid = -1;
-    for (var i = 0; i < result.length; i++) {
-      const id = _.get(result[i], 'review.id');
-      if (id != lastid) msg += '\n';
-      msg += id + ' ';
-      lastid = id;
-    }
-    console.warn(msg);
-  }
-  return result;
+  return adjustSubjectPairDistances(queue, 0, backToBackMode, meaningFirst);
 }

@@ -215,33 +215,18 @@ export default (reviews, subjects) => {
         ));
         // if paired card is in deck and not at top, put them together
         // else if item would be requeued between a pair, adjust index
-        console.warn("pair index = " + pairIndex);
         if ((pairIndex !== -1) && (pairIndex !== currentIndex)) {
-          console.warn("paired card in deck and not at top");
           requeueIndex = pairIndex;
           requeueIndex += ((reviewType === MEANING) === meaningFirst) ? 0 : 1;
         } else if ((0 < requeueIndex) && (requeueIndex < newQueue.length)) {
-          console.warn("pair avoidance");
           const prevId = _.get(newQueue[requeueIndex-1], 'review.id');
           const nextId = _.get(newQueue[requeueIndex], 'review.id');
           if (prevId === nextId) requeueIndex += 1;
         }
       }
 
+      // put the item back into the queue
       newQueue.splice(requeueIndex, 0, queueItem);
-
-      if (backToBackMode) {
-        let msg = "after requeueing at index " + requeueIndex + ":"; 
-        let lastid = -1;
-        for (var i = 0; i < newQueue.length; i++) {
-          const id = _.get(newQueue[i], 'review.id');
-          if (id != lastid) msg += '\n';
-          msg += id + ' ';
-          if (i === requeueIndex) msg += "<----";
-          lastid = id;
-        }
-        console.warn(msg);
-      }
     }
 
     // set the new queue
