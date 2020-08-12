@@ -10,7 +10,8 @@ import List from 'src/components/List/List';
 import Modal, { DURATION_SAFE } from 'src/components/Modal/Modal';
 import dialog from 'src/utils/dialog';
 import { isWeb } from 'src/utils/device';
-import { SKIP_MODE, QUICK_MODE, DARK_MODE } from 'src/common/constants';
+import { SKIP_MODE, QUICK_MODE, DARK_MODE, BACK_TO_BACK_MODE, MEANING_FIRST}
+    from 'src/common/constants';
 
 const ReviewMenu = ({
   demo,
@@ -30,6 +31,8 @@ const ReviewMenu = ({
   const skipMode = _.get(userSettings, SKIP_MODE);
   const quickMode = _.get(userSettings, QUICK_MODE);
   const darkMode = _.get(userSettings, DARK_MODE);
+  const backToBackMode = _.get(userSettings, BACK_TO_BACK_MODE);
+  const meaningFirst = _.get(userSettings, MEANING_FIRST);
   
   return (
     <Modal
@@ -93,6 +96,30 @@ const ReviewMenu = ({
                   value: skipMode,
                   onValueChange: () => {
                     saveSetting({ key: SKIP_MODE, value: !skipMode });
+                  },
+                }
+              },
+              {
+                id: 'ses-back-to-back',
+                title: 'Back To Back',
+                subtitle: 'Reorder cards so reading and meaning are back-to-back',
+                leftIcon: <SimpleLineIcons name="layers" size={18} color={iconcolor} />,
+                switch: {
+                  value: backToBackMode,
+                  onValueChange: () => {
+                    saveSetting({ key: BACK_TO_BACK_MODE, value: !backToBackMode });
+                  },
+                }
+              },
+              {
+                id: 'ses-meaning-first',
+                title: 'Meaning First',
+                subtitle: 'Show meaning first when back-to-back is enabled',
+                leftIcon: <SimpleLineIcons name="direction" size={18} color={iconcolor} />,
+                switch: {
+                  value: meaningFirst,
+                  onValueChange: () => {
+                    saveSetting({ key: MEANING_FIRST, value: !meaningFirst });
                   },
                 }
               },
@@ -182,6 +209,8 @@ ReviewMenu.propTypes = {
   setQuickMode: PropTypes.func,
   skipMode: PropTypes.bool,
   setSkipMode: PropTypes.func,
+  backToBackMode: PropTypes.bool,
+  setBackToBackMode: PropTypes.func,
 };
 
 const styles = StyleSheet.create({
