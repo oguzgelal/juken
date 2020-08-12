@@ -8,6 +8,10 @@ import { MEANING, RADICAL } from 'src/common/constants';
 import listToDict from 'src/utils/listToDict';
 import queueReviews from 'src/features/reviews/utils/queueReviews';
 
+import { BACK_TO_BACK_MODE, MEANING_FIRST} from 'src/common/constants';
+import { useStoreState } from 'easy-peasy';
+import adjustQueue from 'src/features/reviews/utils/adjustQueue';
+
 export default (reviews, subjects) => {
 
   const [ queue, setQueue ] = useState([]);
@@ -27,6 +31,18 @@ export default (reviews, subjects) => {
   // cards stats
   const [ completedCards, setCompletedCards ] = useState({});
   const [ incorrectCards, setIncorrectCards ] = useState({});
+
+  // Sort reading-meaning card pairs back-to-back
+  const userSettings = useStoreState(state => state.session.userSettings);
+  const backToBackMode = _.get(userSettings, BACK_TO_BACK_MODE);
+  const meaningFirst = _.get(userSettings, MEANING_FIRST);
+  // Re-sort queue when the relevant user settings change
+  useEffect(() => {
+    setQueue(adjustQueue(queue, backToBackMode, meaningFirst))
+  }, [
+      backToBackMode,
+      meaningFirst,
+  ]);
 
   // refresh &
   // reviews and subjects loaded
@@ -48,8 +64,7 @@ export default (reviews, subjects) => {
     
     // create queue
     const _queue = queueReviews(reviews);
-    
-    setQueue(_queue);
+    setQueue(adjustQueue(_queue, backToBackMode, meaningFirst));
     setTotalCards(_queue.length);
     
   }, [
