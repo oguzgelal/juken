@@ -186,11 +186,15 @@ export default (reviews, subjects) => {
     // we can't assume the reviewed item is at zero index. we
     // need to find the reviewed item in the queue
 
-    // find index of the removed item
-    const newQueue = queue.filter(i => !(
+    // find index of the current item
+    // useful information for maintaining back-to-back invariant
+    const currentIndex = queue.findIndex(i => (
       i.id === id &&
       i.reviewType === reviewType
     ));
+    // remove the current item
+    const newQueue = queue.slice();
+    newQueue.splice(currentIndex, 1);
     
     // if answer was incorrect, put the item back
     // into the queue randomly
@@ -202,12 +206,44 @@ export default (reviews, subjects) => {
       // is -1) or if it has less than 2 items, splice
       // statement will put the item to the end of the
       // array, so we don't have to check for overflows
-      const requeueIndex = _.random(2, 8);
+      let requeueIndex = _.random(2, 8);
 
-      // put the item back into the queue
+      // adjust requeue index
+      if (backToBackMode) {
+        const pairIndex = newQueue.findIndex(item => (
+          _.get(item, 'review.id') === reviewId
+        ));
+        // if paired card is in deck and not at top, put them together
+        // else if item would be requeued between a pair, adjust index
+        console.warn("pair index = " + pairIndex);
+        if ((pairIndex !== -1) && (pairIndex !== currentIndex)) {
+          console.warn("paired card in deck and not at top");
+          requeueIndex = pairIndex;
+          requeueIndex += ((reviewType === MEANING) === meaningFirst) ? 0 : 1;
+        } else if ((0 < requeueIndex) && (requeueIndex < newQueue.length)) {
+          console.warn("pair avoidance");
+          const prevId = _.get(newQueue[requeueIndex-1], 'review.id');
+          const nextId = _.get(newQueue[requeueIndex], 'review.id');
+          if (prevId === nextId) requeueIndex += 1;
+        }
+      }
+
       newQueue.splice(requeueIndex, 0, queueItem);
+
+      if (backToBackMode) {
+        let msg = "after requeueing at index " + requeueIndex + ":"; 
+        let lastid = -1;
+        for (var i = 0; i < newQueue.length; i++) {
+          const id = _.get(newQueue[i], 'review.id');
+          if (id != lastid) msg += '\n';
+          msg += id + ' ';
+          if (i === requeueIndex) msg += "<----";
+          lastid = id;
+        }
+        console.warn(msg);
+      }
     }
-    
+
     // set the new queue
     setQueue(newQueue);
   }
