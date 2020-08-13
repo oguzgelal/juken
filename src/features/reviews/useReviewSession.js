@@ -8,6 +8,10 @@ import { MEANING, RADICAL } from 'src/common/constants';
 import listToDict from 'src/utils/listToDict';
 import queueReviews from 'src/features/reviews/utils/queueReviews';
 
+import { BACK_TO_BACK_MODE, MEANING_FIRST} from 'src/common/constants';
+import { useStoreState } from 'easy-peasy';
+import adjustQueue from 'src/features/reviews/utils/adjustQueue';
+
 export default (reviews, subjects) => {
 
   const [ queue, setQueue ] = useState([]);
@@ -27,6 +31,18 @@ export default (reviews, subjects) => {
   // cards stats
   const [ completedCards, setCompletedCards ] = useState({});
   const [ incorrectCards, setIncorrectCards ] = useState({});
+
+  // Sort reading-meaning card pairs back-to-back
+  const userSettings = useStoreState(state => state.session.userSettings);
+  const backToBackMode = _.get(userSettings, BACK_TO_BACK_MODE);
+  const meaningFirst = _.get(userSettings, MEANING_FIRST);
+  // Re-sort queue when the relevant user settings change
+  useEffect(() => {
+    setQueue(adjustQueue(queue, backToBackMode, meaningFirst))
+  }, [
+      backToBackMode,
+      meaningFirst,
+  ]);
 
   // refresh &
   // reviews and subjects loaded
@@ -48,8 +64,7 @@ export default (reviews, subjects) => {
     
     // create queue
     const _queue = queueReviews(reviews);
-    
-    setQueue(_queue);
+    setQueue(adjustQueue(_queue, backToBackMode, meaningFirst));
     setTotalCards(_queue.length);
     
   }, [
@@ -171,11 +186,15 @@ export default (reviews, subjects) => {
     // we can't assume the reviewed item is at zero index. we
     // need to find the reviewed item in the queue
 
-    // find index of the removed item
-    const newQueue = queue.filter(i => !(
+    // find index of the current item
+    // useful information for maintaining back-to-back invariant
+    const currentIndex = queue.findIndex(i => (
       i.id === id &&
       i.reviewType === reviewType
     ));
+    // remove the current item
+    const newQueue = queue.slice();
+    newQueue.splice(currentIndex, 1);
     
     // if answer was incorrect, put the item back
     // into the queue randomly
@@ -187,12 +206,29 @@ export default (reviews, subjects) => {
       // is -1) or if it has less than 2 items, splice
       // statement will put the item to the end of the
       // array, so we don't have to check for overflows
-      const requeueIndex = _.random(2, 8);
+      let requeueIndex = _.random(2, 8);
+
+      // adjust requeue index
+      if (backToBackMode) {
+        const pairIndex = newQueue.findIndex(item => (
+          _.get(item, 'review.id') === reviewId
+        ));
+        // if paired card is in deck and not at top, put them together
+        // else if item would be requeued between a pair, adjust index
+        if ((pairIndex !== -1) && (pairIndex !== currentIndex)) {
+          requeueIndex = pairIndex;
+          requeueIndex += ((reviewType === MEANING) === meaningFirst) ? 0 : 1;
+        } else if ((0 < requeueIndex) && (requeueIndex < newQueue.length)) {
+          const prevId = _.get(newQueue[requeueIndex-1], 'review.id');
+          const nextId = _.get(newQueue[requeueIndex], 'review.id');
+          if (prevId === nextId) requeueIndex += 1;
+        }
+      }
 
       // put the item back into the queue
       newQueue.splice(requeueIndex, 0, queueItem);
     }
-    
+
     // set the new queue
     setQueue(newQueue);
   }

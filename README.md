@@ -13,6 +13,7 @@
 <p align="center">
   <a href="#introduction">Introduction</a> •
   <a href="#platforms">Platforms</a> •
+  <a href="#contributors-">Contributors</a> •
   <a href="#feature-requests">Feedback</a> •
   <a href="#further-contact">Contact</a>
 </p>
@@ -87,6 +88,28 @@ Juken has PWA support on [juken.io](juken.io), so you can install it and use it 
 
 If for whatever reason you're unable to download the native apps but still prefer a native mobile experience, or simply you'd like to get the new features / updates before they're available on the app stores, you can use Juken through Expo. After installing the Expo client, you can get the app from [expo.io/@oguzgelal/juken](https://expo.io/@oguzgelal/juken).
 
+## Contributors ✨
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/joyalicegu"><img src="https://avatars2.githubusercontent.com/u/16532904" width="100px;" alt=""/><br /><sub><b>Joy Alice Gu</b></sub></a><br />
+      <a href="https://github.com/oguzgelal/juken/commits?author= joyalicegu" title="Commits">📖</a>
+      <a href="https://github.com/oguzgelal/juken/pulls?q=is%3Apr+author%3Ajoyalicegu" title="Pull Requests">👀</a>
+   </td>
+    <td align="center"><a href="https://github.com/asutekku"><img src="https://avatars2.githubusercontent.com/u/6080627" width="100px;" alt=""/><br /><sub><b>Aku Mäkelä</b></sub></a><br />
+      <a href="https://github.com/oguzgelal/juken/commits?author=asutekku" title="Commits">📖</a>
+      <a href="https://github.com/oguzgelal/juken/pulls?q=is%3Apr+author%3Aasutekku" title="Pull Requests">👀</a>
+   </td>
+  </tr>
+</table>
+
+<!-- markdownlint-enable -->
+<!-- prettier-ignore-end -->
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
 
 ## Feature Requests
 
@@ -98,25 +121,6 @@ I am planning to maintain Juken and add in more features down the line. Needless
 If you find a bug in Juken, reporting it would be much appreciated. You can head over to the [open issues](https://github.com/oguzgelal/juken/issues) section and submit the issue from there. I'll try to fix bugs as quick as possible. Reporting bugs is easy, I made a crash screen that shows the error details (as shown below), so you can just take a screenshot of it and include it in your ticket.
 
 <img src="https://user-images.githubusercontent.com/2817993/82118683-8b305f80-9781-11ea-9a74-633421342a80.PNG" width="320" />
-
-
-## Contributors ✨
-
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
-<table>
-  <tr>
-    <td align="center"><a href="https://github.com/asutekku"><img src="https://avatars2.githubusercontent.com/u/6080627" width="100px;" alt=""/><br /><sub><b>Aku Mäkelä</b></sub></a><br />
-    <a href="https://github.com/oguzgelal/juken/commits?author=asutekku" title="Commits">📖</a>
-    <a href="https://github.com/oguzgelal/juken/pulls?q=is%3Apr+author%3Aasutekku" title="Pull Requests">👀</a>
-   </td>
-  </tr>
-</table>
-
-<!-- markdownlint-enable -->
-<!-- prettier-ignore-end -->
-<!-- ALL-CONTRIBUTORS-LIST:END -->
 
 
 
