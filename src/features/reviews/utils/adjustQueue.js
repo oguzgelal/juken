@@ -81,6 +81,6 @@ const adjustSubjectPairDistances = (queue,
     backToBackMode, meaningFirst);
 }
 
-export default adjustQueue = (queue, backToBackMode = false, meaningFirst = false) => {
+export default (queue, backToBackMode = false, meaningFirst = false) => {
   return adjustSubjectPairDistances(queue, 0, backToBackMode, meaningFirst);
 }
