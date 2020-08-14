@@ -95,8 +95,12 @@ If for whatever reason you're unable to download the native apps but still prefe
 <!-- markdownlint-disable -->
 <table>
   <tr>
+    <td align="center"><a href="https://github.com/tiagoben"><img src="https://avatars2.githubusercontent.com/u/10171452" width="100px;" alt=""/><br /><sub><b>Tiago Bento</b></sub></a><br />
+      <a href="https://github.com/oguzgelal/juken/commits?author=tiagoben" title="Commits">📖</a>
+      <a href="https://github.com/oguzgelal/juken/pulls?q=is%3Apr+author%3Atiagoben" title="Pull Requests">👀</a>
+   </td>
     <td align="center"><a href="https://github.com/joyalicegu"><img src="https://avatars2.githubusercontent.com/u/16532904" width="100px;" alt=""/><br /><sub><b>Joy Alice Gu</b></sub></a><br />
-      <a href="https://github.com/oguzgelal/juken/commits?author= joyalicegu" title="Commits">📖</a>
+      <a href="https://github.com/oguzgelal/juken/commits?author=joyalicegu" title="Commits">📖</a>
       <a href="https://github.com/oguzgelal/juken/pulls?q=is%3Apr+author%3Ajoyalicegu" title="Pull Requests">👀</a>
    </td>
     <td align="center"><a href="https://github.com/asutekku"><img src="https://avatars2.githubusercontent.com/u/6080627" width="100px;" alt=""/><br /><sub><b>Aku Mäkelä</b></sub></a><br />
