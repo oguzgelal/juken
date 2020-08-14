@@ -117,7 +117,11 @@ const Deck = ({
   }, [
     revealed,
     swipeLock,
-    offscreen
+    offscreen,
+    allowSkipping,
+    useReveal,
+    triggerSwipeLeft,
+    triggerSwipeRight
   ])
 
   return (
