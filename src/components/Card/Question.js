@@ -80,6 +80,7 @@ const styles = StyleSheet.create({
   questionText: {
     textAlign: 'center',
     fontWeight: 'bold',
+    fontFamily: 'HiraginoSans-W3',
     fontSize: 52,
   },
   separator: {
