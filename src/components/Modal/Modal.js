@@ -16,8 +16,8 @@ const ModalComp = ({
   visible,
   children,
   close,
-  closeAnimation,
   contentStyle,
+  closeAnimation,
 }) => {
 
   if (!closeAnimation && !visible) return null;

@@ -1,7 +1,9 @@
 import _ from 'lodash';
 import * as Analytics from 'expo-firebase-analytics';
+import isFirebaseAvailable from 'src/features/events/isFirebaseAvailable';
 
 export default async (user, callback) => {
+  if (!isFirebaseAvailable) return;
   try {
     await Analytics.setUserId(_.get(user, 'data.id'));
     await Analytics.setUserProperties({

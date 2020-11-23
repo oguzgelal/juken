@@ -1,2 +1,0 @@
-tasks:
-  - before: npm i -g firebase-tools

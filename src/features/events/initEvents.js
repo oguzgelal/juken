@@ -1,8 +1,11 @@
 import { initializeApp, apps } from 'firebase/app';
 import * as Analytics from 'expo-firebase-analytics';
+import isFirebaseAvailable from 'src/features/events/isFirebaseAvailable';
 import device from 'src/utils/device';
 
 export default () => {
+  if (!isFirebaseAvailable) return;
+
   if (device('web') && !apps.length) {
     initializeApp({
       apiKey: process.env.FIREBASE_API_KEY,

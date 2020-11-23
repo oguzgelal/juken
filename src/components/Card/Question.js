@@ -113,8 +113,8 @@ const styles = StyleSheet.create({
   answerTextLarge: {
     fontSize: 20
   },
-  [KANJI]: { color: theme.color.kanji },
-  [RADICAL]: { color: theme.color.radical },
+  [KANJI]: { color: theme.color.kanji },	
+  [RADICAL]: { color: theme.color.radical },	
   [VOCAB]: { color: theme.color.vocab },
 })
 
