@@ -17,6 +17,7 @@ const ModalComp = ({
   children,
   close,
   contentStyle,
+  closeAnimation,
 }) => {
 
   if (!closeAnimation && !visible) return null;
@@ -96,9 +97,11 @@ ModalComp.propTypes = {
   children: PropTypes.any,
   visible: PropTypes.bool,
   close: PropTypes.func,
+  closeAnimation: PropTypes.bool,
 };
 
 ModalComp.defaultProps = {
+  closeAnimation: true,
 }
 
 const styles = StyleSheet.create({

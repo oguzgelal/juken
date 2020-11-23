@@ -77,6 +77,12 @@ const styles = StyleSheet.create({
   question: {
     padding: 8,
   },
+  questionText: {
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontFamily: 'HiraginoSans-W3',
+    fontSize: 52,
+  },
   separator: {
     width: '50%',
     margin: 'auto',
@@ -107,6 +113,9 @@ const styles = StyleSheet.create({
   answerTextLarge: {
     fontSize: 20
   },
+  [KANJI]: { color: theme.color.kanji },	
+  [RADICAL]: { color: theme.color.radical },	
+  [VOCAB]: { color: theme.color.vocab },
 })
 
 export default Question;

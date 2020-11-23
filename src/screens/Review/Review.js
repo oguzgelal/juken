@@ -93,11 +93,12 @@ const Review = ({ demo = false, stopDemo } = {}) => {
   return (
     <>
 
-    {/** subject details modal */}
-    <SubjectDetailsModal
-      visible={true}
-      close={() => {}}
-    />
+    {/** subject details modal 
+      <SubjectDetailsModal
+        visible={true}
+        close={() => {}}
+      />
+    */}
 
     {/** display srs stages toasts */}
     <SrsStages stages={srsStages} />
