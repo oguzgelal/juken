@@ -18,3 +18,4 @@ src/mock/**/*.json
 
 ga_instructions.txt
 .env
+env.json
