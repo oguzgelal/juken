@@ -8,31 +8,33 @@ import adjustQueue from 'src/features/reviews/utils/adjustQueue';
 // removed items from the list from the previous loop
 const queueReviews = (reviews, reviewTypesHistory, queue) => {
 
-  // base case: no (more) reviews to pick
-  if (reviews.length === 0) return queue;
+  let _reviews = reviews;
+  let _reviewTypesHistory = reviewTypesHistory;
 
-  // pick a review at random
-  const [
-    review,
-    reviewType,
-    newReviews,
-    newReviewTypeHistory,
-  ] = pickReviewAndType(reviews, reviewTypesHistory);
+  // avoid recursion to avoid exceeding maximum call stack size
+  while (_reviews.length > 0) {
 
+    // pick a review at random
+    const [
+      review,
+      reviewType,
+      newReviews,
+      newReviewTypeHistory,
+    ] = pickReviewAndType(_reviews, _reviewTypesHistory);
 
-  // add current pick to the queue
-  const newQueue = queue.concat({
-    id: randomId(),
-    review,
-    reviewType,
-  });
+    // add current pick to the queue
+    queue.push({
+      id: randomId(),
+      review,
+      reviewType,
+    });
 
-  // keep on picking more
-  return queueReviews(
-    newReviews,
-    newReviewTypeHistory,
-    newQueue,
-  )
+    _reviews = newReviews;
+    _reviewTypesHistory = newReviewTypeHistory;
+
+  }
+
+  return queue;
 }
 
 export default reviews => {
