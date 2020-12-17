@@ -1,4 +1,4 @@
-import ENV from './env.json';
+import ENV from './env.public.json';
 
 export default {
   name: "Juken",
@@ -10,7 +10,7 @@ export default {
     "android",
     "web"
   ],
-  version: process.env.BUILD_VERSION || `${ENV.BUILD_VERSION}`,
+  version: `${ENV.BUILD_VERSION}`,
   orientation: "portrait",
   icon: "./assets/wk4.png",
   splash: {
