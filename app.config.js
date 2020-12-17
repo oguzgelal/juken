@@ -10,7 +10,7 @@ export default {
     "android",
     "web"
   ],
-  version: `${ENV.BUILD_VERSION}`,
+  version: process.env.BUILD_VERSION || `${ENV.BUILD_VERSION}`,
   orientation: "portrait",
   icon: "./assets/wk4.png",
   splash: {
@@ -33,7 +33,7 @@ export default {
   },
   android: {
     package: ENV.PACKAGE,
-    "versionCode": ENV.BUILD_VERSION,
+    versionCode: ENV.BUILD_VERSION,
     permissions: [
       "VIBRATE"
     ],
