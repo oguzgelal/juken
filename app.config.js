@@ -1,6 +1,8 @@
-export const VERSION = '3';
-export const IOS_VERSION = '3';
-export const ANDROID_VERSION = 8;
+import ENV from './env.json';
+
+export const VERSION = '4';
+export const IOS_VERSION = '4';
+export const ANDROID_VERSION = 9;
 
 export default {
   name: "Juken",
@@ -29,32 +31,16 @@ export default {
   ios: {
     icon: "./assets/wk4sq.png",
     supportsTablet: true,
-    bundleIdentifier: process.env.BUNDLE_ID,
-    googleServicesFile: "./GoogleService-Info.plist",
+    bundleIdentifier: ENV.BUNDLE_ID,
     buildNumber: IOS_VERSION,
     userInterfaceStyle: "automatic",
   },
   android: {
-    package: process.env.PACKAGE,
-    googleServicesFile: "./google-services.json",
+    package: ENV.PACKAGE,
     "versionCode": ANDROID_VERSION,
     permissions: [
       "VIBRATE"
     ],
     userInterfaceStyle: "automatic",
-  },
-  web: {
-    config: {
-      firebase: {
-        apiKey: process.env.FIREBASE_API_KEY,
-        authDomain: process.env.FIREBASE_AUTH_DOMAIN,
-        databaseURL: process.env.FIREBASE_DATABASE_URL,
-        projectId: process.env.FIREBASE_PROJECT_ID,
-        storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
-        messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
-        appId: process.env.FIREBASE_APP_ID,
-        measurementId: process.env.FIREBASE_MEASUREMENT_ID
-      } 
-    }
   }
 }

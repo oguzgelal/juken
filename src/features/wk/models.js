@@ -1,7 +1,6 @@
 import { action, computed, thunk } from 'easy-peasy';
 import { GET, DEMO_TOKEN } from 'src/common/constants';
 import { request } from 'src/features/wk/request';
-import setUserAnalytics from 'src/features/events/setUserAnalytics';
 
 export const session = {
   user: null,
@@ -48,7 +47,7 @@ export const session = {
       if (!user) throw 'Cannot log in';
       action.saveUser({ user, token });
       loadings.stop('login');
-      setUserAnalytics(user);
+
     } catch(e) {
       onFail();
       loadings.stop('login');
