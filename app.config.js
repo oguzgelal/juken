@@ -1,9 +1,5 @@
 import ENV from './env.json';
 
-export const VERSION = '4';
-export const IOS_VERSION = '4';
-export const ANDROID_VERSION = 9;
-
 export default {
   name: "Juken",
   slug: "juken",
@@ -14,7 +10,7 @@ export default {
     "android",
     "web"
   ],
-  version: VERSION,
+  version: `${ENV.BUILD_VERSION}`,
   orientation: "portrait",
   icon: "./assets/wk4.png",
   splash: {
@@ -32,12 +28,12 @@ export default {
     icon: "./assets/wk4sq.png",
     supportsTablet: true,
     bundleIdentifier: ENV.BUNDLE_ID,
-    buildNumber: IOS_VERSION,
+    buildNumber: `${ENV.BUILD_VERSION}`,
     userInterfaceStyle: "automatic",
   },
   android: {
     package: ENV.PACKAGE,
-    "versionCode": ANDROID_VERSION,
+    "versionCode": ENV.BUILD_VERSION,
     permissions: [
       "VIBRATE"
     ],
