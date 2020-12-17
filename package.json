@@ -35,7 +35,7 @@
     "react-native": "https://github.com/expo/react-native/archive/sdk-40.0.0.tar.gz",
     "react-native-appearance": "~0.3.3",
     "react-native-easy-toast": "^1.2.0",
-    "react-native-elements": "^2.0.2",
+    "react-native-elements": "^3.0.0",
     "react-native-modal": "^11.5.6",
     "react-native-safe-area-context": "3.1.9",
     "react-native-web": "~0.13.12",
