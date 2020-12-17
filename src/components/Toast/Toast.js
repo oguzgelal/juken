@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet } from 'react-native';
-import Toast, { DURATION as _DURATION } from 'react-native-easy-toast';
+import Toast, { DURATION as _DURATION } from 'src/tp/react-native-easy-toast';
 import device from 'src/utils/device';
 import theme from 'src/common/theme';
 import {

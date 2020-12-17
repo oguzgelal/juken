@@ -20,7 +20,7 @@
     "@reduxjs/toolkit": "^1.3.5",
     "easy-peasy": "^3.3.0",
     "expo": "^40.0.0",
-    "expo-cli": "^3.20.9",
+    "expo-cli": "^4.0.13",
     "expo-firebase-analytics": "~2.6.0",
     "expo-firebase-core": "~1.3.0",
     "expo-haptics": "~8.4.0",

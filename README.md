@@ -58,7 +58,7 @@ To log in with your WaniKani account, you'll need to obtain a personal access to
 
 ## Platforms
 
-Juken is a cross-platform application, available natively on mobile platforms and for the web. It's built with [React Native](https://reactnative.dev/), and uses [react-native-web](https://github.com/necolas/react-native-web) for web support. There are a few different ways you can use Juken, you can find some details and links below. Note that Web, PWA and Expo apps will receive updates / bug fixes more frequently and earlier than the native iOS and Android counterparts due to the review processes of the app stores.
+Juken is a cross-platform application, available natively on mobile platforms and for the web. It's built with [React Native](https://reactnative.dev/), and uses [react-native-web](https://github.com/necolas/react-native-web) for web support. There are a few different ways you can use Juken, you can find some details and links below. Note that Web version receive updates / bug fixes more frequently and earlier than the native iOS and Android counterparts due to the review processes of the app stores.
 
 ### iOS
 
@@ -74,19 +74,11 @@ Juken is a cross-platform application, available natively on mobile platforms an
 
 ### Web
 
-Juken is available on the web, and it is optimized for the desktop experience. You can do your reviews using only your keyboard; space to reveal the answer and arrow keys to submit instead of the swipe gestures (although gestures are still available for touch screen devices using the web app). Juken is also optimized for the mobile web. You can go to [juken.io](https://juken.io) on your mobile browser and have a decent review experience (although native apps offers a much superior experience and are recommended).
-
 <a href="https://juken.io" target="_new">
   <img src="https://user-images.githubusercontent.com/2817993/82254164-08fb9300-995b-11ea-9637-6ac42e78359e.png" height="40" alt="Juken Web">
 </a>
 
-### Progressive Web App (PWA)
-
-Juken has PWA support on [juken.io](https://juken.io), so you can install it and use it like a desktop application. [Here's](https://support.google.com/chrome/answer/9658361) a guide on how to install PWAs on Chrome, and note that most major browsers have support for PWAs.
-
-### Expo
-
-If for whatever reason you're unable to download the native apps but still prefer a native mobile experience, or simply you'd like to get the new features / updates before they're available on the app stores, you can use Juken through Expo. After installing the Expo client, you can get the app from [expo.io/@oguzgelal/juken](https://expo.io/@oguzgelal/juken).
+Juken is available on the web, and it is optimized for the desktop experience. You can do your reviews using only your keyboard; space to reveal the answer and arrow keys to submit instead of the swipe gestures (although gestures are still available for touch screen devices using the web app). Juken is also optimized for the mobile web. You can go to [juken.io](https://juken.io) on your mobile browser and have a decent review experience (although native apps offers a much superior experience and are recommended).
 
 ## Contributors ✨
 

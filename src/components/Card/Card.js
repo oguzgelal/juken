@@ -87,7 +87,7 @@ const Card = ({
         <ConditionalWrapper
             condition={!revealed && quickMode}
             wrapper={children => <TouchableWithoutFeedback onPress={onCardPressed}>{children}</TouchableWithoutFeedback>}>
-          <View style={{height: "100%"}}>
+          <View style={{height: "100%", flexGrow: 1}}>
             {/* question and question statement */}
             <Question
                 revealed={revealed}

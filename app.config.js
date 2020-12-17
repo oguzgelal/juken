@@ -1,4 +1,4 @@
-import ENV from './env.json';
+import ENV from './env.public.json';
 
 export default {
   name: "Juken",
@@ -33,7 +33,7 @@ export default {
   },
   android: {
     package: ENV.PACKAGE,
-    "versionCode": ENV.BUILD_VERSION,
+    versionCode: ENV.BUILD_VERSION,
     permissions: [
       "VIBRATE"
     ],
