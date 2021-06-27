@@ -11,6 +11,8 @@ import {
 } from 'src/common/constants';
 import useColorScheme from 'src/hooks/useColorScheme';;
 
+import TextWithMarkups from 'src/components/TextWithMarkups/TextWithMarkups';
+
 const Question = ({
   subjectType,
   reviewType,
@@ -18,6 +20,9 @@ const Question = ({
   questionComponent,
   answer,
   revealed,
+  mnemonicToggled,
+  meaningMnemonic,
+  readingMnemonic
 }) => {
   const colorScheme = useColorScheme();
   return (
@@ -39,7 +44,7 @@ const Question = ({
       <View style={[styles.separator, colorScheme === "light" ? null : styles.separator_dark]}/>
 
       {/* answer */}
-      <View style={styles.answer}>
+      {!mnemonicToggled && <View style={styles.answer}>
         <Text
           style={[
             styles.answerText,colorScheme === "light" ? null : styles.answerText_Dark,
@@ -53,7 +58,11 @@ const Question = ({
           {revealed && answer}
           {!revealed && TERMINOLOGY[reviewType]}
         </Text>
-      </View>
+      </View>}
+      
+      {mnemonicToggled && <View>
+        <TextWithMarkups text={reviewType === READING ? readingMnemonic : meaningMnemonic} />
+      </View>}
 
     </View>
   );
@@ -64,6 +73,9 @@ Question.propTypes = {
   question: PropTypes.string,
   answer: PropTypes.string,
   revealed: PropTypes.bool,
+  mnemonicToggled: PropTypes.bool,
+  meaningMnemonic: PropTypes.string,
+  readingMnemonic: PropTypes.string,
 };
 
 const styles = StyleSheet.create({

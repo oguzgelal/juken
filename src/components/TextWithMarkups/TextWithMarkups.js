@@ -31,6 +31,7 @@ const TextWithMarkups = ({ text = "", style = [] }) => {
           <Text
             style={[
               ...style,
+              styles.base,
               parts[i - 1] === '<radical>' ? styles[RADICAL] : null,
               parts[i - 1] === '<kanji>' ? styles[KANJI] : null,
               parts[i - 1] === '<vocabulary>' ? styles[VOCAB] : null,
@@ -52,25 +53,39 @@ TextWithMarkups.propTypes = {
 };
 
 const styles = StyleSheet.create({
+  base: {
+    lineHeight: 20,
+    borderRadius: 4,
+  },
   [KANJI]: {
     backgroundColor: theme.color.kanji,
     color: theme.palette.white,
+    paddingVertical: 1,
+    paddingHorizontal: 2,
   },
   [VOCAB]: {
     backgroundColor: theme.color.vocab,
     color: theme.palette.white,
+    paddingVertical: 1,
+    paddingHorizontal: 2,
   },
   [RADICAL]: {
     backgroundColor: theme.color.radical,
     color: theme.palette.white,
+    paddingVertical: 1,
+    paddingHorizontal: 2,
   },
   [READING]: {
     backgroundColor: theme.color.githubBlack,
     color: theme.palette.white,
+    paddingVertical: 1,
+    paddingHorizontal: 2,
   },
   [MEANING]: {
     backgroundColor: theme.color.githubBlack,
     color: theme.palette.white,
+    paddingVertical: 1,
+    paddingHorizontal: 2,
   },
 })
 

@@ -40,6 +40,7 @@ const Deck = ({
 
   // deck size
   const [revealed, setRevealed] = useState(false);
+  const [mnemonicToggled, setMnemonicToggled] = useState(false);
   const [swipeLock, setSwipeLock] = useState(true);
   const [deckWidth, setDeckWidth] = useState(null);
   const [deckHeight, setDeckHeight] = useState(null);
@@ -47,6 +48,7 @@ const Deck = ({
   // control dismiss of the top card
   const useDismiss = direction => {
     setRevealed(false);
+    setMnemonicToggled(false);
     setSwipeLock(!allowSkipping);
     dismissCard(direction);
   }
@@ -55,6 +57,10 @@ const Deck = ({
   const useReveal = () => {
     setRevealed(true);
     setSwipeLock(false);
+  }
+
+  const useMnemonicToggle = () => {
+    setMnemonicToggled(!mnemonicToggled);
   }
 
   // calculate coordinates which cards
@@ -166,6 +172,8 @@ const Deck = ({
                 getMovementInterpolation,
                 reveal: useReveal,
                 revealed: isFirstCard && revealed,
+                toggleMnemonic: useMnemonicToggle,
+                mnemonicToggled: isFirstCard && mnemonicToggled,
               })}
           </Animated.View>
         );
