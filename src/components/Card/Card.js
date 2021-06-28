@@ -89,7 +89,7 @@ const Card = ({
             }
           />
           <TouchableWithoutFeedback onPress={onCardPressed}>
-            <View style={{height: "100%", flexGrow: 1}}>
+            <View style={{height: "100%", flexGrow: 1, outline: 'none'}}>
               {/* question and question statement */}
               <Question
                   revealed={revealed}

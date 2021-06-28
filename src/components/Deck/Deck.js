@@ -116,6 +116,7 @@ const Deck = ({
     event: 'keydown',
     handler: e => {
       if (e.code === 'Space' && !revealed) useReveal();
+      if (e.code === 'Space' && revealed) useMnemonicToggle();
       if (!allowSkipping && swipeLock) return;
       if (e.key === 'ArrowLeft' || e.code === 'ArrowLeft') triggerSwipeLeft();
       if (e.key === 'ArrowRight' || e.code === 'ArrowRight') triggerSwipeRight();
