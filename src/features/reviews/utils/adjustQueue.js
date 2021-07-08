@@ -9,12 +9,13 @@
 
 import _ from 'lodash';
 
-import { MEANING, RADICAL } from 'src/common/constants';
+import { MEANING, RADICAL, RANDOM_ORDER } from 'src/common/constants';
 
 const ALLOWED_MAX_DISTANCE = 10;
 const ALLOWED_MIN_DISTANCE = 3;
 
-export default (queue, backToBackMode = false, meaningFirst = false) => {
+export default (queue, backToBackMode = false, meaningFirst = false, reviewOrder = RANDOM_ORDER) => {
+
   const newQueue = queue.slice();
   let currentIndex = 0;
 
