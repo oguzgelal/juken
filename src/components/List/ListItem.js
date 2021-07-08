@@ -6,6 +6,7 @@ import { ListItem, Icon } from 'react-native-elements';
 import device, {isWeb} from 'src/utils/device';
 import useColorScheme from 'src/hooks/useColorScheme';;
 import theme from 'src/common/theme';
+import RNPickerSelect from 'react-native-picker-select';
 
 const ListItemComponent = props => {
   const colorScheme = useColorScheme();
@@ -27,6 +28,7 @@ const ListItemComponent = props => {
       {props.rightIcon && <View style={[styles.icon, colorScheme === 'light' ? null : styles.icon_dark]}>{props.rightIcon}</View>}
       {!isWeb() && props.switch && <Switch {...props.switch} />}
       {isWeb() && props.switch && <View><Text>{props?.switch?.value ? "On" : "Off"}</Text></View>}
+      {props.picker && <RNPickerSelect {...props.picker} />}
     </ListItem>
   )
 };

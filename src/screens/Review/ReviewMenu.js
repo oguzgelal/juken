@@ -124,6 +124,21 @@ const ReviewMenu = ({
                 }
               },
               {
+                id: 'ses-review-order',
+                title: 'Review Order',
+                leftIcon: <SimpleLineIcons name="shuffle" size={18} color={iconcolor} />,
+                picker: {
+                  onValueChange: (value, index) => console.log(value),
+                  placeholder: {},
+                  value: "lowest_level_first",
+                  items:
+                    [
+                      { label: "Random order", value: "random_order" },
+                      { label: "Lowest level first", value: "lowest_level_first" },
+                    ],
+                },
+              },
+              {
                 id: 'ses-dark',
                 title: 'Dark Mode',
                 subtitle: isWeb() ? null : (darkMode
