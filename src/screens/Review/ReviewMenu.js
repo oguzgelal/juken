@@ -10,7 +10,7 @@ import List from 'src/components/List/List';
 import Modal, { DURATION_SAFE } from 'src/components/Modal/Modal';
 import dialog from 'src/utils/dialog';
 import { isWeb } from 'src/utils/device';
-import { SKIP_MODE, QUICK_MODE, DARK_MODE, BACK_TO_BACK_MODE, MEANING_FIRST}
+import { SKIP_MODE, QUICK_MODE, DARK_MODE, BACK_TO_BACK_MODE, MEANING_FIRST, REVIEW_ORDER, RANDOM_ORDER, LOWEST_LEVEL_FIRST }
     from 'src/common/constants';
 
 const ReviewMenu = ({
@@ -33,6 +33,7 @@ const ReviewMenu = ({
   const darkMode = _.get(userSettings, DARK_MODE);
   const backToBackMode = _.get(userSettings, BACK_TO_BACK_MODE);
   const meaningFirst = _.get(userSettings, MEANING_FIRST);
+  const reviewOrder = _.get(userSettings, REVIEW_ORDER, RANDOM_ORDER);
   
   return (
     <Modal
@@ -128,13 +129,15 @@ const ReviewMenu = ({
                 title: 'Review Order',
                 leftIcon: <SimpleLineIcons name="shuffle" size={18} color={iconcolor} />,
                 picker: {
-                  onValueChange: (value, index) => console.log(value),
+                  onValueChange: (value) => {
+                    saveSetting({ key: REVIEW_ORDER, value: value });
+                  },
                   placeholder: {},
-                  value: "lowest_level_first",
+                  value: reviewOrder,
                   items:
                     [
-                      { label: "Random order", value: "random_order" },
-                      { label: "Lowest level first", value: "lowest_level_first" },
+                      { value: RANDOM_ORDER, label: "Random Order" },
+                      { value: LOWEST_LEVEL_FIRST, label: "Lowest Level First" },
                     ],
                 },
               },
