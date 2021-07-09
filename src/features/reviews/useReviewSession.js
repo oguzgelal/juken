@@ -65,8 +65,8 @@ export default (reviews, subjects) => {
     setTotalReviews(reviews ? reviews.length : 0);
     
     // create queue
-    const _queue = queueReviews(reviews);
-    setQueue(adjustQueue(_queue, backToBackMode, meaningFirst));
+    const _queue = queueReviews(reviews, subjects);
+    setQueue(adjustQueue(_queue, backToBackMode, meaningFirst, reviewOrder));
     setTotalCards(_queue.length);
     
   }, [

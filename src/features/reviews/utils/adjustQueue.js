@@ -9,7 +9,7 @@
 
 import _ from 'lodash';
 
-import { MEANING, RADICAL, RANDOM_ORDER, ASCENDING_SRS_STAGE, DESCENDING_SRS_STAGE } from 'src/common/constants';
+import { MEANING, RADICAL, RANDOM_ORDER, LOWEST_LEVEL_FIRST, CURRENT_LEVEL_FIRST, ASCENDING_SRS_STAGE, DESCENDING_SRS_STAGE } from 'src/common/constants';
 
 const ALLOWED_MAX_DISTANCE = 10;
 const ALLOWED_MIN_DISTANCE = 3;
@@ -23,6 +23,12 @@ export default (queue, backToBackMode = false, meaningFirst = false, reviewOrder
   switch (reviewOrder) {
     case RANDOM_ORDER:
       newQueue.sort(() => Math.random() - 0.5);
+      break;
+    case LOWEST_LEVEL_FIRST:
+      newQueue.sort((a, b) => a.subjectLevel - b.subjectLevel);
+      break;
+    case CURRENT_LEVEL_FIRST:
+      newQueue.sort((a, b) => b.subjectLevel - a.subjectLevel);
       break;
     case ASCENDING_SRS_STAGE:
       newQueue.sort((a, b) => a.review.data.srs_stage - b.review.data.srs_stage);
