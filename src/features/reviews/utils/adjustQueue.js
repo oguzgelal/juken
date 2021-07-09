@@ -21,6 +21,9 @@ export default (queue, backToBackMode = false, meaningFirst = false, reviewOrder
 
   // sort new queue based on the selected review order
   switch (reviewOrder) {
+    case RANDOM_ORDER:
+      newQueue.sort(() => Math.random() - 0.5);
+      break;
     case ASCENDING_SRS_STAGE:
       newQueue.sort((a, b) => a.review.data.srs_stage - b.review.data.srs_stage);
       break;
