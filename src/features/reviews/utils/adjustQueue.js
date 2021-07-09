@@ -9,7 +9,7 @@
 
 import _ from 'lodash';
 
-import { MEANING, RADICAL, RANDOM_ORDER } from 'src/common/constants';
+import { MEANING, RADICAL, RANDOM_ORDER, ASCENDING_SRS_STAGE, DESCENDING_SRS_STAGE } from 'src/common/constants';
 
 const ALLOWED_MAX_DISTANCE = 10;
 const ALLOWED_MIN_DISTANCE = 3;
@@ -18,6 +18,16 @@ export default (queue, backToBackMode = false, meaningFirst = false, reviewOrder
 
   const newQueue = queue.slice();
   let currentIndex = 0;
+
+  // sort new queue based on the selected review order
+  switch (reviewOrder) {
+    case ASCENDING_SRS_STAGE:
+      newQueue.sort((a, b) => a.review.data.srs_stage - b.review.data.srs_stage);
+      break;
+    case DESCENDING_SRS_STAGE:
+      newQueue.sort((a, b) => b.review.data.srs_stage - a.review.data.srs_stage);
+      break;
+  }
 
   // avoid recursion to avoid exceeding maximum call stack size
   while (currentIndex < queue.length - 1) {
