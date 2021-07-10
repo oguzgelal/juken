@@ -16,25 +16,25 @@ const ALLOWED_MIN_DISTANCE = 3;
 
 export default (queue, backToBackMode = false, meaningFirst = false, reviewOrder = RANDOM_ORDER) => {
 
-  const newQueue = queue.slice();
+  let newQueue = queue.slice();
   let currentIndex = 0;
 
   // sort new queue based on the selected review order
   switch (reviewOrder) {
     case RANDOM_ORDER:
-      newQueue.sort(() => Math.random() - 0.5);
+      newQueue = _.shuffle(newQueue);
       break;
     case LOWEST_LEVEL_FIRST:
-      newQueue.sort((a, b) => a.subjectLevel - b.subjectLevel);
+      newQueue = _.orderBy(newQueue, 'subjectLevel', 'asc')
       break;
     case CURRENT_LEVEL_FIRST:
-      newQueue.sort((a, b) => b.subjectLevel - a.subjectLevel);
+      newQueue = _.orderBy(newQueue, 'subjectLevel', 'desc')
       break;
     case ASCENDING_SRS_STAGE:
-      newQueue.sort((a, b) => a.review.data.srs_stage - b.review.data.srs_stage);
+      newQueue = _.orderBy(newQueue, 'review.data.srs_stage', 'asc')
       break;
     case DESCENDING_SRS_STAGE:
-      newQueue.sort((a, b) => b.review.data.srs_stage - a.review.data.srs_stage);
+      newQueue = _.orderBy(newQueue, 'review.data.srs_stage', 'desc')
       break;
   }
 

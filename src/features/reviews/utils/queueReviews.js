@@ -22,7 +22,7 @@ const queueReviews = (reviews, reviewTypesHistory, queue, subjects) => {
     ] = pickReviewAndType(_reviews, _reviewTypesHistory);
 
     // find the review's subject
-    const subject = subjects.find(subject => subject.id === review.data.subject_id);
+    const subject = subjects.find(subject => subject.id === _.get(review, 'data.subject_id'));
     const subjectLevel = _.get(subject, "data.level");
 
     // add current pick to the queue
