@@ -28,7 +28,7 @@ const ListItemComponent = props => {
       {props.rightIcon && <View style={[styles.icon, colorScheme === 'light' ? null : styles.icon_dark]}>{props.rightIcon}</View>}
       {!isWeb() && props.switch && <Switch {...props.switch} />}
       {isWeb() && props.switch && <View><Text>{props?.switch?.value ? "On" : "Off"}</Text></View>}
-      {props.picker && <RNPickerSelect {...props.picker} />}
+      {props.picker && <RNPickerSelect style={pickerStyles} {...props.picker} />}
     </ListItem>
   )
 };
@@ -63,6 +63,14 @@ const styles = StyleSheet.create({
   subtitle_dark: {
     color: theme.palette_dark.lightGray,
   }
+})
+
+const pickerStyles = StyleSheet.create({
+  inputWeb: {
+    borderWidth: 0,
+    textAlign: 'right',
+    fontSize: 14,
+  },
 })
 
 export default ListItemComponent;
