@@ -9,8 +9,10 @@ import {
   READING,
   MEANING,
 } from 'src/common/constants';
+import useColorScheme from 'src/hooks/useColorScheme';;
 
 const TextWithMarkups = ({ text = "", style = [] }) => {
+  const colorScheme = useColorScheme();
 
   // "lorem <radical>ipsum</radical> dolor sit amet!"
   // ["lorem", "<radical>", "ipsum", "dolor", "sit", "amet!"]
@@ -32,6 +34,7 @@ const TextWithMarkups = ({ text = "", style = [] }) => {
             style={[
               ...style,
               styles.base,
+              colorScheme === "light" ? null : styles.base_dark,
               parts[i - 1] === '<radical>' ? styles[RADICAL] : null,
               parts[i - 1] === '<kanji>' ? styles[KANJI] : null,
               parts[i - 1] === '<vocabulary>' ? styles[VOCAB] : null,
@@ -56,6 +59,9 @@ const styles = StyleSheet.create({
   base: {
     lineHeight: 20,
     borderRadius: 4,
+  },
+  base_dark: {
+    color: theme.palette.white,
   },
   [KANJI]: {
     backgroundColor: theme.color.kanji,
