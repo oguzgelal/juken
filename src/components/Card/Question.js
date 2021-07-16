@@ -9,7 +9,9 @@ import {
   READING,
   TERMINOLOGY,
 } from 'src/common/constants';
-import useColorScheme from 'src/hooks/useColorScheme';;
+import useColorScheme from 'src/hooks/useColorScheme';
+
+import device from 'src/utils/device';
 
 import TextWithMarkups from 'src/components/TextWithMarkups/TextWithMarkups';
 
@@ -55,11 +57,21 @@ const Question = ({
             ),
           ]}
         >
+          {/* answer itself */}
           {revealed && answer}
+
+          {/* review type */}
           {!revealed && TERMINOLOGY[reviewType]}
+
+          {/* mnemic toggle hint */}
+          {revealed && <Text style={styles.mnemonicHint}>
+            {/* one new line is sufficient with readings as the answer font adds enough vertical space by itself */}
+            {reviewType === READING ? '\n' : '\n\n'} 
+            {device('web') ? 'Press space for mnemonic' : 'Tap for mnemonic'}
+          </Text>}
         </Text>
       </View>}
-      
+
       {mnemonicToggled && <View>
         <TextWithMarkups text={reviewType === READING ? readingMnemonic : meaningMnemonic} />
       </View>}
@@ -124,6 +136,11 @@ const styles = StyleSheet.create({
   },
   answerTextLarge: {
     fontSize: 20
+  },
+  mnemonicHint: {
+    opacity: 0.4,
+    fontSize: 14,
+    fontWeight: 400,
   },
   [KANJI]: { color: theme.color.kanji },	
   [RADICAL]: { color: theme.color.radical },	
